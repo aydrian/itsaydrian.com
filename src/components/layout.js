@@ -8,16 +8,13 @@
 import React from "react"
 import tw from "tailwind.macro"
 import PropTypes from "prop-types"
-import { useStaticQuery, graphql } from "gatsby"
-
-import Header from "./header"
+// import { useStaticQuery, graphql } from "gatsby"
 
 const PageContainer = tw.div`
-    bg-gray-200 text-xl w-1/2
 `
 
 const Layout = ({ children }) => {
-  const data = useStaticQuery(graphql`
+  /*const data = useStaticQuery(graphql`
     query SiteTitleQuery {
       site {
         siteMetadata {
@@ -25,21 +22,9 @@ const Layout = ({ children }) => {
         }
       }
     }
-  `)
+  `)*/
 
-  return (
-    <>
-      <Header siteTitle={data.site.siteMetadata.title} />
-      <PageContainer>
-        <main>{children}</main>
-        <footer>
-          © {new Date().getFullYear()}, Built with
-          {` `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
-      </PageContainer>
-    </>
-  )
+  return <PageContainer>{children}</PageContainer>
 }
 
 Layout.propTypes = {
