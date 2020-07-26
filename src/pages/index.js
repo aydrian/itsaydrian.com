@@ -23,9 +23,11 @@ const StyledP = tw.p`
   text-xs text-gray-800
 `
 
+/*
 const StyledA = tw.a`
   
 `
+ */
 
 const Title = tw.h1`
   relative text-xl
