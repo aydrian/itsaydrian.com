@@ -8,7 +8,7 @@ import SEO from "../components/seo"
 import SocialIcon from "../components/social-icon"
 
 const ImageWrapper = styled.div`
-  ${tw`sm:relative lg:w-48 lg:mx-auto lg:my-5`}
+  ${tw`relative lg:w-48 lg:mx-auto lg:my-5`}
 
   img {
     ${tw`lg:rounded-full`}
@@ -17,7 +17,7 @@ const ImageWrapper = styled.div`
 
 const InfoWrapper = styled.div`
   ${tw`
-    sm:absolute lg:relative sm:bottom-0 sm:w-full lg:w-64 lg:mx-auto sm:object-cover sm:left-0 p-2 text-gray-900 lg:text-center lg:rounded
+    absolute lg:relative bottom-0 w-full lg:w-64 lg:mx-auto object-cover left-0 p-2 text-gray-900 lg:text-center lg:rounded
   `}
 
   background-color: rgba(182, 196, 84, 0.75)
