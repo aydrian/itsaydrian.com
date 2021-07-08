@@ -53,12 +53,7 @@ const IndexPage = () => (
         <StyledP>
           Hoosier in the Big City. NYC.
           <br />
-          Pug Dad. Uncle. Nerd.
-          <br />
-          Developer Advocate at <a href="https://trycourier.com">
-            Courier
-          </a>{" "}
-          👨🏻‍💻🥑
+          Corgi Dad. Uncle. Nerd.
           <br />
           <a href="http://pronoun.is/he/him/his">he/him/his</a>
         </StyledP>
