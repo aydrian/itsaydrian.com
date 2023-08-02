@@ -1,17 +1,5 @@
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  ignoredRouteFiles: ["**/.*"],
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? "./server.ts"
-      : undefined,
-  serverBuildPath: ".netlify/functions-internal/server.js",
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // publicPath: "/build/",
-  serverModuleFormat: "cjs",
-  tailwind: true,
-  postcss: true,
   future: {
     v2_dev: true,
     v2_errorBoundary: true,
@@ -19,5 +7,14 @@ module.exports = {
     v2_meta: true,
     v2_normalizeFormMethod: true,
     v2_routeConvention: true
-  }
+  },
+  ignoredRouteFiles: ["**/.*"],
+  postcss: true,
+  server:
+    process.env.NETLIFY || process.env.NETLIFY_LOCAL
+      ? "./server.ts"
+      : undefined,
+  serverBuildPath: ".netlify/functions-internal/server.js",
+  serverModuleFormat: "cjs",
+  tailwind: true
 };

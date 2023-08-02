@@ -3,7 +3,7 @@ import type { V2_MetaFunction } from "@remix-run/node";
 export const meta: V2_MetaFunction = () => {
   return [
     { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    { content: "Welcome to Remix!", name: "description" },
   ];
 };
 
@@ -14,24 +14,24 @@ export default function Index() {
       <ul>
         <li>
           <a
-            target="_blank"
             href="https://remix.run/tutorials/blog"
             rel="noreferrer"
+            target="_blank"
           >
             15m Quickstart Blog Tutorial
           </a>
         </li>
         <li>
           <a
-            target="_blank"
             href="https://remix.run/tutorials/jokes"
             rel="noreferrer"
+            target="_blank"
           >
             Deep Dive Jokes App Tutorial
           </a>
         </li>
         <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
+          <a href="https://remix.run/docs" rel="noreferrer" target="_blank">
             Remix Docs
           </a>
         </li>
