@@ -1,3 +1,5 @@
+const { flatRoutes } = require("remix-flat-routes");
+
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
   future: {
@@ -10,6 +12,9 @@ module.exports = {
   },
   ignoredRouteFiles: ["**/.*"],
   postcss: true,
+  routes: async (defineRoutes) => {
+    return flatRoutes("routes", defineRoutes);
+  },
   server:
     process.env.NETLIFY || process.env.NETLIFY_LOCAL
       ? "./server.ts"
