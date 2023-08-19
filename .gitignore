@@ -1,9 +1,16 @@
-.DS_Store
+# Dependencies
 node_modules
 
-/.cache
-/functions/\[\[path\]\].js
-/functions/\[\[path\]\].js.map
-/public/build
-.dev.vars
+# dotfiles
+.cache
+.output
 .env
+
+# Built files
+/public/build
+/functions
+.dev.vars
+.DS_Store
+/coverage
+/dist
+/.wrangler/state
