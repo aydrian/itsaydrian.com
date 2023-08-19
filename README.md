@@ -1,70 +1,27 @@
-> **Warning**  
-> The `@remix-run/netlify` runtime adapter has been deprecated in favor of
-> `@netlify/remix-adapter` and will be removed in Remix v2. Please update your
-> code by changing all `@remix-run/netlify` imports to `@netlify/remix-adapter`.  
-> Keep in mind that `@netlify/remix-adapter` requires `@netlify/functions@^1.0.0`,
-> which is a breaking change compared to the current supported `@netlify/functions`
-> versions in `@remix-run/netlify`.
-
 # Welcome to Remix!
 
 - [Remix Docs](https://remix.run/docs)
-- [Netlify Functions](https://www.netlify.com/products/functions/)
-
-## Netlify Setup
-
-1. Install the [Netlify CLI](https://www.netlify.com/products/dev/):
-
-```sh
-npm i -g netlify-cli
-```
-
-If you have previously installed the Netlify CLI, you should update it to the latest version:
-
-```sh
-npm i -g netlify-cli@latest
-```
-
-2. Sign up and log in to Netlify:
-
-```sh
-netlify login
-```
-
-3. Create a new site:
-
-```sh
-netlify init
-```
 
 ## Development
 
-The Remix dev server starts your app in development mode, rebuilding assets on file changes. To start the Remix dev server:
+You will be utilizing Wrangler for local development to emulate the Cloudflare runtime. This is already wired up in your package.json as the `dev` script:
 
 ```sh
+# start the remix dev server and wrangler
 npm run dev
 ```
 
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
-
-The Netlify CLI builds a production version of your Remix App Server and splits it into Netlify Functions that run locally. This includes any custom Netlify functions you've developed. The Netlify CLI runs all of this in its development mode.
-
-```sh
-netlify dev
-```
-
-Open up [http://localhost:3000](http://localhost:3000), and you should be ready to go!
-
-Note: When running the Netlify CLI, file changes will rebuild assets, but you will not see the changes to the page you are on unless you do a browser refresh of the page. Due to how the Netlify CLI builds the Remix App Server, it does not support hot module reloading.
+Open up [http://127.0.0.1:8788](http://127.0.0.1:8788) and you should be ready to go!
 
 ## Deployment
 
-There are two ways to deploy your app to Netlify, you can either link your app to your git repo and have it auto deploy changes to Netlify, or you can deploy your app manually. If you've followed the setup instructions already, all you need to do is run this:
+Cloudflare Pages are currently only deployable through their Git provider integrations.
 
-```sh
-# preview deployment
-netlify deploy --build
+If you don't already have an account, then [create a Cloudflare account here](https://dash.cloudflare.com/sign-up/pages) and after verifying your email address with Cloudflare, go to your dashboard and follow the [Cloudflare Pages deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-anything).
 
-# production deployment
-netlify deploy --build --prod
-```
+Configure the "Build command" should be set to `npm run build`, and the "Build output directory" should be set to `public`.
+
+## 📝 License
+
+Copyright © 2023 [Aydrian Howard](https://itsaydrian.com). <br />
+This project is [MIT](./LICENSE) licensed.
