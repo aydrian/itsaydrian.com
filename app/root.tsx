@@ -10,9 +10,13 @@ import {
   ScrollRestoration
 } from "@remix-run/react";
 
+import iconHref from "~/components/icons/sprite.svg";
+
 import styles from "./tailwind.css";
 
 export const links: LinksFunction = () => [
+  { as: "image", href: iconHref, rel: "preload", type: "image/svg+xml" },
+  { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" },
   { href: styles, rel: "stylesheet" },
   ...(cssBundleHref ? [{ href: cssBundleHref, rel: "stylesheet" }] : [])
 ];
