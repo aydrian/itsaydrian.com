@@ -1,9 +1,9 @@
-import type { V2_MetaFunction } from "@remix-run/cloudflare";
+import type { MetaFunction } from "@remix-run/cloudflare";
 
 import { Icon } from "~/components/icon";
 import atticusAndMe from "~/images/atticus-and-me.png";
 
-export const meta: V2_MetaFunction = () => {
+export const meta: MetaFunction = () => {
   return [
     { title: "ItsAydrian.com" },
     { content: "Welcome to ItsAydrian.com!", name: "description" }
