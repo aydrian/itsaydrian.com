@@ -1,5 +1,6 @@
-import { type LoaderFunctionArgs, json } from "@remix-run/cloudflare";
-import { Link, useLoaderData } from "@remix-run/react";
+import { type LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { Link } from "@remix-run/react";
+import { typedjson, useTypedLoaderData } from "remix-typedjson";
 
 interface Env {
   CONTENT: KVNamespace;
@@ -17,14 +18,15 @@ export async function loader({ context }: LoaderFunctionArgs) {
       return { frontmatter, html, readTime, slug };
     })
   );
-  return json(posts, {
+  return typedjson(posts, {
     headers: {
       "cache-control": "max-age=3600000"
     }
   });
 }
+
 export default function BlogIndex() {
-  const posts = useLoaderData<typeof loader>();
+  const posts = useTypedLoaderData<typeof loader>();
   return (
     <div>
       <h1>Blog</h1>

@@ -1,10 +1,10 @@
-import {
-  type LoaderFunctionArgs,
-  type MetaFunction,
-  json
-} from "@remix-run/cloudflare";
-import { useLoaderData } from "@remix-run/react";
+import { type LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { getParams } from "remix-params-helper";
+import {
+  type TypedMetaFunction,
+  typedjson,
+  useTypedLoaderData
+} from "remix-typedjson";
 import z from "zod";
 
 const ParamsSchema = z.object({
@@ -37,17 +37,18 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
     throw new Response(null, { status: 404, statusText: "Not Found" });
   }
 
-  return json(
+  console.log({ frontmatter: JSON.stringify(data.frontmatter) });
+
+  return typedjson(
     { ...data, slug },
     { headers: { "cache-control": "max-age=3600000" } }
   );
 }
 
-export const meta: MetaFunction<typeof loader> = ({ data }) => {
+export const meta: TypedMetaFunction<typeof loader> = ({ data }) => {
   let title = "ItsAydrian Blog";
   let description = "";
   if (data) {
-    console.dir({ frontmatter: data.frontmatter });
     title = `${data.frontmatter.title} - ${title}`;
     description = data.frontmatter.description;
   }
@@ -97,7 +98,7 @@ export const meta: MetaFunction<typeof loader> = ({ data }) => {
 };
 
 export default function BlogSlug() {
-  const { frontmatter, html, readTime } = useLoaderData<typeof loader>();
+  const { frontmatter, html, readTime } = useTypedLoaderData<typeof loader>();
   return (
     <div>
       <h1>{frontmatter.title}</h1>

@@ -7,8 +7,12 @@ node_modules
 .env
 
 # Built files
+/functions/\[\[path\]\].js
+/functions/\[\[path\]\].js.map
+/functions/metafile.*
+/functions/version.txt
 /public/build
-/functions
+
 .dev.vars
 .DS_Store
 /coverage
