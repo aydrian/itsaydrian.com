@@ -41,7 +41,7 @@ function rehypeCodeTitles() {
 }
 
 (async function () {
-  config();
+  config({ path: ".dev.vars" });
   const program = new Command();
   program
     .option("-R, --root <path>", "Root path (content is relative to root")
@@ -145,6 +145,10 @@ function rehypeCodeTitles() {
 
       const readTime = calculateReadTime(mdxSource);
 
+      console.log({
+        API_URL: process.env.API_URL,
+        POST_API_KEY: process.env.POST_API_KEY
+      });
       const response = await fetch(`${process.env.API_URL}/api/post-content`, {
         body: JSON.stringify({
           code,

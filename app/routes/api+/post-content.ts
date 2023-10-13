@@ -4,7 +4,6 @@ export const action = async ({ context, request }: ActionFunctionArgs) => {
   const env = context.env as Env;
   try {
     const key = request.headers.get("Authorization");
-    console.log({ POST_API_KEY: env.POST_API_KEY, key });
     if (key !== `Bearer ${env.POST_API_KEY}`) {
       return new Response(`Unauthorized ${key}`, { status: 401 });
     }

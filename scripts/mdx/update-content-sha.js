@@ -4,7 +4,7 @@ async function getCommit() {
   if (!commit) return { sha: "" };
   try {
     const res = await fetch(
-      `https://api.github.com/repos/elliotlaws/remix-blog/commits/${commit}`
+      `https://api.github.com/repos/aydrian/itsaydrian.com/commits/${commit}`
     );
     const data = await res.json();
     return {
@@ -27,7 +27,7 @@ async function go() {
   };
 
   const response = await fetch(
-    `https://remix-blog-a0z.pages.dev/api/update-content-sha`,
+    `https://itsaydrian.pages.dev/api/update-content-sha`,
     {
       body: JSON.stringify(buildInfo),
       headers: {

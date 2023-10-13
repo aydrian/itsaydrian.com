@@ -1,11 +1,11 @@
 // try to keep this dep-free so we don't have to install deps
-const { getChangedFiles, fetchJson } = require("./get-changed-files");
+const { fetchJson, getChangedFiles } = require("./get-changed-files").default;
 
 const [currentCommitSha] = process.argv.slice(2);
 
 async function go() {
   const buildInfo = await fetchJson(
-    "https://elliotlaws.com/api/get-deploy-sha"
+    "https://itsaydrian.com/api/get-deploy-sha"
   );
   const compareCommitSha = buildInfo.commit.sha;
   const changedFiles = await getChangedFiles(
@@ -13,9 +13,9 @@ async function go() {
     compareCommitSha
   );
   console.error("Determining whether the changed files are deployable", {
-    currentCommitSha,
-    compareCommitSha,
     changedFiles,
+    compareCommitSha,
+    currentCommitSha
   });
   // deploy if:
   // - there was an error getting the changed files (null)

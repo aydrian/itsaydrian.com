@@ -1,14 +1,14 @@
 // try to keep this dep-free so we don't have to install deps
-const fs = require("fs");
-const path = require("path");
+import { readdirSync, statSync } from "fs";
+import { join } from "path";
 
-const { getChangedFiles, fetchJson } = require("./get-changed-files");
+import { fetchJson, getChangedFiles } from "./get-changed-files";
 
 const [currentCommitSha] = process.argv.slice(2);
 
 async function go() {
   const buildInfo = await fetchJson(
-    "https://elliotlaws.com/api/get-content-sha"
+    "https://itsaydrian.com/api/get-content-sha"
   );
 
   const compareCommitSha = buildInfo.commit.sha;
@@ -20,18 +20,18 @@ async function go() {
       (await getChangedFiles(currentCommitSha, compareCommitSha)) ?? [];
 
     console.error("Determining whether the changed files are content", {
-      currentCommitSha,
-      compareCommitSha,
       changedFiles,
+      compareCommitSha,
+      currentCommitSha
     });
   } else {
     // get initial content list
     const filelist = [];
     function walk(dir) {
-      const files = fs.readdirSync(dir);
+      const files = readdirSync(dir);
       files.forEach((file) => {
-        const filePath = path.join(dir, file);
-        if (fs.statSync(filePath).isDirectory()) {
+        const filePath = join(dir, file);
+        if (statSync(filePath).isDirectory()) {
           walk(filePath);
         } else {
           filelist.push(filePath);
@@ -41,7 +41,7 @@ async function go() {
     walk("./content");
     changedFiles = filelist.map((filename) => ({
       changeType: "added",
-      filename,
+      filename
     }));
   }
 

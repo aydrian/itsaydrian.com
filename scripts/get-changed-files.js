@@ -1,35 +1,33 @@
 // try to keep this dep-free so we don't have to install deps
-const execSync = require("child_process").execSync;
-const https = require("https");
+import { execSync } from "child_process";
+import { get } from "https";
 
 function fetchJson(url) {
   return new Promise((resolve, reject) => {
-    https
-      .get(url, (res) => {
-        let data = "";
-        res.on("data", (d) => {
-          data += d;
-        });
-
-        res.on("end", () => {
-          try {
-            resolve(JSON.parse(data));
-          } catch (error) {
-            reject(error);
-          }
-        });
-      })
-      .on("error", (e) => {
-        reject(e);
+    get(url, (res) => {
+      let data = "";
+      res.on("data", (d) => {
+        data += d;
       });
+
+      res.on("end", () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (error) {
+          reject(error);
+        }
+      });
+    }).on("error", (e) => {
+      reject(e);
+    });
   });
 }
 
 const changeTypes = {
-  M: "modified",
   A: "added",
   D: "deleted",
-  R: "moved",
+  M: "modified",
+  R: "moved"
 };
 
 async function getChangedFiles(currentCommitSha, compareCommitSha) {
@@ -58,4 +56,4 @@ async function getChangedFiles(currentCommitSha, compareCommitSha) {
   }
 }
 
-module.exports = { getChangedFiles, fetchJson };
+export default { fetchJson, getChangedFiles };

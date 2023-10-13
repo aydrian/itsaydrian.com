@@ -9,6 +9,7 @@ import {
   Scripts,
   ScrollRestoration
 } from "@remix-run/react";
+import rdtStylesheet from "remix-development-tools/index.css";
 
 import iconHref from "~/components/icons/sprite.svg";
 
@@ -18,10 +19,13 @@ export const links: LinksFunction = () => [
   { as: "image", href: iconHref, rel: "preload", type: "image/svg+xml" },
   { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" },
   { href: styles, rel: "stylesheet" },
+  ...(process.env.NODE_ENV === "development"
+    ? [{ href: rdtStylesheet, rel: "stylesheet" }]
+    : []),
   ...(cssBundleHref ? [{ href: cssBundleHref, rel: "stylesheet" }] : [])
 ];
 
-export default function App() {
+function App() {
   return (
     <html lang="en">
       <head>
@@ -39,3 +43,12 @@ export default function App() {
     </html>
   );
 }
+
+let AppExport = App;
+
+if (process.env.NODE_ENV === "development") {
+  const { withDevTools } = await import("remix-development-tools");
+  AppExport = withDevTools(AppExport);
+}
+
+export default AppExport;

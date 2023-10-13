@@ -31,7 +31,7 @@ export default function BlogIndex() {
       <ul>
         {posts.map((post) => (
           <li key={post.slug}>
-            <Link to={`/blog/${post.slug}`}>{post.frontmatter.title}</Link>
+            <Link to={`/${post.slug}`}>{post.frontmatter.title}</Link>
           </li>
         ))}
       </ul>
