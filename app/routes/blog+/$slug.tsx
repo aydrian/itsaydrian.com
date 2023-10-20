@@ -1,4 +1,5 @@
 import { type LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { useMemo } from "react";
 import { getParams } from "remix-params-helper";
 import {
   type TypedMetaFunction,
@@ -6,6 +7,9 @@ import {
   useTypedLoaderData
 } from "remix-typedjson";
 import z from "zod";
+
+import { Pre } from "~/components/mdx-components";
+import { getMDXComponent } from "~/utils/mdx";
 
 const ParamsSchema = z.object({
   slug: z.string()
@@ -40,8 +44,8 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
   console.log({ frontmatter: JSON.stringify(data.frontmatter) });
 
   return typedjson(
-    { ...data, slug },
-    { headers: { "cache-control": "max-age=3600000" } }
+    { ...data, slug }
+    // { headers: { "cache-control": "max-age=3600000" } }
   );
 }
 
@@ -97,13 +101,29 @@ export const meta: TypedMetaFunction<typeof loader> = ({ data }) => {
   ];
 };
 
-export default function BlogSlug() {
-  const { frontmatter, html, readTime } = useTypedLoaderData<typeof loader>();
+export default function BlogPost() {
+  const { code, frontmatter, html, readTime } =
+    useTypedLoaderData<typeof loader>();
+  const Component = useMemo(() => {
+    if (typeof window === "undefined" && !code) {
+      return null;
+    }
+    return getMDXComponent(code);
+  }, [code]);
+
   return (
-    <div>
-      <h1>{frontmatter.title}</h1>
-      <div dangerouslySetInnerHTML={{ __html: html }} />
+    <>
+      <header>
+        <h1>{frontmatter.title}</h1>
+      </header>
+      <main>
+        {Component ? (
+          <Component components={{ pre: Pre }} />
+        ) : (
+          <div dangerouslySetInnerHTML={{ __html: html }} />
+        )}
+      </main>
       <div>{readTime?.text}</div>
-    </div>
+    </>
   );
 }

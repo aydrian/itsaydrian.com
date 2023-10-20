@@ -4,7 +4,7 @@ import atticusAndMe from "~/images/atticus-and-me.png";
 export default function Links() {
   return (
     <div className="flex min-h-screen w-full justify-center bg-blue-950 px-4 py-8 text-white md:px-16">
-      <div className="flex w-full max-w-sm flex-col items-center gap-4 md:max-w-4xl md:flex-row md:justify-evenly md:gap-8">
+      <div className="flex w-full max-w-sm flex-col items-center gap-4 md:max-w-5xl md:flex-row md:justify-evenly md:gap-8">
         <header className="md:basis-1/2">
           <figure className="min-h-fit w-3/4 min-w-fit sm:w-48 md:w-3/4">
             <div className="mx-auto aspect-square w-full rounded-full bg-gradient-to-r from-cyan-500 to-green-500 p-1 shadow-sm">

@@ -2,16 +2,13 @@ import { flatRoutes } from "remix-flat-routes";
 
 /** @type {import('@remix-run/dev').AppConfig} */
 export default {
-  devServerBroadcastDelay: 1000,
-  future: {},
   ignoredRouteFiles: ["**/.*"],
-  postcss: true,
   routes: async (defineRoutes) => {
     return flatRoutes("routes", defineRoutes);
   },
   server: "./server.ts",
   serverBuildPath: "functions/[[path]].js",
-  serverConditions: ["worker"],
+  serverConditions: ["workerd", "worker", "browser"],
   serverDependenciesToBundle: "all",
   serverMainFields: ["browser", "module", "main"],
   serverMinify: true,
@@ -19,6 +16,5 @@ export default {
   serverNodeBuiltinsPolyfill: {
     modules: {}
   },
-  serverPlatform: "neutral",
-  tailwind: true
+  serverPlatform: "neutral"
 };

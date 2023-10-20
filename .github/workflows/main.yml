@@ -14,17 +14,18 @@ jobs:
       CONTENT: ${{steps.content_changes.outputs.CONTENT}}
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: "50"
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: 🔎 Determine deployable changes
         id: deploy_changes
+        # replace set-output with GITHUB_OUTPUT https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
         run: >-
           echo ::set-output name=DEPLOYABLE::$(node ./scripts/is-deployable.js ${{
           github.sha }})
@@ -35,6 +36,7 @@ jobs:
 
       - name: 🔎 Determine content changes
         id: content_changes
+        # replace set-output with GITHUB_OUTPUT https://github.blog/changelog/2022-10-11-github-actions-deprecating-save-state-and-set-output-commands/
         run: >-
           echo ::set-output name=CONTENT::$(node ./scripts/get-changed-content.js ${{
           github.sha }})
@@ -52,7 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        # Can Probably be removed https://github.com/styfle/cancel-workflow-action
+        uses: styfle/cancel-workflow-action@0.12.0
 
       - name: Deploy a Cloudflare Pages Project
         uses: tomjschuster/cloudflare-pages-deploy-action@v0.0.12
@@ -65,11 +68,11 @@ jobs:
           production: true
 
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 🥶 Cache dependencies
         if: $${{ !env.ACT }}
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-npm-${{ hashFiles('**/package-lock.json') }}
@@ -78,7 +81,7 @@ jobs:
             ${{ runner.OS }}-
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
@@ -100,17 +103,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: "50"
 
       - name: ⎔ Setup node
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: 18
 
       - name: 🥶 Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.npm
           key: ${{ runner.OS }}-npm-${{ hashFiles('**/package-lock.json') }}
