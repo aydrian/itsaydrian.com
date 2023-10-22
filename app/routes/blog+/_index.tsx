@@ -1,42 +1,42 @@
 import { type LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { Link } from "@remix-run/react";
 import { typedjson, useTypedLoaderData } from "remix-typedjson";
+import { client } from "tina/__generated__/client";
 
-interface Env {
-  CONTENT: KVNamespace;
-}
-
-export async function loader({ context }: LoaderFunctionArgs) {
-  let env = context.env as Env;
-  const slugs = await env.CONTENT.list({
-    prefix: "blog/"
+export async function loader({ request }: LoaderFunctionArgs) {
+  const postsResponse = await client.queries.postConnection();
+  const posts = postsResponse.data.postConnection.edges?.map((post) => {
+    return {
+      id: post?.node?.id,
+      slug: post?.node?._sys.filename,
+      title: post?.node?.title
+    };
   });
-  const posts = await Promise.all(
-    slugs.keys.map(async ({ name }) => {
-      const data = await env.CONTENT.get(name, "json");
-      const { frontmatter, html, readTime, slug } = data as any;
-      return { frontmatter, html, readTime, slug };
-    })
-  );
-  return typedjson(posts, {
-    headers: {
-      "cache-control": "max-age=3600000"
+
+  return typedjson(
+    { posts },
+    {
+      headers: {
+        "cache-control": "max-age=3600000"
+      }
     }
-  });
+  );
 }
 
 export default function BlogIndex() {
-  const posts = useTypedLoaderData<typeof loader>();
+  const { posts } = useTypedLoaderData<typeof loader>();
   return (
     <div>
       <h1>Blog</h1>
-      <ul>
-        {posts.map((post) => (
-          <li key={post.slug}>
-            <Link to={`/${post.slug}`}>{post.frontmatter.title}</Link>
-          </li>
-        ))}
-      </ul>
+      {posts ? (
+        <ul>
+          {posts.filter(Boolean).map((post) => (
+            <li key={post.id}>
+              <Link to={`./${post.slug}`}>{post.title}</Link>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 }
