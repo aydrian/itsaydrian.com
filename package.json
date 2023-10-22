@@ -6,14 +6,13 @@
   "license": "MIT",
   "repository": "github:aydrian/itsaydrian.com",
   "scripts": {
-    "build": "remix build",
+    "build": "tinacms build && remix build",
     "build:icons": "tsx build-icons.ts",
-    "compile": "node ./scripts/mdx/compile-mdx.js ",
-    "content:watch": "node ./scripts/watch-content.js",
-    "dev": "remix dev --manual -c \"npm run start\"",
+    "dev": "tinacms dev -c \"npm run dev:remix\"",
+    "dev:remix": "remix dev --manual -c \"npm run start\"",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/eslint .",
-    "start": "wrangler pages dev --kv CONTENT --compatibility-date=2023-06-21 --node-compat ./public",
+    "start": "wrangler pages dev --compatibility-date=2023-06-21 ./public",
     "typecheck": "tsc"
   },
   "eslintIgnore": [
@@ -28,12 +27,11 @@
     "@remix-run/cloudflare-pages": "2.1.0",
     "@remix-run/css-bundle": "2.1.0",
     "@remix-run/react": "2.1.0",
+    "@tinacms/cli": "^1.5.31",
     "chokidar": "^3.5.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "isbot": "^3.7.0",
-    "lru-cache": "^10.0.1",
-    "mdx-bundler": "^9.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "reading-time": "^1.5.0",
@@ -42,6 +40,7 @@
     "remix-utils": "^7.1.0",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.7",
+    "tinacms": "^1.5.22",
     "zod": "^3.22.4"
   },
   "devDependencies": {
