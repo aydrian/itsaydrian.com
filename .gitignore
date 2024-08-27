@@ -1,21 +1,11 @@
-# Dependencies
 node_modules
-tina/__generated__
 
-# dotfiles
-.cache
-.output
+/.cache
+/build
 .env
-
-# Built files
-/functions/\[\[path\]\].js
-/functions/\[\[path\]\].js.map
-/functions/metafile.*
-/functions/version.txt
-/public/build
-
 .dev.vars
+
+.wrangler
+
 .DS_Store
 /coverage
-/dist
-/.wrangler/state
