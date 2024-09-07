@@ -1,5 +1,5 @@
-import { handle } from "hono-remix-adapter";
 import { Hono } from "hono";
+import { handle } from "hono-remix-adapter";
 
 const app = new Hono();
 

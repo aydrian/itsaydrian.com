@@ -21,7 +21,7 @@ export default function Index() {
       <div className="flex h-full max-w-xl flex-col items-center justify-center rounded-lg bg-blue-950 bg-opacity-75 px-12 py-6 shadow md:mx-auto md:grow">
         <div className="flex h-full grow flex-col justify-center gap-1.5">
           <h1 className="max-w-fit bg-gradient-to-r from-cyan-500 to-green-500 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent md:text-6xl">
-            It's Aydrian
+            It&apos;s Aydrian
           </h1>
           <h2 className="text-center text-2xl font-semibold leading-tight md:text-4xl">
             Hoosier in the Big City

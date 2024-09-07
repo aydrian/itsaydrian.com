@@ -1,5 +1,7 @@
 import type { Config } from "tailwindcss";
 
+import tailwindcssAnimate from "tailwindcss-animate";
+
 export default {
   content: [
     "./pages/**/*.{ts,tsx}",
@@ -8,7 +10,7 @@ export default {
     "./src/**/*.{ts,tsx}"
   ],
   darkMode: ["class"],
-  plugins: [require("tailwindcss-animate")],
+  plugins: [tailwindcssAnimate],
   theme: {
     container: {
       center: true,
