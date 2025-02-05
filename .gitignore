@@ -1,11 +1,20 @@
-node_modules
 
 /.cache
-/build
 .env
 .dev.vars
 
-.wrangler
+/coverage
+
+.react-router/
 
 .DS_Store
-/coverage
+/node_modules/
+*.tsbuildinfo
+
+# React Router
+/.react-router/
+/build/
+
+# Cloudflare
+.mf
+.wrangler
