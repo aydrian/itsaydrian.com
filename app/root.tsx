@@ -2,7 +2,13 @@ import type { LinksFunction } from "react-router";
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import styles from "~/styles/tailwind.css?url";
 
-export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+import iconHref from "~/components/icons/sprite.svg";
+
+export const links: LinksFunction = () => [
+  { rel: "stylesheet", href: styles },
+  { as: "image", href: iconHref, rel: "preload", type: "image/svg+xml" },
+  { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" }
+];
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
