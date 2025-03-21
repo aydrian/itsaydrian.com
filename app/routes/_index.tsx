@@ -1,87 +1,142 @@
-import type { MetaFunction } from "react-router";
-
-import { Icon } from "~/components/icon";
-import atticusAndMe from "~/images/atticus-and-me.png";
-
-export const meta: MetaFunction = () => {
-  return [
-    { title: "ItsAydrian.com" },
-    { content: "Welcome to ItsAydrian.com!", name: "description" }
-  ];
-};
+import { Link } from "react-router";
 
 export default function Index() {
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center gap-4 bg-linear-to-r from-cyan-500 to-green-500 text-white md:flex-row-reverse md:justify-center md:gap-0">
-      <img
-        alt="Atticus and Me"
-        className="w-full md:max-h-screen md:w-auto"
-        src={atticusAndMe}
-      />
-      <div className="flex h-full max-w-xl flex-col items-center justify-center rounded-lg bg-blue-950 bg-opacity-75 px-12 py-6 shadow-sm md:mx-auto md:grow">
-        <div className="flex h-full grow flex-col justify-center gap-1.5">
-          <h1 className="max-w-fit bg-linear-to-r from-cyan-500 to-green-500 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent md:text-6xl">
-            It&apos;s Aydrian
+    <div className="min-h-screen bg-gray-100 text-gray-800">
+      <header className="bg-gradient-to-r from-cyan-700 to-emerald-700 py-4 shadow-sm">
+        <nav className="container mx-auto flex items-center justify-between">
+          <h1 className="bg-gradient-to-r from-cyan-300 to-emerald-300 bg-clip-text text-2xl font-bold text-transparent">
+            ItsAydrian LLC
           </h1>
-          <h2 className="text-center text-2xl font-semibold leading-tight md:text-4xl">
-            Hoosier in the Big City
+          <ul className="flex space-x-6">
+            <li>
+              <a
+                href="#home"
+                className="text-gray-100 transition duration-300 hover:text-emerald-300"
+              >
+                Home
+              </a>
+            </li>
+            <li>
+              <a
+                href="#services"
+                className="text-gray-100 transition duration-300 hover:text-emerald-300"
+              >
+                Services
+              </a>
+            </li>
+            <li>
+              <a
+                href="#about"
+                className="text-gray-100 transition duration-300 hover:text-emerald-300"
+              >
+                About
+              </a>
+            </li>
+            <li>
+              <a
+                href="#contact"
+                className="text-gray-100 transition duration-300 hover:text-emerald-300"
+              >
+                Contact
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section
+          id="home"
+          className="bg-gradient-to-br from-cyan-50 to-emerald-50 py-20 text-center"
+        >
+          <h2 className="mb-4 text-4xl font-bold text-gray-800 md:text-6xl">
+            Empowering Developers, Elevating Technology
           </h2>
-          <h3 className="max-w-fit bg-linear-to-r from-cyan-500 to-green-500 bg-clip-text font-bold leading-tight text-transparent md:text-xl">
-            Corgi Dad · Uncle · Nerd
-          </h3>
-        </div>
-        <ul className="flex w-full flex-col items-center gap-4 p-6 text-lg font-medium md:flex-row md:justify-center md:p-12">
-          <li className="flex items-center gap-2">
-            <a
-              className="hover:animate-bounce hover:text-green-500"
-              href="https://twitter.com/itsaydrian"
-              rel="noreferrer"
-              target="_blank"
+          <p className="mb-8 text-xl text-gray-600">
+            Your partner in Developer Relations and cutting-edge app development
+          </p>
+          <Link
+            to="mailto:howdy@itsaydrian.com"
+            className="rounded bg-gradient-to-r from-cyan-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-md transition duration-300 hover:from-cyan-600 hover:to-emerald-600 hover:shadow-lg"
+          >
+            Contact Us
+          </Link>
+        </section>
+
+        <section id="services" className="bg-white py-20">
+          <div className="container mx-auto">
+            <h2 className="mb-12 text-center text-3xl font-bold text-gray-800">
+              Our Services
+            </h2>
+            <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+              <div className="rounded-lg bg-gray-50 p-6 shadow-md transition duration-300 hover:shadow-lg">
+                <h3 className="mb-4 text-xl font-semibold text-cyan-600">
+                  Developer Relations Consulting
+                </h3>
+                <p className="text-gray-600">
+                  Enhance your developer community engagement and strategy
+                </p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-6 shadow-md transition duration-300 hover:shadow-lg">
+                <h3 className="mb-4 text-xl font-semibold text-emerald-600">
+                  Web Application Development
+                </h3>
+                <p className="text-gray-600">
+                  Create powerful and responsive web applications
+                </p>
+              </div>
+              <div className="rounded-lg bg-gray-50 p-6 shadow-md transition duration-300 hover:shadow-lg">
+                <h3 className="mb-4 text-xl font-semibold text-cyan-600">
+                  Mobile App Development
+                </h3>
+                <p className="text-gray-600">
+                  Build cross-platform mobile apps using Expo and React Native
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section
+          id="about"
+          className="bg-gradient-to-br from-cyan-50 to-emerald-50 py-20"
+        >
+          <div className="container mx-auto">
+            <h2 className="mb-8 text-center text-3xl font-bold text-gray-800">
+              About ItsAydrian LLC
+            </h2>
+            <p className="mx-auto max-w-2xl text-center text-gray-600">
+              ItsAydrian LLC is a technology consulting firm specializing in
+              Developer Relations and application development. We bridge the gap
+              between companies and developer communities while delivering
+              top-notch web and mobile solutions.
+            </p>
+          </div>
+        </section>
+
+        <section id="contact" className="bg-white py-20">
+          <div className="container mx-auto text-center">
+            <h2 className="mb-8 text-3xl font-bold text-gray-800">
+              Get in Touch
+            </h2>
+            <p className="mb-8 text-gray-600">
+              Ready to elevate your developer relations or start your next
+              project?
+            </p>
+            <Link
+              to="mailto:howdy@itsaydrian.com"
+              className="rounded bg-gradient-to-r from-cyan-500 to-emerald-500 px-6 py-3 font-bold text-white shadow-md transition duration-300 hover:from-cyan-600 hover:to-emerald-600 hover:shadow-lg"
             >
-              <Icon className="h-6 w-6" name="twitter" />
-            </a>
-            <a
-              className="hover:animate-bounce hover:text-green-500"
-              href="https://instagram.com/itsaydrian"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <Icon className="h-6 w-6" name="instagram" />
-            </a>
-            <a
-              className="hover:animate-bounce hover:text-green-500"
-              href="https://twitch.tv/itsaydrian"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <Icon className="h-6 w-6" name="twitch" />
-            </a>
-            <span>itsaydrian</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <a
-              className="hover:animate-bounce hover:text-green-500"
-              href="https://github.com/aydrian"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <Icon className="h-6 w-6" name="github" />
-            </a>
-            <span>aydrian</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <a
-              className="hover:animate-bounce hover:text-green-500"
-              href="https://itsaydrian.com"
-              rel="noreferrer"
-              target="_blank"
-            >
-              <Icon className="h-6 w-6" name="home" />
-            </a>
-            <span>itsaydrian.com</span>
-          </li>
-        </ul>
-      </div>
+              Contact Us
+            </Link>
+          </div>
+        </section>
+      </main>
+
+      <footer className="bg-gray-800 py-6 text-center text-white">
+        <p>&copy; 2025 ItsAydrian LLC. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
