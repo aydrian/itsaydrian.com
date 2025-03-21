@@ -12,21 +12,21 @@ export const meta: MetaFunction = () => {
 
 export default function Index() {
   return (
-    <div className="flex min-h-screen w-screen flex-col items-center gap-4 bg-gradient-to-r from-cyan-500 to-green-500 text-white md:flex-row-reverse md:justify-center md:gap-0">
+    <div className="flex min-h-screen w-screen flex-col items-center gap-4 bg-linear-to-r from-cyan-500 to-green-500 text-white md:flex-row-reverse md:justify-center md:gap-0">
       <img
         alt="Atticus and Me"
         className="w-full md:max-h-screen md:w-auto"
         src={atticusAndMe}
       />
-      <div className="flex h-full max-w-xl flex-col items-center justify-center rounded-lg bg-blue-950 bg-opacity-75 px-12 py-6 shadow md:mx-auto md:grow">
+      <div className="flex h-full max-w-xl flex-col items-center justify-center rounded-lg bg-blue-950 bg-opacity-75 px-12 py-6 shadow-sm md:mx-auto md:grow">
         <div className="flex h-full grow flex-col justify-center gap-1.5">
-          <h1 className="max-w-fit bg-gradient-to-r from-cyan-500 to-green-500 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent md:text-6xl">
+          <h1 className="max-w-fit bg-linear-to-r from-cyan-500 to-green-500 bg-clip-text text-center text-4xl font-bold leading-tight text-transparent md:text-6xl">
             It&apos;s Aydrian
           </h1>
           <h2 className="text-center text-2xl font-semibold leading-tight md:text-4xl">
             Hoosier in the Big City
           </h2>
-          <h3 className="max-w-fit bg-gradient-to-r from-cyan-500 to-green-500 bg-clip-text font-bold leading-tight text-transparent md:text-xl">
+          <h3 className="max-w-fit bg-linear-to-r from-cyan-500 to-green-500 bg-clip-text font-bold leading-tight text-transparent md:text-xl">
             Corgi Dad · Uncle · Nerd
           </h3>
         </div>
