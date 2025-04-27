@@ -1,15 +1,13 @@
 import { reactRouter } from "@react-router/dev/vite";
-import { cloudflareDevProxy } from "@react-router/dev/vite/cloudflare";
-import { reactRouterHonoServer } from "react-router-hono-server/dev";
+import { cloudflare } from "@cloudflare/vite-plugin";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
   plugins: [
-    cloudflareDevProxy(),
-    reactRouterHonoServer({
-      runtime: "cloudflare"
-    }),
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    tailwindcss(),
     reactRouter(),
     tsconfigPaths()
   ]
