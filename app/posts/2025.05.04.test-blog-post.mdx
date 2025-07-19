@@ -1,0 +1,60 @@
+---
+title: "Test Blog Post"
+date: "2025-05-04"
+---
+
+export const meta = [{ title: frontmatter.title }];
+
+# {frontmatter.title}
+
+## Introduction
+
+Welcome to this blog post about the D5 Streaming Media Network File Importer! In this article, we'll explore the features and benefits of this powerful tool for managing streaming media files.
+
+## What is the D5 Streaming Media Network File Importer?
+
+The D5 Streaming Media Network File Importer is a specialized software designed to streamline the process of importing and organizing media files for streaming platforms. It's an essential tool for content creators, broadcasters, and streaming service providers.
+
+## Key Features
+
+1. **Batch Import**: Easily import multiple files at once, saving time and effort.
+2. **Metadata Extraction**: Automatically extracts and organizes metadata from your media files.
+3. **Format Conversion**: Converts various file formats to streaming-friendly codecs.
+4. **Network Integration**: Seamlessly integrates with your existing streaming network infrastructure.
+
+## How to Use
+
+Here's a quick example of how to use the D5 Importer:
+
+```javascript
+import { D5Importer } from "d5-importer";
+
+const importer = new D5Importer();
+importer.batchImport("/path/to/media/files", {
+  convertFormat: true,
+  extractMetadata: true
+});
+```
+
+## Benefits
+
+Using the D5 Streaming Media Network File Importer can lead to:
+
+- Increased efficiency in managing large media libraries
+- Improved organization of streaming content
+- Reduced errors in metadata and file formatting
+- Faster time-to-stream for new content
+
+## Conclusion
+
+The D5 Streaming Media Network File Importer is a game-changer for anyone working with streaming media. Its powerful features and ease of use make it an indispensable tool in the modern streaming landscape.
+
+For more information, check out our [documentation](/docs) or [contact us](/contact) for a demo.
+
+export const ContactButton = () => (
+  <a href="/contact" className="btn btn-primary">
+    Contact Us
+  </a>
+);
+
+<ContactButton />
