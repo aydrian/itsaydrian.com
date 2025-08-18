@@ -6,7 +6,6 @@ import iconHref from "~/components/icons/sprite.svg";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styles },
-  { as: "image", href: iconHref, rel: "preload", type: "image/svg+xml" },
   { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" }
 ];
 
