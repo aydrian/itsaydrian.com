@@ -1,14 +1,15 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "itsaydrian",
-  "main": "./workers/app.ts",
-  "compatibility_date": "2025-04-03",
+  "main": "./app/entry.worker.ts",
+  "compatibility_date": "2025-04-07",
   "compatibility_flags": [
     "nodejs_compat"
   ],
   "observability": {
     "enabled": true
   },
+  "assets": { "directory": "./build/client" },
   "upload_source_maps": true,
   "vars": {
     "VALUE_FROM_CLOUDFLARE": "Hello from Cloudflare"

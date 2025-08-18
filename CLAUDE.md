@@ -13,18 +13,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Full validation**: `bun run check` - TypeScript + build + dry-run deploy
 
 **Icon management**: `bun run build:icons` - Regenerates SVG sprite and TypeScript types from `svg-icons/`
+**React Router utilities**: `bun run rr:typegen` and `bun run rr:routes` - Generate types and validate routes
 
 ## Architecture Overview
 
-This is a **React Router v7** (formerly Remix) application deployed on **Cloudflare Workers** using the Hono.js runtime. The project uses **TailwindCSS v4** with the new `@import 'tailwindcss'` syntax and includes a comprehensive blog system.
+This is a **React Router v7** (formerly Remix) application deployed on **Cloudflare Workers**. The project uses **TailwindCSS v4** with the new `@import 'tailwindcss'` syntax and includes a comprehensive blog system.
 
 ### Key Technical Stack
-- **Runtime**: Cloudflare Workers with Hono.js (`workers/app.ts`)
+- **Runtime**: Cloudflare Workers with simplified entry point (`app/entry.worker.ts`)
 - **Framework**: React Router v7 with file-based routing
 - **Styling**: TailwindCSS v4 with CSS variables and custom variants
 - **Components**: Shadcn/ui with class-variance-authority
 - **Type Safety**: Full TypeScript coverage with Cloudflare Workers types
 - **Package Manager**: Bun (use `bun` instead of `npm`)
+- **Build**: Vite with Cloudflare plugin and MDX support
 
 ### Routing System
 Routes are configured in `app/routes.ts` combining:
@@ -38,6 +40,11 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 - Components: `~/components/ui/` (Shadcn/ui components)
 - Utils: `~/utils/misc` (includes `cn` utility for class merging)
 
+### Entry Points
+- **Worker**: `app/entry.worker.ts` - Cloudflare Workers entry with lazy loading
+- **Server**: `app/entry.server.tsx` - React Router server-side rendering
+- **Client**: `app/entry.client.tsx` - Client-side hydration
+
 ### Styling Architecture
 - **TailwindCSS v4** configured in `app/styles/tailwind.css`
 - Uses CSS variables for theming with dark mode support
@@ -50,11 +57,12 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 - Icons stored in `svg-icons/` directory  
 - TypeScript types auto-generated for icon names
 - Use `<Icon name="..." />` component with full type safety
+- Icon libraries managed via `sly.json` (Simple Icons, Lucide, Heroicons)
 
 ## Development Patterns
 
 ### Component Development
-- Use Shadcn/ui components when possible: `Button`, `Card`, `Badge`, etc.
+- Use Shadcn/ui components when possible: `Button`, `Card`, `Badge`, `Avatar`, etc.
 - Always use `asChild` prop for Button components wrapping links
 - Prefer TailwindCSS classes over CSS-in-JS
 - Use `cn()` utility for conditional class merging
@@ -63,18 +71,21 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 - Create MDX files in `app/posts/` with frontmatter
 - Filename format: `YYYY.MM.DD.slug.mdx`
 - Routes automatically generated as `/blog/slug`
+- Blog index at `/blog` with prerendering enabled
 
 ### Type Safety
-- Run `bun run cf-typegen` after changing Cloudflare Workers configuration
+- Run `bun run cf:typegen` after changing Cloudflare Workers configuration
 - Icons automatically typed after running `bun run build:icons`
 - Custom types defined in `worker-configuration.d.ts`
+- TypeScript configured with strict mode and path aliases
 
 ## Configuration Files
 
 - **`wrangler.jsonc`**: Cloudflare Workers configuration with observability enabled
 - **`components.json`**: Shadcn/ui configuration using "new-york" style
-- **`vite.config.ts`**: Build configuration with Cloudflare plugin and MDX support
+- **`vite.config.ts`**: Build configuration with Cloudflare plugin, MDX support, and TailwindCSS
 - **`sly.json`**: Icon library management (Simple Icons, Lucide, Heroicons)
+- **`react-router.config.ts`**: React Router v7 config with prerendering and experimental features
 
 ## Important Notes
 
@@ -83,3 +94,4 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 - Cloudflare Workers runtime requires Node.js compatibility flags
 - Development server runs on http://127.0.0.1:8788 when using Wrangler
 - TailwindCSS v4 uses new syntax - no separate config file needed
+- React Router v7 uses experimental features including middleware and optimized dependencies

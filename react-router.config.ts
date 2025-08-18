@@ -4,6 +4,9 @@ export default {
   prerender: ["/blog"],
   ssr: true,
   future: {
-    unstable_viteEnvironmentApi: true
+		unstable_middleware: true,
+    unstable_optimizeDeps: true,
+    unstable_splitRouteModules: true,
+    unstable_viteEnvironmentApi: true,
   }
 } satisfies Config;

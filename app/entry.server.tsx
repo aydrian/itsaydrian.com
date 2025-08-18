@@ -1,43 +1,36 @@
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
-import type { AppLoadContext, EntryContext } from "react-router";
+import type {
+  EntryContext,
+  unstable_RouterContextProvider,
+} from "react-router";
 import { ServerRouter } from "react-router";
 
 export default async function handleRequest(
   request: Request,
-  responseStatusCode: number,
-  responseHeaders: Headers,
-  routerContext: EntryContext,
-  _loadContext: AppLoadContext
+  status: number,
+  headers: Headers,
+  entryContext: EntryContext,
+  _routerContext: unstable_RouterContextProvider
 ) {
-  let shellRendered = false;
-  const userAgent = request.headers.get("user-agent");
+  let userAgent = request.headers.get("user-agent");
 
-  const body = await renderToReadableStream(
-    <ServerRouter context={routerContext} url={request.url} />,
+  let stream = await renderToReadableStream(
+    <ServerRouter context={entryContext} url={request.url} />,
     {
-      onError(error: unknown) {
-        responseStatusCode = 500;
-        // Log streaming rendering errors from inside the shell.  Don't log
-        // errors encountered during initial shell rendering since they'll
-        // reject and get logged in handleDocumentRequest.
-        if (shellRendered) {
-          console.error(error);
-        }
-      }
+      signal: request.signal,
+      onError(error) {
+        console.error(error);
+        // biome-ignore lint/style/noParameterAssign: It's ok
+        status = 500;
+      },
     }
   );
-  shellRendered = true;
 
-  // Ensure requests from bots and SPA Mode renders wait for all content to load before responding
-  // https://react.dev/reference/react-dom/server/renderToPipeableStream#waiting-for-all-content-to-load-for-crawlers-and-static-generation
-  if ((userAgent && isbot(userAgent)) || routerContext.isSpaMode) {
-    await body.allReady;
-  }
+  if (userAgent && isbot(userAgent)) await stream.allReady;
+  else headers.set("Transfer-Encoding", "chunked");
 
-  responseHeaders.set("Content-Type", "text/html");
-  return new Response(body, {
-    headers: responseHeaders,
-    status: responseStatusCode
-  });
+  headers.set("Content-Type", "text/html; charset=utf-8");
+
+  return new Response(stream, { status, headers });
 }
