@@ -1,7 +1,7 @@
 import type { MetaFunction } from "react-router";
 
 import { Icon } from "~/components/icon";
-import atticusAndMe from "~/images/atticus-and-me.png";
+import atticusAndMe from "~/images/aydrian+atticus25.png";
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,7 +38,7 @@ export default function Splash() {
               rel="noreferrer"
               target="_blank"
             >
-              <Icon className="h-6 w-6" name="twitter" />
+              <Icon className="h-6 w-6" name="Twitter" />
             </a>
             <a
               className="hover:animate-bounce hover:text-green-500"
@@ -46,7 +46,7 @@ export default function Splash() {
               rel="noreferrer"
               target="_blank"
             >
-              <Icon className="h-6 w-6" name="instagram" />
+              <Icon className="h-6 w-6" name="Instagram" />
             </a>
             <a
               className="hover:animate-bounce hover:text-green-500"
@@ -54,7 +54,7 @@ export default function Splash() {
               rel="noreferrer"
               target="_blank"
             >
-              <Icon className="h-6 w-6" name="twitch" />
+              <Icon className="h-6 w-6" name="Twitch" />
             </a>
             <span>itsaydrian</span>
           </li>
@@ -65,7 +65,7 @@ export default function Splash() {
               rel="noreferrer"
               target="_blank"
             >
-              <Icon className="h-6 w-6" name="github" />
+              <Icon className="h-6 w-6" name="Github" />
             </a>
             <span>aydrian</span>
           </li>
@@ -76,7 +76,7 @@ export default function Splash() {
               rel="noreferrer"
               target="_blank"
             >
-              <Icon className="h-6 w-6" name="home" />
+              <Icon className="h-6 w-6" name="Home" />
             </a>
             <span>itsaydrian.com</span>
           </li>

@@ -1,5 +1,5 @@
 import { Icon } from "~/components/icon";
-import atticusAndMe from "~/images/atticus-and-me.png";
+import atticusAndMe from "~/images/aydrian+atticus25.png";
 
 export default function Links() {
   return (
@@ -32,42 +32,42 @@ export default function Links() {
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://itsaydrian.com"
           >
-            <Icon className="h-6 w-6" name="home" />
+            <Icon className="h-6 w-6" name="Home" />
             <div className="grow text-center">ItsAydrian.com</div>
           </a>
           <a
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://twitter.com/itsaydrian"
           >
-            <Icon className="h-6 w-6" name="twitter" />
+            <Icon className="h-6 w-6" name="Twitter" />
             <div className="grow text-center">Twitter</div>
           </a>
           <a
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://instagram.com/itsaydrian"
           >
-            <Icon className="h-6 w-6" name="instagram" />
+            <Icon className="h-6 w-6" name="Instagram" />
             <div className="grow text-center">Instagram</div>
           </a>
           <a
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://twitch.com/itsaydrian"
           >
-            <Icon className="h-6 w-6" name="twitch" />
+            <Icon className="h-6 w-6" name="Twitch" />
             <div className="grow text-center">Twitch</div>
           </a>
           <a
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://github.com/aydrian"
           >
-            <Icon className="h-6 w-6" name="github" />
+            <Icon className="h-6 w-6" name="Github" />
             <div className="grow text-center">GitHub</div>
           </a>
           <a
             className="flex items-center justify-between gap-2 rounded-sm border border-green-500 p-4 font-medium hover:bg-linear-to-r hover:from-cyan-500 hover:to-green-500"
             href="https://www.linkedin.com/in/aydrian/"
           >
-            <Icon className="h-6 w-6" name="linkedin" />
+            <Icon className="h-6 w-6" name="Linkedin" />
             <div className="grow text-center">LinkedIn</div>
           </a>
         </nav>
