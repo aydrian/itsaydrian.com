@@ -1,12 +1,8 @@
-import type { Route } from "./+types/blog._index";
 import { Link } from "react-router";
-import { getPosts } from "../posts.js";
 
-export async function loader() {
-  const posts = getPosts();
-  console.log("Posts fetched:", posts);
-  return { posts };
-}
+import type { Route } from "./+types/blog._index";
+
+import { getPosts } from "../posts.js";
 
 export default function Blog({ loaderData }: Route.ComponentProps) {
   return (
@@ -18,10 +14,10 @@ export default function Blog({ loaderData }: Route.ComponentProps) {
       ) : (
         <ul className="space-y-6">
           {loaderData.posts.map((post) => (
-            <li key={post.key} className="border-b border-gray-200 pb-4 last:border-b-0">
+            <li className="border-b border-gray-200 pb-4 last:border-b-0" key={post.key}>
               <Link 
-                to={post.href}
                 className="text-lg font-semibold text-blue-600 hover:text-blue-800 transition duration-300"
+                to={post.href}
               >
                 {post.frontmatter.title}
               </Link>
@@ -34,4 +30,10 @@ export default function Blog({ loaderData }: Route.ComponentProps) {
       )}
     </>
   );
+}
+
+export async function loader() {
+  const posts = getPosts();
+  console.log("Posts fetched:", posts);
+  return { posts };
 }

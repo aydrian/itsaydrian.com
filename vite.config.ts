@@ -5,9 +5,9 @@ import tailwindcss from "@tailwindcss/vite";
 import remarkFrontmatter from "remark-frontmatter";
 import remarkMdxFrontmatter from "remark-mdx-frontmatter";
 import { defineConfig } from "vite";
-import tsconfigPaths from "vite-tsconfig-paths";
-import { iconsSpritesheet } from 'vite-plugin-icons-spritesheet';
 import devtoolsJson from 'vite-plugin-devtools-json';
+import { iconsSpritesheet } from 'vite-plugin-icons-spritesheet';
+import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
 	plugins: [
@@ -18,9 +18,9 @@ export default defineConfig({
 		}),
 		reactRouter(),
 		iconsSpritesheet({
-			withTypes: true,
 			inputDir: "svg-icons",
-			outputDir: "app/components/icons"
+			outputDir: "app/components/icons",
+			withTypes: true
 		}),
 		devtoolsJson(),
 		tsconfigPaths(),

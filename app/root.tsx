@@ -1,23 +1,27 @@
 import type { LinksFunction } from "react-router";
+
 import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
+
 import styles from "~/styles/tailwind.css?url";
 
-import iconHref from "~/components/icons/sprite.svg";
-
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: styles },
+  { href: styles, rel: "stylesheet" },
   { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" }
 ];
+
+export default function App() {
+  return <Outlet />;
+}
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
         <Meta />
         <Links />
-        <link rel="stylesheet" href={styles} />
+        <link href={styles} rel="stylesheet" />
       </head>
       <body>
         {children}
@@ -26,8 +30,4 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </body>
     </html>
   );
-}
-
-export default function App() {
-  return <Outlet />;
 }

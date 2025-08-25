@@ -1,10 +1,11 @@
 import type { RequestHandler } from "react-router";
+
 import {
-  unstable_RouterContextProvider,
   createRequestHandler,
+  unstable_RouterContextProvider,
 } from "react-router";
 
-let handler: RequestHandler | null = null;
+let handler: null | RequestHandler = null;
 
 export default {
   async fetch(request: Request) {

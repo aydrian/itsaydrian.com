@@ -1,19 +1,19 @@
 import type { ComponentType } from "react";
 
 type FrontMatter = {
-  title: string;
   date: string;
   description?: string;
+  title: string;
 };
 
 type PostModule = {
-  frontmatter: FrontMatter;
   default: ComponentType;
+  frontmatter: FrontMatter;
 };
 
 type ProcessedPost = PostModule & {
-  key: string;
   href: string;
+  key: string;
 };
 
 export function getPosts(): ProcessedPost[] {
@@ -21,8 +21,8 @@ export function getPosts(): ProcessedPost[] {
   const postsArray = Object.entries(posts).map(
     ([key, value]): ProcessedPost => ({
       ...value,
-      key,
-      href: "" // Initialize with an empty string
+      href: "", // Initialize with an empty string
+      key
     })
   );
 
