@@ -41,6 +41,14 @@
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
 
+  /* Custom colors from Alex Cristache palette */
+  --color-angel-feather: #F4EFEE;
+  --color-hushed-violet: #CDBBБ9;
+  --color-scoville-high: #E34B26;
+  --color-hydro: #49747F;
+  --color-crowberry-blue: #003447;
+  --color-english-breakfast: #441111;
+
   --font-noto-sans-jp: 'Noto Sans JP', sans-serif;
 
   @keyframes accordion-down {
@@ -156,11 +164,11 @@
   }
 }
 
-/* @layer base {
+@layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
-} */
+}
