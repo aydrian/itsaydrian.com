@@ -1,7 +1,4 @@
-import type {
-  EntryContext,
-  unstable_RouterContextProvider,
-} from "react-router";
+import type { EntryContext, RouterContextProvider } from "react-router";
 
 import { isbot } from "isbot";
 import { renderToReadableStream } from "react-dom/server";
@@ -12,7 +9,7 @@ export default async function handleRequest(
   status: number,
   headers: Headers,
   entryContext: EntryContext,
-  _routerContext: unstable_RouterContextProvider
+  _routerContext: RouterContextProvider
 ) {
   let userAgent = request.headers.get("user-agent");
 
@@ -24,7 +21,7 @@ export default async function handleRequest(
         // biome-ignore lint/style/noParameterAssign: It's ok
         status = 500;
       },
-      signal: request.signal,
+      signal: request.signal
     }
   );
 

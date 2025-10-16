@@ -2,7 +2,7 @@ import type { RequestHandler } from "react-router";
 
 import {
   createRequestHandler,
-  unstable_RouterContextProvider,
+  RouterContextProvider,
 } from "react-router";
 
 let handler: null | RequestHandler = null;
@@ -16,7 +16,7 @@ export default {
     if (handler === null) handler = createRequestHandler(build);
 
     // Create a new router context for each request
-    let context = new unstable_RouterContextProvider();
+    let context = new RouterContextProvider();
 
     // Call the handler with the request and context and return the response
     return await handler(request, context);
