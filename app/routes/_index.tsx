@@ -14,6 +14,7 @@ export default function IndexPage() {
 
   return (
     <div className="from-hydro via-angel-feather to-scoville-high dark:from-english-breakfast dark:via-crowberry-blue dark:to-hydro flex min-h-screen flex-col bg-gradient-to-b">
+      <title>ItsAydrian LLC</title>
       <nav className="p-8">
         <div className="flex items-center justify-between">
           <h1 className="text-foreground text-3xl font-bold">ItsAydrian LLC</h1>
@@ -39,7 +40,7 @@ export default function IndexPage() {
                     src={foraProfile}
                   />
                   <CardTitle className="text-xl">Travel Advising</CardTitle>
-                  <p className="text-sm text-muted-foreground mb-2">
+                  <p className="text-muted-foreground mb-2 text-sm">
                     Independent Certified Fora Travel Advisor
                   </p>
                   <CardDescription>
@@ -70,7 +71,7 @@ export default function IndexPage() {
                     src={roverProfile}
                   />
                   <CardTitle className="text-xl">Pet Care</CardTitle>
-                  <p className="text-sm text-muted-foreground mb-2">
+                  <p className="text-muted-foreground mb-2 text-sm">
                     via Rover
                   </p>
                   <CardDescription>
