@@ -14,10 +14,10 @@ export default defineConfig({
 	plugins: [
 		// reactRouterDevTools(),
 		cloudflare({ viteEnvironment: { name: "ssr" } }),
-		tailwindcss(),
 		mdx({
 			remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
 		}),
+		tailwindcss(),
 		reactRouter(),
 		iconsSpritesheet({
 			inputDir: "svg-icons",

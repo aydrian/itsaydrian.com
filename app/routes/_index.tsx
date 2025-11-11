@@ -13,7 +13,7 @@ export default function IndexPage() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <div className="from-hydro via-angel-feather to-scoville-high dark:from-english-breakfast dark:via-crowberry-blue dark:to-hydro flex min-h-screen flex-col bg-gradient-to-b">
+    <div className="from-hydro via-angel-feather to-scoville-high dark:from-english-breakfast dark:via-crowberry-blue dark:to-hydro flex min-h-screen flex-col bg-linear-to-b">
       <title>ItsAydrian LLC</title>
       <nav className="p-8">
         <div className="flex items-center justify-between">
