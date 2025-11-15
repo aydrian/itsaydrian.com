@@ -5,7 +5,7 @@
     "app/**/*",
     "app/**/.server/**/*",
     "app/**/.client/**/*",
-    "workers/**/*",
+    "lib/**/*",
     "worker-configuration.d.ts"
   ],
   "compilerOptions": {

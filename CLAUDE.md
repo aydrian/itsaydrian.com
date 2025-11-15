@@ -20,6 +20,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 This is a **React Router v7** (formerly Remix) application deployed on **Cloudflare Workers**. The project uses **TailwindCSS v4** with the new `@import 'tailwindcss'` syntax and includes a comprehensive blog system.
 
 ### Key Technical Stack
+
 - **Runtime**: Cloudflare Workers with simplified entry point (`app/entry.worker.ts`)
 - **Framework**: React Router v7 with file-based routing
 - **Styling**: TailwindCSS v4 with CSS variables and custom variants
@@ -29,23 +30,28 @@ This is a **React Router v7** (formerly Remix) application deployed on **Cloudfl
 - **Build**: Vite with Cloudflare plugin and MDX support
 
 ### Routing System
+
 Routes are configured in `app/routes.ts` combining:
+
 1. **Blog routes**: `/blog/*` mapped to MDX files in `app/posts/` wrapped by `postRoot.tsx`
 2. **App routes**: File-based routing from `app/routes/` directory
 
-Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support.
+Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with exported meta support.
 
 ### Import Patterns
+
 - Path alias: `~/*` maps to `./app/*`
 - Components: `~/components/ui/` (Shadcn/ui components)
 - Utils: `~/utils/misc` (includes `cn` utility for class merging)
 
 ### Entry Points
+
 - **Worker**: `app/entry.worker.ts` - Cloudflare Workers entry with lazy loading
 - **Server**: `app/entry.server.tsx` - React Router server-side rendering
 - **Client**: `app/entry.client.tsx` - Client-side hydration
 
 ### Styling Architecture
+
 - **TailwindCSS v4** configured in `app/styles/tailwind.css`
 - Uses CSS variables for theming with dark mode support
 - Custom variant: `@custom-variant dark (&:is(.dark *))`
@@ -53,8 +59,9 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 - Component variants use `class-variance-authority`
 
 ### Icon System
+
 - SVG sprite system with automatic generation
-- Icons stored in `svg-icons/` directory  
+- Icons stored in `svg-icons/` directory
 - TypeScript types auto-generated for icon names
 - Use `<Icon name="..." />` component with full type safety
 - Icon libraries managed via `sly.json` (Simple Icons, Lucide, Heroicons)
@@ -62,18 +69,21 @@ Blog posts use naming convention: `YYYY.MM.DD.slug.mdx` with frontmatter support
 ## Development Patterns
 
 ### Component Development
+
 - Use Shadcn/ui components when possible: `Button`, `Card`, `Badge`, `Avatar`, etc.
 - Always use `asChild` prop for Button components wrapping links
 - Prefer TailwindCSS classes over CSS-in-JS
 - Use `cn()` utility for conditional class merging
 
 ### Blog Content
-- Create MDX files in `app/posts/` with frontmatter
+
+- Create MDX files in `app/posts/` with exported meta function
 - Filename format: `YYYY.MM.DD.slug.mdx`
 - Routes automatically generated as `/blog/slug`
 - Blog index at `/blog` with prerendering enabled
 
 ### Type Safety
+
 - Run `bun run cf:typegen` after changing Cloudflare Workers configuration
 - Icons automatically typed after running `bun run build:icons`
 - Custom types defined in `worker-configuration.d.ts`

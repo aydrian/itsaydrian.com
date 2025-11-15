@@ -7,6 +7,6 @@ export default {
     unstable_viteEnvironmentApi: true,
     v8_middleware: true,
   },
-  prerender: ["/blog"],
+  // prerender: ["/blog"],
   ssr: true
 } satisfies Config;
