@@ -40,7 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             <header className="p-8">
               <nav className="flex items-center justify-between">
                 <Link to="/">
-                  <h1 className="text-foreground text-3xl font-bold">
+                  <h1 className="text-foreground text-3xl font-bold text-shadow-sm dark:drop-shadow-sm">
                     ItsAydrian LLC
                   </h1>
                 </Link>
