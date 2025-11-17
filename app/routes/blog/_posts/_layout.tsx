@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router";
 
+import { Badge } from "~/components/ui/badge";
 import { getPostByPathname } from "~/utils/posts.server";
 
 import type { Route } from "./+types/_layout";
@@ -35,7 +36,6 @@ export default function PostLayout({ loaderData }: Route.ComponentProps) {
       <div className="bg-card/80 rounded-xl p-8 shadow-lg backdrop-blur-sm md:p-12">
         <article className="prose prose-lg dark:prose-invert max-w-none">
           {/* Post Header */}
-          {/* Post Header */}
           <div className="mb-8 border-b pb-8">
             <h1 className="mb-2 text-4xl font-extrabold tracking-tight lg:text-5xl">
               {metadata.title}
@@ -50,6 +50,13 @@ export default function PostLayout({ loaderData }: Route.ComponentProps) {
                 month: "long",
                 year: "numeric"
               })}
+            </p>
+            <p className="mt-4 flex flex-wrap items-center gap-2">
+              {metadata.tags?.map((tag) => (
+                <Badge key={tag} variant="outline">
+                  {tag}
+                </Badge>
+              ))}
             </p>
           </div>
           <Outlet />
