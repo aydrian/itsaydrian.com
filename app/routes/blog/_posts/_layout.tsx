@@ -1,4 +1,4 @@
-import { Outlet } from "react-router";
+import { Link, Outlet } from "react-router";
 
 import { getPostByPathname } from "~/utils/posts.server";
 
@@ -18,23 +18,38 @@ export async function loader({ request }: Route.LoaderArgs) {
 
 export default function PostLayout({ loaderData }: Route.ComponentProps) {
   const { metadata } = loaderData;
-  console.log("metadata:", metadata);
 
   return (
-    <div>
-      <h1 className="text-2xl">You are in the Layout</h1>
-      <article>
-        <h1>{metadata.title}</h1>
-        <div className="handler">
-          <p>
-            By {metadata.author} •{" "}
-            {new Date(metadata.date).toLocaleDateString()}
-          </p>
-          <p>Category: {metadata.category}</p>
-          <p>Tags: {metadata.tags?.join(", ")}</p>
-        </div>
-        <Outlet />
-      </article>
+    <div className="mx-auto max-w-4xl">
+      <Link
+        className="text-foreground/80 hover:text-foreground mb-4 inline-block transition-colors"
+        to="/blog"
+      >
+        &larr; Back to Blog
+      </Link>
+      <div className="bg-card/80 rounded-xl p-8 shadow-lg backdrop-blur-sm md:p-12">
+        <article className="prose prose-lg dark:prose-invert max-w-none">
+          {/* Post Header */}
+          {/* Post Header */}
+          <div className="mb-8 border-b pb-8">
+            <h1 className="mb-2 text-4xl font-extrabold tracking-tight lg:text-5xl">
+              {metadata.title}
+            </h1>
+            <p className="text-muted-foreground text-lg">
+              {metadata.description}
+            </p>
+            <p className="text-muted-foreground mt-4 text-sm">
+              By {metadata.author} on{" "}
+              {new Date(metadata.date).toLocaleDateString("en-US", {
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+              })}
+            </p>
+          </div>
+          <Outlet />
+        </article>
+      </div>
     </div>
   );
 }
