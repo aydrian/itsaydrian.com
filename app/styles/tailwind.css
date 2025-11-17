@@ -1,6 +1,7 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@plugin 'tailwindcss-animate';
+@plugin "@tailwindcss/typography";
+@plugin "tailwindcss-animate";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -42,14 +43,14 @@
   --color-secondary-foreground: hsl(var(--secondary-foreground));
 
   /* Custom colors from Alex Cristache palette */
-  --color-angel-feather: #F4EFEE;
+  --color-angel-feather: #f4efee;
   --color-hushed-violet: #CDBBБ9;
-  --color-scoville-high: #E34B26;
-  --color-hydro: #49747F;
+  --color-scoville-high: #e34b26;
+  --color-hydro: #49747f;
   --color-crowberry-blue: #003447;
   --color-english-breakfast: #441111;
 
-  --font-noto-sans-jp: 'Noto Sans JP', sans-serif;
+  --font-noto-sans-jp: "Noto Sans JP", sans-serif;
 
   @keyframes accordion-down {
     from {
