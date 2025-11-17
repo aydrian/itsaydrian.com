@@ -27,6 +27,11 @@ export default function PostLayout({ loaderData }: Route.ComponentProps) {
       >
         &larr; Back to Blog
       </Link>
+      {metadata.isDraft && (
+        <div className="mb-4 rounded-lg border border-amber-400/50 bg-amber-400/10 p-4 text-center text-amber-300">
+          <p className="font-bold">This is a draft post.</p>
+        </div>
+      )}
       <div className="bg-card/80 rounded-xl p-8 shadow-lg backdrop-blur-sm md:p-12">
         <article className="prose prose-lg dark:prose-invert max-w-none">
           {/* Post Header */}

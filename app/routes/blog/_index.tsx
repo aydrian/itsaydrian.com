@@ -1,5 +1,6 @@
 import { Link } from "react-router";
 
+import { Badge } from "~/components/ui/badge";
 import {
   Card,
   CardDescription,
@@ -24,7 +25,10 @@ export default function Blog({ loaderData }: Route.ComponentProps) {
               <Link className="group" key={post.slug} to={post.pathname}>
                 <Card className="flex h-full cursor-pointer flex-col transition-all hover:scale-[1.02] hover:shadow-lg">
                   <CardHeader>
-                    <CardTitle>{post.metadata.title}</CardTitle>
+                    <div className="flex items-center justify-between gap-2">
+                      <CardTitle>{post.metadata.title}</CardTitle>
+                      {post.isDraft && <Badge variant="warning">Draft</Badge>}
+                    </div>
                     {post.metadata.description && (
                       <CardDescription>
                         {post.metadata.description}
@@ -55,6 +59,5 @@ export default function Blog({ loaderData }: Route.ComponentProps) {
 
 export async function loader() {
   const posts = await getPosts();
-  console.log("Posts fetched:", posts);
   return { posts };
 }
