@@ -13,6 +13,7 @@ import {
 
 const VIRTUAL_MODULE_ID = "virtual:blog-manifest";
 const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`;
+const LOG_PREFIX = "[blog-manifest]";
 
 export default function blogManifest(
   postsDir: string = "./app/routes/blog/_posts"
@@ -24,7 +25,7 @@ export default function blogManifest(
     configureServer(server) {
       // Add the posts directory to Vite's file watcher
       server.watcher.add(absolutePostsDir);
-      console.log(`[blog-manifest] Watching directory: ${absolutePostsDir}`);
+      console.log(`${LOG_PREFIX} Watching directory: ${absolutePostsDir}`);
     },
 
     // Handle hot updates when watched files change
@@ -35,7 +36,7 @@ export default function blogManifest(
       }
 
       const relativeFile = path.relative(absolutePostsDir, file);
-      console.log(`[blog-manifest] Detected change: ${relativeFile}`);
+      console.log(`${LOG_PREFIX} Detected change: ${relativeFile}`);
 
       // Invalidate the virtual module so it regenerates
       const module = server.moduleGraph.getModuleById(
@@ -43,7 +44,7 @@ export default function blogManifest(
       );
       if (module) {
         server.moduleGraph.invalidateModule(module);
-        console.log("[blog-manifest] Virtual module invalidated");
+        console.log(`${LOG_PREFIX} Virtual module invalidated`);
       }
 
       // Send a full reload message to the browser
@@ -83,7 +84,7 @@ function parseMetadataFromMdx(content: string, filename: string) {
     const { data } = matter(content);
     return PostMetadataSchema.parse(data);
   } catch (error) {
-    console.warn(`[blog-manifest] Invalid frontmatter in ${filename}:`, error);
+    console.warn(`${LOG_PREFIX} Invalid frontmatter in ${filename}:`, error);
     return undefined;
   }
 }
@@ -93,58 +94,60 @@ function scanPostsDirectory(dir: string): PostEntry[] {
   const isProduction = process.env.NODE_ENV === "production";
 
   function walkDir(currentDir: string, baseDir: string = dir) {
+    let files;
     try {
-      const files = fs.readdirSync(currentDir, { withFileTypes: true });
+      files = fs.readdirSync(currentDir, { withFileTypes: true });
+    } catch (error) {
+      console.error(
+        `${LOG_PREFIX} Failed to read directory ${currentDir}:`,
+        error
+      );
+      return;
+    }
 
-      for (const file of files) {
-        const fullPath = path.join(currentDir, file.name);
+    for (const file of files) {
+      const fullPath = path.join(currentDir, file.name);
 
-        if (file.isDirectory()) {
-          walkDir(fullPath, baseDir);
-        } else if (file.isFile() && /\.mdx?$/.test(file.name)) {
-          // Only process .md and .mdx files
-          const slug = file.name.replace(/\.mdx?$/, "");
+      if (file.isDirectory()) {
+        walkDir(fullPath, baseDir);
+      } else if (file.isFile() && /\.mdx?$/.test(file.name)) {
+        // Only process .md and .mdx files
+        const relativePath = path.relative(baseDir, fullPath);
+        const slug = relativePath.replace(/\.mdx?$/, "");
 
-          try {
-            // Read the file content and parse metadata
-            const content = fs.readFileSync(fullPath, "utf-8");
-            const metadata = parseMetadataFromMdx(content, file.name);
+        try {
+          // Read the file content and parse metadata
+          const content = fs.readFileSync(fullPath, "utf-8");
+          const metadata = parseMetadataFromMdx(content, file.name);
 
-            // If metadata is invalid or missing, we can't create a post entry.
-            if (!metadata) {
-              continue;
-            }
-
-            if (metadata.isDraft && isProduction) {
-              console.log(`[posts-manifest] Skipping draft: ${slug}`);
-              continue;
-            }
-
-            posts.push({
-              filename: file.name,
-              isDraft: metadata.isDraft,
-              metadata,
-              pathname: `/blog/${slug}`,
-              slug
-            });
-          } catch (error) {
-            console.warn(`Failed to process ${file.name}:`, error);
+          // If metadata is invalid or missing, we can't create a post entry.
+          if (!metadata) {
+            continue;
           }
+
+          if (metadata.isDraft && isProduction) {
+            console.log(`${LOG_PREFIX} Skipping draft: ${slug}`);
+            continue;
+          }
+
+          posts.push({
+            filename: file.name,
+            isDraft: metadata.isDraft,
+            metadata,
+            pathname: `/blog/${slug}`,
+            slug
+          });
+        } catch (error) {
+          console.warn(`${LOG_PREFIX} Failed to process ${file.name}:`, error);
         }
       }
-    } catch (error) {
-      console.error(`Failed to read directory ${currentDir}:`, error);
     }
   }
 
   walkDir(dir);
 
   // Sort by date, newest first
-  posts.sort((a, b) => {
-    return (
-      new Date(b.metadata.date).getTime() - new Date(a.metadata.date).getTime()
-    );
-  });
+  posts.sort((a, b) => b.metadata.date.getTime() - a.metadata.date.getTime());
 
   return posts;
 }
