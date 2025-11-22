@@ -35,6 +35,13 @@ export default function PostLayout({ loaderData }: Route.ComponentProps) {
       )}
       <div className="bg-card/80 rounded-xl p-8 shadow-lg backdrop-blur-sm md:p-12">
         <article className="prose prose-lg dark:prose-invert max-w-none">
+          {metadata.heroImage && (
+            <img
+              alt={metadata.title}
+              className="mb-8 rounded-lg"
+              src={metadata.heroImage}
+            />
+          )}
           {/* Post Header */}
           <div className="mb-8 border-b pb-8">
             <h1 className="mb-2 text-4xl font-extrabold tracking-tight lg:text-5xl">
