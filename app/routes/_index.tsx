@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 import {
   Card,
   CardContent,
@@ -74,6 +76,14 @@ export default function IndexPage() {
                 </p>
                 <p className="text-muted-foreground mt-2 text-center text-sm">
                   ⭐ 5-star rating • Enhanced background check
+                </p>
+                <p className="mt-4 text-center">
+                  <Link
+                    className="text-primary hover:underline"
+                    to="/atticus-list"
+                  >
+                    Check out Atticus&apos;s Favorite Things →
+                  </Link>
                 </p>
               </CardContent>
             </Card>

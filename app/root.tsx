@@ -26,7 +26,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const currentYear = new Date().getFullYear();
 
   return (
-    <html lang="en">
+    <html className="scroll-smooth" lang="en">
       <head>
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
