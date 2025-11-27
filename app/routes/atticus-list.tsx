@@ -1,3 +1,5 @@
+import { useLocation } from "react-router";
+
 import { Badge } from "~/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import hideAndSeekBurrito from "~/images/atticus-list-items/burrito.jpg";
@@ -172,84 +174,108 @@ const favoriteThings: FavoriteCategory[] = [
 ];
 
 export default function AtticusList() {
+  const location = useLocation();
+  const title = "Atticus's Favorite Things";
+  const description =
+    "A curated list of products we use and love. From toys to treats to supplements, these are Atticus's top picks for a happy and healthy doggo life.";
+  const imageUrl = `https://itsaydrian.com${atticus}`;
+  const pageUrl = `https://itsaydrian.com${location.pathname}`;
+
   return (
-    <div className="mx-auto max-w-6xl">
-      <header className="mb-8 text-center">
-        <img
-          alt="Atticus the Corgi"
-          className="mx-auto mb-4 h-32 w-32 rounded-full object-cover"
-          src={atticus}
-        />
-        <h1 className="text-foreground text-3xl font-bold">
-          Atticus&apos;s Favorite Things
-        </h1>
-        <p className="text-foreground/80 mt-2 text-lg">
-          A curated list of products we use and love. As an Amazon affiliate, I
-          earn from qualifying purchases.
-        </p>
-      </header>
+    <>
+      <title>{title}</title>
+      <meta content={description} name="description" />
+      <meta content={title} property="og:title" />
+      <meta content={description} property="og:description" />
+      <meta content={imageUrl} property="og:image" />
+      <meta content={pageUrl} property="og:url" />
+      <meta content="website" property="og:type" />
+      <meta content="summary_large_image" name="twitter:card" />
+      <meta content={title} name="twitter:title" />
+      <meta content={description} name="twitter:description" />
+      <meta content={imageUrl} name="twitter:image" />
+      <meta content="@itsaydrian" name="twitter:creator" />
 
-      <nav className="mb-12 flex justify-center">
-        <ul className="flex flex-wrap items-center justify-center gap-4">
-          {favoriteThings.map((section) => (
-            <li key={section.category}>
-              <a
-                className="text-muted-foreground hover:text-foreground focus-visible:ring-ring border-input hover:bg-accent rounded-full border bg-transparent px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-                href={`#${section.category.toLowerCase()}`}
-              >
-                <span className="mr-2">{section.emoji}</span>
-                <span>{section.category}</span>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </nav>
+      <div className="mx-auto max-w-6xl">
+        <header className="mb-8 text-center">
+          <img
+            alt="Atticus the Corgi"
+            className="mx-auto mb-4 h-32 w-32 rounded-full object-cover"
+            src={atticus}
+          />
+          <h1 className="text-foreground text-3xl font-bold">
+            Atticus&apos;s Favorite Things
+          </h1>
+          <p className="text-foreground/80 mt-2 text-lg">{description}</p>
+          <p className="text-foreground/80 mt-2 text-sm">
+            As an Amazon affiliate, I earn from qualifying purchases.
+          </p>
+        </header>
 
-      <main className="space-y-12">
-        {favoriteThings.map((section) => (
-          <section id={section.category.toLowerCase()} key={section.category}>
-            <h2 className="text-foreground mb-6 text-2xl font-semibold">
-              {section.emoji} {section.category}
-            </h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {section.items.map((item) => (
+        <nav className="mb-12 flex justify-center">
+          <ul className="flex flex-wrap items-center justify-center gap-4">
+            {favoriteThings.map((section) => (
+              <li key={section.category}>
                 <a
-                  className="group"
-                  href={item.url}
-                  key={item.name}
-                  rel="noopener noreferrer"
-                  target="_blank"
+                  className="text-muted-foreground hover:text-foreground focus-visible:ring-ring border-input hover:bg-accent rounded-full border bg-transparent px-4 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+                  href={`#${section.category.toLowerCase()}`}
                 >
-                  <Card className="flex h-full cursor-pointer flex-col transition-all hover:scale-[1.02] hover:shadow-lg">
-                    {item.ogImage && (
-                      <CardContent className="p-0">
-                        <img
-                          alt={item.name}
-                          className="aspect-video w-full rounded-t-lg object-contain"
-                          src={item.ogImage}
-                        />
-                      </CardContent>
-                    )}
-                    <CardHeader>
-                      <div className="flex items-center justify-between gap-2">
-                        <CardTitle>{item.name}</CardTitle>
-                        {item.bfDeal && (
-                          <Badge variant="destructive">Black Friday Deal</Badge>
-                        )}
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground text-sm">
-                        {item.description}
-                      </p>
-                    </CardContent>
-                  </Card>
+                  <span className="mr-2">{section.emoji}</span>
+                  <span>{section.category}</span>
                 </a>
-              ))}
-            </div>
-          </section>
-        ))}
-      </main>
-    </div>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <main className="space-y-12">
+          {favoriteThings.map((section) => (
+            <section id={section.category.toLowerCase()} key={section.category}>
+              <h2 className="text-foreground mb-6 text-2xl font-semibold">
+                {section.emoji} {section.category}
+              </h2>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                {section.items.map((item) => (
+                  <a
+                    className="group"
+                    href={item.url}
+                    key={item.name}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Card className="flex h-full cursor-pointer flex-col transition-all hover:scale-[1.02] hover:shadow-lg">
+                      {item.ogImage && (
+                        <CardContent className="p-0">
+                          <img
+                            alt={item.name}
+                            className="aspect-video w-full rounded-t-lg object-contain"
+                            src={item.ogImage}
+                          />
+                        </CardContent>
+                      )}
+                      <CardHeader>
+                        <div className="flex items-center justify-between gap-2">
+                          <CardTitle>{item.name}</CardTitle>
+                          {item.bfDeal && (
+                            <Badge variant="destructive">
+                              Black Friday Deal
+                            </Badge>
+                          )}
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <p className="text-muted-foreground text-sm">
+                          {item.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+        </main>
+      </div>
+    </>
   );
 }
