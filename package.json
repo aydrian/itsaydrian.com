@@ -58,7 +58,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "globals": "^16.5.0",
     "gray-matter": "^4.0.3",
-    "prettier": "^3.7.1",
+    "prettier": "^3.7.2",
     "prettier-plugin-tailwindcss": "^0.7.1",
     "react-router-auto-routes": "^0.6.1",
     "react-router-devtools": "^6.0.0",
