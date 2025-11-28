@@ -37,10 +37,10 @@ export default function Links() {
           </a>
           <a
             className="border-scoville-high dark:border-angel-feather bg-card text-card-foreground hover:from-hydro hover:to-scoville-high dark:hover:from-crowberry-blue dark:hover:to-angel-feather flex items-center justify-between gap-2 rounded-md border p-4 font-medium transition-all hover:border-transparent hover:bg-linear-to-r hover:text-white"
-            href="https://twitter.com/itsaydrian"
+            href="https://x.com/itsaydrian"
           >
-            <Icon className="h-6 w-6" name="Twitter" />
-            <div className="grow text-center">Twitter</div>
+            <Icon className="h-6 w-6" name="X" />
+            <div className="grow text-center">X</div>
           </a>
           <a
             className="border-scoville-high dark:border-angel-feather bg-card text-card-foreground hover:from-hydro hover:to-scoville-high dark:hover:from-crowberry-blue dark:hover:to-angel-feather flex items-center justify-between gap-2 rounded-md border p-4 font-medium transition-all hover:border-transparent hover:bg-linear-to-r hover:text-white"
@@ -48,6 +48,13 @@ export default function Links() {
           >
             <Icon className="h-6 w-6" name="Instagram" />
             <div className="grow text-center">Instagram</div>
+          </a>
+           <a
+            className="border-scoville-high dark:border-angel-feather bg-card text-card-foreground hover:from-hydro hover:to-scoville-high dark:hover:from-crowberry-blue dark:hover:to-angel-feather flex items-center justify-between gap-2 rounded-md border p-4 font-medium transition-all hover:border-transparent hover:bg-linear-to-r hover:text-white"
+            href="https://youtube.com/@itsaydrian"
+          >
+            <Icon className="h-6 w-6" name="Youtube" />
+            <div className="grow text-center">YouTube</div>
           </a>
           <a
             className="border-scoville-high dark:border-angel-feather bg-card text-card-foreground hover:from-hydro hover:to-scoville-high dark:hover:from-crowberry-blue dark:hover:to-angel-feather flex items-center justify-between gap-2 rounded-md border p-4 font-medium transition-all hover:border-transparent hover:bg-linear-to-r hover:text-white"
@@ -65,7 +72,7 @@ export default function Links() {
           </a>
           <a
             className="border-scoville-high dark:border-angel-feather bg-card text-card-foreground hover:from-hydro hover:to-scoville-high dark:hover:from-crowberry-blue dark:hover:to-angel-feather flex items-center justify-between gap-2 rounded-md border p-4 font-medium transition-all hover:border-transparent hover:bg-linear-to-r hover:text-white"
-            href="https://www.linkedin.com/in/aydrian/"
+            href="https://linkedin.com/in/aydrian/"
           >
             <Icon className="h-6 w-6" name="Linkedin" />
             <div className="grow text-center">LinkedIn</div>

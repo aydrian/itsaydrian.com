@@ -9,6 +9,7 @@ import {
   ScrollRestoration
 } from "react-router";
 
+import { Icon, type IconName } from "~/components/icon";
 import { ThemeSwitcher } from "~/components/theme-switcher";
 import { ThemeProvider } from "~/contexts/theme-context";
 import styles from "~/styles/tailwind.css?url";
@@ -24,6 +25,14 @@ export default function App() {
 
 export function Layout({ children }: { children: React.ReactNode }) {
   const currentYear = new Date().getFullYear();
+  const socialLinks: { href: string; name: IconName }[] = [
+    { href: "https://instagram.com/itsaydrian", name: "Instagram" },
+    { href: "https://youtube.com/@itsaydrian", name: "Youtube" },
+    { href: "https://twitch.com/itsaydrian", name: "Twitch" },
+    { href: "https://x.com/itsaydrian", name: "X" },
+    { href: "https://github.com/aydrian", name: "Github" },
+    { href: "https://linkedin.com/in/aydrian/", name: "Linkedin" }
+  ];
 
   return (
     <html className="scroll-smooth" lang="en">
@@ -50,7 +59,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
             <main className="flex-1 px-8">{children}</main>
 
-            <footer className="p-8 text-center">
+            <footer className="flex flex-col items-center gap-4 p-8 text-center">
+              <div className="flex items-center justify-center gap-4">
+                {socialLinks.map((social) => (
+                  <a
+                    className="text-foreground/80 transition-colors hover:text-foreground"
+                    href={social.href}
+                    key={social.href}
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    <Icon name={social.name} size="md" />
+                    <span className="sr-only">{social.name}</span>
+                  </a>
+                ))}
+              </div>
               <p className="text-foreground/70 text-sm">
                 © {currentYear} ItsAydrian LLC. All rights reserved.
               </p>
