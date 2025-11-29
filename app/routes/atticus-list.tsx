@@ -258,7 +258,7 @@ export default function AtticusList() {
                           <CardTitle>{item.name}</CardTitle>
                           {item.bfDeal && (
                             <Badge variant="destructive">
-                              Black Friday Deal
+                              Cyber Monday Deal
                             </Badge>
                           )}
                         </div>
