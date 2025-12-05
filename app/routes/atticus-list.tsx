@@ -39,7 +39,6 @@ const favoriteThings: FavoriteCategory[] = [
     emoji: "🧸",
     items: [
       {
-        bfDeal: true,
         description:
           "WOOF! TWELVE whole squeaky balls that make the BEST noises and they're spiky so they massage my gums while I chomp! They bounce, they float, AND they help keep my teefies clean! My human says they're non-toxic which I guess is important but I just know they're SO MUCH FUN to chase with my short corgi legs!",
         name: "Spiky Dog Balls 12 pack",
@@ -54,7 +53,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/49K86HK"
       },
       {
-        bfDeal: true,
         description:
           "OH BOY OH BOY! This mat is like a treasure hunt for SNACKS! My human hides treats in all the little folds and I get to use my super corgi nose to find them all! It's like foraging in the wild but from the comfort of my living room! Makes me tired in a good way and slows down my eating so no more tummy aches!",
         name: "Snuffle Mat for Dogs",
@@ -108,7 +106,6 @@ const favoriteThings: FavoriteCategory[] = [
     emoji: "🐾",
     items: [
       {
-        bfDeal: true,
         description:
           "Perfect for walkies with my best doggo friend! This leash lets both of us walk together without getting all tangled up (which used to happen ALL the time). It has a bungee part so if I see a squirrel and pull, it doesn't hurt my human's arm. The handles are comfy for my human too!",
         name: "iYoShop Dual Dog Leash",
@@ -116,7 +113,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/4imHBdH"
       },
       {
-        bfDeal: true,
         description:
           "Okay so these are for the not-so-fun part of walks BUT they smell like lavender and my human says they're leak-proof which I guess is important for cleanup duty! They come with 540 bags so that's like... a LOT of walks! Plus they have a dispenser that clips to my leash!",
         name: "Amazon Basics Dog Poop Bags",
@@ -124,7 +120,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/3JZfVPn"
       },
       {
-        bfDeal: true,
         description:
           "This scoop is VERY important because it measures my kibble! It has different sizes (1/4, 1/2, 3/4, and 1 cup) which means my human can give me EXACTLY the right amount of food. Or maybe a little extra if I'm extra good? It's easy to clean and dishwasher safe!",
         name: "Dog Food Scoop",
@@ -132,7 +127,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/3Ks7ADN"
       },
       {
-        bfDeal: true,
         description:
           "Car rides are SO exciting but this belt keeps me safe! It has a bungee part so I can still move around a bit to look out the window for squirrels, but I won't go flying if my human has to stop fast. Safety first, then squirrel watching!",
         name: "Seat Belt for Dogs With Elastic Bungee Buffer",
@@ -140,7 +134,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/3M8Ckdu"
       },
       {
-        bfDeal: true,
         description:
           "This thing is like a spa day at home! It vacuums up all my loose fur while my human grooms me, which means less corgi hair tumbleweeds around the house! It's pretty quiet so it doesn't scare me, and it has tools for trimming and nail grinding too. I look SO handsome after!",
         name: "Afloia 6-in-1 Dog Grooming Kit",
@@ -155,7 +148,6 @@ const favoriteThings: FavoriteCategory[] = [
         url: "https://amzn.to/48h8o6j"
       },
       {
-        bfDeal: true,
         description:
           "I'm a messy eater (I admit it!) but this mat catches ALL the spills and splashes! It has raised edges so water doesn't escape onto the floor. My human loves it because it's super easy to clean - just wipe or throw in the dishwasher! Plus it's non-slip so my bowls stay put!",
         name: "Waterproof Pet Feeding Mat",
