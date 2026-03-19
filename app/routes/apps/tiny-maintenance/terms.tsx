@@ -69,20 +69,20 @@ export default function TermsOfUse() {
     <div
       className="flex min-h-screen flex-col"
       style={{
-        background: "#F5F1EB",
-        color: "#1C1C18",
+        background: "#F0F4F8",
+        color: "#1A2535",
         fontFamily: "'DM Sans', sans-serif"
       }}
     >
       {/* Top bar */}
       <header
         className="px-8 py-5"
-        style={{ borderBottom: "1px solid #E2DDD5" }}
+        style={{ borderBottom: "1px solid #CDD7E4" }}
       >
         <div className="mx-auto flex max-w-2xl items-center justify-between">
           <span
             style={{
-              color: "#1C1C18",
+              color: "#1A2535",
               fontFamily: "'Fraunces', serif",
               fontSize: "18px",
               fontWeight: 500
@@ -91,8 +91,8 @@ export default function TermsOfUse() {
             Tiny Maintenance
           </span>
           <Link
-            className="text-sm transition-colors duration-100 hover:text-[#356B47]"
-            style={{ color: "#6E6B65", textDecoration: "none" }}
+            className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
+            style={{ color: "#5A6A7E", textDecoration: "none" }}
             to="/apps/tiny-maintenance"
           >
             ← Back to app
@@ -105,7 +105,7 @@ export default function TermsOfUse() {
         <h1
           className="mb-2 tracking-tight"
           style={{
-            color: "#1C1C18",
+            color: "#1A2535",
             fontFamily: "'Fraunces', serif",
             fontSize: "clamp(32px, 5vw, 48px)",
             fontWeight: 500,
@@ -114,7 +114,7 @@ export default function TermsOfUse() {
         >
           Terms of Use
         </h1>
-        <p className="mb-14 text-sm" style={{ color: "#9A948C" }}>
+        <p className="mb-14 text-sm" style={{ color: "#8A9BB0" }}>
           Last Updated: March 17, 2026
         </p>
 
@@ -123,13 +123,13 @@ export default function TermsOfUse() {
             <section key={heading}>
               <h2
                 className="mb-3 text-lg font-medium tracking-tight"
-                style={{ color: "#1C1C18" }}
+                style={{ color: "#1A2535" }}
               >
                 {heading}
               </h2>
               <p
                 className="leading-relaxed"
-                style={{ color: "#6E6B65", fontSize: "15px" }}
+                style={{ color: "#5A6A7E", fontSize: "15px" }}
               >
                 {content}
               </p>
@@ -141,11 +141,11 @@ export default function TermsOfUse() {
       {/* Footer */}
       <footer
         className="px-8 py-8 text-center"
-        style={{ borderTop: "1px solid #E2DDD5" }}
+        style={{ borderTop: "1px solid #CDD7E4" }}
       >
         <Link
-          className="text-sm transition-colors duration-100 hover:text-[#356B47]"
-          style={{ color: "#6E6B65", textDecoration: "none" }}
+          className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
+          style={{ color: "#5A6A7E", textDecoration: "none" }}
           to="/apps/tiny-maintenance"
         >
           ← Back to Tiny Maintenance
