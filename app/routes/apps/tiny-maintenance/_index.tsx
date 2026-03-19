@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import type { LinksFunction } from "react-router";
 
 import { Link } from "react-router";
@@ -29,12 +30,46 @@ export const links: LinksFunction = () => [
 ];
 
 export default function TinyMaintenanceLanding() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setActiveIndex(null);
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [activeIndex]);
+
+  const screenshots = [
+    {
+      label: "Today's Tasks",
+      scale: "scale-90",
+      src: "/images/apps/tiny-maintenance/01-today.png"
+    },
+    {
+      label: "Add Anything",
+      scale: "scale-100",
+      src: "/images/apps/tiny-maintenance/02-add-item.png"
+    },
+    {
+      label: "Built-in Templates",
+      scale: "scale-100",
+      src: "/images/apps/tiny-maintenance/03-templates.png"
+    },
+    {
+      label: "Mark It Done",
+      scale: "scale-90",
+      src: "/images/apps/tiny-maintenance/04-mark-done.png"
+    }
+  ];
+
   return (
     <div
       className="flex min-h-screen flex-col"
       style={{
-        background: "#F5F1EB",
-        color: "#1C1C18",
+        background: "#F0F4F8",
+        color: "#1A2535",
         fontFamily: "'DM Sans', sans-serif"
       }}
     >
@@ -43,23 +78,27 @@ export default function TinyMaintenanceLanding() {
         <section className="mx-auto max-w-3xl px-8 pt-24 pb-20 text-center">
           {/* App icon */}
           <div
-            className="mx-auto mb-10 flex items-center justify-center rounded-[28px] text-5xl"
+            className="mx-auto mb-10 overflow-hidden rounded-[24px]"
             style={{
-              background: "linear-gradient(135deg, #3D7A55 0%, #2A5C3F 100%)",
               boxShadow:
-                "0 12px 32px rgba(45,96,63,0.30), 0 2px 4px rgba(0,0,0,0.08)",
+                "0 12px 32px rgba(30,46,69,0.35), 0 2px 4px rgba(0,0,0,0.10)",
               height: "112px",
               width: "112px"
             }}
           >
-            🔧
+            <img
+              alt="Tiny Maintenance app icon"
+              height="112"
+              src="/images/apps/tiny-maintenance/icon.png"
+              width="112"
+            />
           </div>
 
           {/* App name */}
           <h1
             className="mb-4 leading-[1.05] tracking-tight"
             style={{
-              color: "#1C1C18",
+              color: "#1A2535",
               fontFamily: "'Fraunces', serif",
               fontSize: "clamp(52px, 10vw, 88px)",
               fontWeight: 500
@@ -72,20 +111,22 @@ export default function TinyMaintenanceLanding() {
           <p
             className="mb-6"
             style={{
-              color: "#356B47",
+              color: "#3A5A8C",
               fontFamily: "'Fraunces', serif",
               fontSize: "clamp(20px, 3vw, 28px)",
               fontStyle: "italic",
               fontWeight: 300
             }}
           >
-            Your home, always taken care of.
+            Never miss a maintenance task.
+            <br />
+            Stay ahead of repairs and upkeep.
           </p>
 
           {/* Description */}
           <p
             className="mx-auto mb-14 max-w-md text-lg leading-relaxed"
-            style={{ color: "#6E6B65" }}
+            style={{ color: "#5A6A7E" }}
           >
             Track, schedule, and manage all your home maintenance tasks in one
             simple, beautiful app. Never miss a filter change or seasonal
@@ -98,9 +139,9 @@ export default function TinyMaintenanceLanding() {
             className="inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-base font-medium tracking-tight transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
             href="#"
             style={{
-              background: "#1C1C18",
-              boxShadow: "0 4px 16px rgba(28,28,24,0.20)",
-              color: "#F5F1EB",
+              background: "#1A2535",
+              boxShadow: "0 4px 16px rgba(26,37,53,0.20)",
+              color: "#F0F4F8",
               textDecoration: "none"
             }}
           >
@@ -118,12 +159,12 @@ export default function TinyMaintenanceLanding() {
         </section>
 
         {/* Screenshots */}
-        <section className="px-8 py-20" style={{ background: "#EDE9E1" }}>
+        <section className="px-8 py-20" style={{ background: "#E2E9F2" }}>
           <div className="mx-auto max-w-3xl">
             <h2
               className="mb-3 text-center tracking-tight"
               style={{
-                color: "#1C1C18",
+                color: "#1A2535",
                 fontFamily: "'Fraunces', serif",
                 fontSize: "clamp(28px, 4vw, 40px)",
                 fontWeight: 500
@@ -133,54 +174,49 @@ export default function TinyMaintenanceLanding() {
             </h2>
             <p
               className="mb-14 text-center text-base"
-              style={{ color: "#6E6B65" }}
+              style={{ color: "#5A6A7E" }}
             >
               Everything you need, nothing you don&apos;t.
             </p>
 
-            <div className="flex flex-wrap items-end justify-center gap-6">
-              {/* Center phone is slightly larger for emphasis */}
-              {[
-                { label: "Dashboard", scale: "scale-95" },
-                { label: "Task Detail", scale: "scale-100" },
-                { label: "Schedule", scale: "scale-95" }
-              ].map(({ label, scale }) => (
+            <div
+              className="flex items-end justify-center gap-4 overflow-x-auto pb-4"
+            >
+              {screenshots.map(({ src, label, scale }, i) => (
                 <div
-                  className={`relative flex flex-col overflow-hidden rounded-[32px] ${scale}`}
+                  aria-label={`View ${label} screenshot`}
+                  className={`flex flex-shrink-0 flex-col items-center gap-3 ${scale} cursor-pointer`}
                   key={label}
-                  style={{
-                    aspectRatio: "9 / 19.5",
-                    background:
-                      "linear-gradient(160deg, #D8D3CA 0%, #C8C2B8 100%)",
-                    border: "1px solid #BDB7AE",
-                    boxShadow:
-                      "0 8px 24px rgba(0,0,0,0.10), 0 2px 4px rgba(0,0,0,0.06)",
-                    width: "180px"
-                  }}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setActiveIndex(i)}
+                  onKeyDown={(e) => e.key === "Enter" && setActiveIndex(i)}
                 >
-                  {/* Notch */}
                   <div
-                    className="mx-auto mt-3 rounded-full"
+                    className="overflow-hidden rounded-[32px]"
                     style={{
-                      background: "#A8A29A",
-                      height: "6px",
-                      width: "60px"
+                      border: "2px solid #1E2E45",
+                      boxShadow:
+                        "0 12px 32px rgba(26,37,53,0.18), 0 2px 6px rgba(0,0,0,0.08)",
+                      width: "170px"
                     }}
-                  />
-                  <div
-                    className="flex flex-1 flex-col items-center justify-center gap-2 p-4 text-center"
-                    style={{ color: "#7A756E" }}
                   >
-                    <span className="text-xs font-medium">{label}</span>
-                    <span
-                      className="text-[10px] leading-snug"
-                      style={{ color: "#9A948C" }}
-                    >
-                      Replace with
-                      <br />
-                      real screenshot
-                    </span>
+                    <img
+                      alt={label}
+                      src={src}
+                      style={{
+                        aspectRatio: "1284 / 2778",
+                        display: "block",
+                        width: "100%"
+                      }}
+                    />
                   </div>
+                  <span
+                    className="text-center text-xs font-medium"
+                    style={{ color: "#5A6A7E" }}
+                  >
+                    {label}
+                  </span>
                 </div>
               ))}
             </div>
@@ -188,29 +224,71 @@ export default function TinyMaintenanceLanding() {
         </section>
       </main>
 
+      {/* Lightbox */}
+      {activeIndex !== null && (
+        <div
+          aria-label="Screenshot preview"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center"
+          role="dialog"
+          style={{ background: "rgba(0,0,0,0.85)" }}
+          onClick={() => setActiveIndex(null)}
+        >
+          <button
+            aria-label="Close preview"
+            className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full text-white transition-opacity hover:opacity-75"
+            style={{ background: "rgba(255,255,255,0.15)" }}
+            onClick={() => setActiveIndex(null)}
+          >
+            <svg
+              fill="none"
+              height="18"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              viewBox="0 0 24 24"
+              width="18"
+            >
+              <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+            </svg>
+          </button>
+          <img
+            alt={screenshots[activeIndex].label}
+            className="rounded-[24px]"
+            src={screenshots[activeIndex].src}
+            style={{
+              boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
+              maxHeight: "90vh",
+              maxWidth: "min(420px, 90vw)",
+              width: "auto"
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
+
       {/* Footer */}
       <footer
         className="px-8 py-10 text-center"
-        style={{ background: "#F5F1EB", borderTop: "1px solid #E2DDD5" }}
+        style={{ background: "#F0F4F8", borderTop: "1px solid #CDD7E4" }}
       >
         <div className="mb-4 flex items-center justify-center gap-6">
           <Link
-            className="text-sm transition-colors duration-100 hover:text-[#356B47]"
-            style={{ color: "#6E6B65", textDecoration: "none" }}
+            className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
+            style={{ color: "#5A6A7E", textDecoration: "none" }}
             to="/apps/tiny-maintenance/privacy"
           >
             Privacy Policy
           </Link>
-          <span style={{ color: "#C8C2B8" }}>·</span>
+          <span style={{ color: "#B0C0D4" }}>·</span>
           <Link
-            className="text-sm transition-colors duration-100 hover:text-[#356B47]"
-            style={{ color: "#6E6B65", textDecoration: "none" }}
+            className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
+            style={{ color: "#5A6A7E", textDecoration: "none" }}
             to="/apps/tiny-maintenance/terms"
           >
             Terms of Use
           </Link>
         </div>
-        <p className="text-xs" style={{ color: "#9A948C" }}>
+        <p className="text-xs" style={{ color: "#8A9BB0" }}>
           © {new Date().getFullYear()} ItsAydrian LLC. All rights reserved.
         </p>
       </footer>
