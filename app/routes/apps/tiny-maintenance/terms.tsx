@@ -29,13 +29,18 @@ const sections = [
   },
   {
     content:
-      "Tiny Maintenance is provided for your personal, non-commercial use to help manage recurring maintenance reminders and related information. You agree not to misuse the app, interfere with its operation, attempt to reverse engineer it except where prohibited by law, bypass feature limitations, or use the app in violation of applicable laws or App Store rules.",
+      "Tiny Maintenance is provided for your personal, non-commercial use to help manage recurring maintenance reminders and related information. You agree not to misuse the app, interfere with its operation, attempt to reverse engineer it (except where expressly permitted by law), bypass feature limitations, or use the app in violation of applicable laws or Apple's App Store guidelines. We reserve the right to limit or restrict access to the app in cases of misuse.",
     heading: "Use of the App"
   },
   {
     content:
-      "Tiny Maintenance may offer optional in-app purchases, including a one-time Pro unlock that provides access to premium features. All purchases are processed by Apple through your App Store account and are subject to Apple's terms and policies. We use RevenueCat to help manage purchase status, entitlements, and restore purchases. Premium access may be restored on eligible devices using the same App Store account, subject to Apple's policies.",
+      "Tiny Maintenance offers an optional one-time Pro unlock that provides access to premium features. All purchases are processed by Apple through your App Store account and are subject to Apple's purchase terms and policies. Apple is responsible for billing and handles all purchase-related refund requests under its policies. We use RevenueCat to help manage purchase status, entitlements, and restore purchases across your eligible devices. Premium access may be restored on eligible devices using the same App Store account.",
     heading: "Purchases and Premium Features"
+  },
+  {
+    content:
+      "The features available in Tiny Maintenance may change over time. We may add, modify, or remove features in future updates. Premium features included in the Pro unlock are those available at the time of your purchase. We will make reasonable efforts to maintain core functionality but do not guarantee that specific features will remain available indefinitely.",
+    heading: "Feature Availability"
   },
   {
     content:

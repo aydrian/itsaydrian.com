@@ -10,7 +10,7 @@ export function meta() {
     { title: "Tiny Maintenance" },
     {
       content:
-        "Track, schedule, and manage all your home maintenance tasks in one simple app.",
+        "Track recurring maintenance tasks for your home, car, garden, and more — with reminders, no account required.",
       name: "description"
     }
   ];
@@ -118,9 +118,9 @@ export default function TinyMaintenanceLanding() {
               fontWeight: 300
             }}
           >
-            Never miss a maintenance task.
+            Remember everything that needs doing.
             <br />
-            Stay ahead of repairs and upkeep.
+            Never let upkeep slip through the cracks.
           </p>
 
           {/* Description */}
@@ -128,16 +128,17 @@ export default function TinyMaintenanceLanding() {
             className="mx-auto mb-14 max-w-md text-lg leading-relaxed"
             style={{ color: "#5A6A7E" }}
           >
-            Track, schedule, and manage all your home maintenance tasks in one
-            simple, beautiful app. Never miss a filter change or seasonal
-            inspection again.
+            Track recurring tasks for your home, car, garden, and more.
+            Set reminders, stay on schedule, and never wonder when something
+            was last done.
           </p>
 
           {/* App Store CTA */}
+          {/* TODO: Replace with real App Store URL before launch */}
           <a
             aria-label="Download Tiny Maintenance on the App Store"
             className="inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-base font-medium tracking-tight transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
-            href="#"
+            href="https://apps.apple.com"
             style={{
               background: "#1A2535",
               boxShadow: "0 4px 16px rgba(26,37,53,0.20)",
@@ -222,6 +223,157 @@ export default function TinyMaintenanceLanding() {
             </div>
           </div>
         </section>
+
+        {/* Who it's for */}
+        <section className="px-8 py-20">
+          <div className="mx-auto max-w-3xl">
+            <h2
+              className="mb-3 text-center tracking-tight"
+              style={{
+                color: "#1A2535",
+                fontFamily: "'Fraunces', serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 500
+              }}
+            >
+              Built for real life upkeep
+            </h2>
+            <p className="mb-14 text-center text-base" style={{ color: "#5A6A7E" }}>
+              Anything that needs doing on a schedule — Tiny Maintenance keeps track of it.
+            </p>
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+              {[
+                { emoji: "🏠", label: "Home", detail: "Filters, HVAC, smoke alarms, gutters" },
+                { emoji: "🚗", label: "Car", detail: "Oil changes, tire rotation, registration" },
+                { emoji: "🪴", label: "Garden & Plants", detail: "Watering, fertilizing, seasonal prep" },
+                { emoji: "🐾", label: "Pet Care", detail: "Vet visits, flea treatment, grooming" }
+              ].map(({ emoji, label, detail }) => (
+                <div
+                  key={label}
+                  className="flex flex-col items-center gap-2 rounded-2xl p-5 text-center"
+                  style={{ background: "#E2E9F2" }}
+                >
+                  <span style={{ fontSize: "28px" }}>{emoji}</span>
+                  <span
+                    className="font-medium tracking-tight"
+                    style={{ color: "#1A2535", fontSize: "15px" }}
+                  >
+                    {label}
+                  </span>
+                  <span style={{ color: "#5A6A7E", fontSize: "13px", lineHeight: 1.4 }}>
+                    {detail}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* How it works */}
+        <section className="px-8 py-20" style={{ background: "#E2E9F2" }}>
+          <div className="mx-auto max-w-3xl">
+            <h2
+              className="mb-14 text-center tracking-tight"
+              style={{
+                color: "#1A2535",
+                fontFamily: "'Fraunces', serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 500
+              }}
+            >
+              Simple by design
+            </h2>
+            <div className="grid gap-8 sm:grid-cols-3">
+              {[
+                {
+                  step: "1",
+                  heading: "Add what needs doing",
+                  detail: "Create a maintenance item from a template or from scratch. Set how often it repeats."
+                },
+                {
+                  step: "2",
+                  heading: "Get reminded when it's due",
+                  detail: "Tiny Maintenance tracks the schedule and reminds you when something is coming up."
+                },
+                {
+                  step: "3",
+                  heading: "Mark it done",
+                  detail: "One tap and the task resets for next time. Your history is saved automatically."
+                }
+              ].map(({ step, heading, detail }) => (
+                <div key={step} className="flex flex-col gap-3">
+                  <div
+                    className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium"
+                    style={{ background: "#3A5A8C", color: "#F0F4F8" }}
+                  >
+                    {step}
+                  </div>
+                  <h3
+                    className="font-medium tracking-tight"
+                    style={{ color: "#1A2535", fontSize: "17px" }}
+                  >
+                    {heading}
+                  </h3>
+                  <p style={{ color: "#5A6A7E", fontSize: "15px", lineHeight: 1.6 }}>
+                    {detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Trust signals */}
+        <section className="px-8 py-20">
+          <div className="mx-auto max-w-3xl">
+            <h2
+              className="mb-3 text-center tracking-tight"
+              style={{
+                color: "#1A2535",
+                fontFamily: "'Fraunces', serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 500
+              }}
+            >
+              Your data stays with you
+            </h2>
+            <p className="mb-14 text-center text-base" style={{ color: "#5A6A7E" }}>
+              Tiny Maintenance is built to stay out of the way.
+            </p>
+            <div className="grid gap-6 sm:grid-cols-3">
+              {[
+                {
+                  heading: "No account required",
+                  detail: "Start using the app immediately. Nothing to sign up for."
+                },
+                {
+                  heading: "Works offline",
+                  detail: "All your data lives on your device. No internet connection needed."
+                },
+                {
+                  heading: "Private by default",
+                  detail: "Your maintenance items are never uploaded or shared with anyone."
+                }
+              ].map(({ heading, detail }) => (
+                <div
+                  key={heading}
+                  className="rounded-2xl p-6"
+                  style={{ background: "#E2E9F2" }}
+                >
+                  <h3
+                    className="mb-2 font-medium tracking-tight"
+                    style={{ color: "#1A2535", fontSize: "16px" }}
+                  >
+                    {heading}
+                  </h3>
+                  <p style={{ color: "#5A6A7E", fontSize: "14px", lineHeight: 1.6 }}>
+                    {detail}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Lightbox */}
@@ -271,7 +423,7 @@ export default function TinyMaintenanceLanding() {
         className="px-8 py-10 text-center"
         style={{ background: "#F0F4F8", borderTop: "1px solid #CDD7E4" }}
       >
-        <div className="mb-4 flex items-center justify-center gap-6">
+        <div className="mb-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           <Link
             className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
             style={{ color: "#5A6A7E", textDecoration: "none" }}
@@ -287,6 +439,14 @@ export default function TinyMaintenanceLanding() {
           >
             Terms of Use
           </Link>
+          <span style={{ color: "#B0C0D4" }}>·</span>
+          <a
+            className="text-sm transition-colors duration-100 hover:text-[#3A5A8C]"
+            href="mailto:developer@itsaydrian.com"
+            style={{ color: "#5A6A7E", textDecoration: "none" }}
+          >
+            Support
+          </a>
         </div>
         <p className="text-xs" style={{ color: "#8A9BB0" }}>
           © {new Date().getFullYear()} ItsAydrian LLC. All rights reserved.

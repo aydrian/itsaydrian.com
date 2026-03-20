@@ -21,10 +21,12 @@ export const links: LinksFunction = () => [
   }
 ];
 
-const sections = [
+const sections: { heading: string; content: string | string[] }[] = [
   {
-    content:
-      "Tiny Maintenance does not require an account for core use of the app. Information you enter into the app, such as maintenance item names, notes, categories, schedules, due dates, and reminder preferences, is stored locally on your device. If you make or restore a purchase, purchase-related information and app user identifiers needed to manage your premium access may be processed through Apple and RevenueCat.",
+    content: [
+      "Tiny Maintenance does not require an account. All maintenance data you enter — item names, notes, categories, schedules, due dates, and reminder preferences — is stored locally on your device and is not transmitted to any server.",
+      "If you make or restore a purchase, Apple and RevenueCat may process purchase-related information. This can include an anonymous identifier (such as a randomly generated ID assigned to your app install or your Apple App Store account) used to verify and manage your purchase entitlements. This identifier is not linked to your name or any personal profile."
+    ],
     heading: "Information We Collect"
   },
   {
@@ -39,7 +41,7 @@ const sections = [
   },
   {
     content:
-      "Tiny Maintenance uses RevenueCat to manage in-app purchase entitlements and purchase restoration. RevenueCat is a third-party service provider that processes purchase-related data on our behalf. We do not use third-party advertising SDKs in the core version of the app. If we add analytics, crash reporting, or other third-party services in the future, this policy will be updated.",
+      "Tiny Maintenance uses RevenueCat to manage in-app purchases and restore access to Tiny Maintenance Pro. RevenueCat may receive and store an anonymous app user identifier, your purchase receipt, and entitlement status to verify your Pro access and support restore across eligible devices. RevenueCat does not receive your name, contact details, or any maintenance data from the app.",
     heading: "Third-Party Services"
   },
   {
@@ -109,7 +111,16 @@ export default function PrivacyPolicy() {
         >
           Privacy Policy
         </h1>
-        <p className="mb-14 text-sm" style={{ color: "#8A9BB0" }}>
+        <p
+          className="mb-14 text-sm font-medium"
+          style={{
+            background: "#E2E9F2",
+            borderRadius: "8px",
+            color: "#3A5A8C",
+            display: "inline-block",
+            padding: "4px 12px"
+          }}
+        >
           Last Updated: March 17, 2026
         </p>
 
@@ -122,12 +133,24 @@ export default function PrivacyPolicy() {
               >
                 {heading}
               </h2>
-              <p
-                className="leading-relaxed"
-                style={{ color: "#5A6A7E", fontSize: "15px" }}
-              >
-                {content}
-              </p>
+              {Array.isArray(content) ? (
+                content.map((para, i) => (
+                  <p
+                    key={i}
+                    className="leading-relaxed"
+                    style={{ color: "#5A6A7E", fontSize: "15px", marginTop: i > 0 ? "12px" : undefined }}
+                  >
+                    {para}
+                  </p>
+                ))
+              ) : (
+                <p
+                  className="leading-relaxed"
+                  style={{ color: "#5A6A7E", fontSize: "15px" }}
+                >
+                  {content}
+                </p>
+              )}
             </section>
           ))}
         </div>
