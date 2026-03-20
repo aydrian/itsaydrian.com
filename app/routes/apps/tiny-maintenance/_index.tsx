@@ -73,6 +73,19 @@ export default function TinyMaintenanceLanding() {
         fontFamily: "'DM Sans', sans-serif"
       }}
     >
+      {/* Pre-launch banner — remove once app is live */}
+      <div
+        className="w-full py-3 text-center text-sm font-medium"
+        style={{
+          background: "#3A5A8C",
+          color: "#F0F4F8",
+          fontFamily: "'DM Sans', sans-serif",
+          letterSpacing: "0.01em"
+        }}
+      >
+        🚀 Coming soon — currently in App Store Review
+      </div>
+
       {/* Hero */}
       <main className="flex-1">
         <section className="mx-auto max-w-3xl px-8 pt-24 pb-20 text-center">
