@@ -4,8 +4,8 @@ export default function TinyMaintenanceLayout() {
   return (
     <>
       <link
-        rel="icon"
         href="/images/apps/tiny-maintenance/favicon.png"
+        rel="icon"
         type="image/png"
       />
       <meta

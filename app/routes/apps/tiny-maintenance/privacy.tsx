@@ -21,7 +21,7 @@ export const links: LinksFunction = () => [
   }
 ];
 
-const sections: { heading: string; content: string | string[] }[] = [
+const sections: { content: string | string[]; heading: string; }[] = [
   {
     content: [
       "Tiny Maintenance does not require an account. All maintenance data you enter — item names, notes, categories, schedules, due dates, and reminder preferences — is stored locally on your device and is not transmitted to any server.",
@@ -136,8 +136,8 @@ export default function PrivacyPolicy() {
               {Array.isArray(content) ? (
                 content.map((para, i) => (
                   <p
-                    key={i}
                     className="leading-relaxed"
+                    key={i}
                     style={{ color: "#5A6A7E", fontSize: "15px", marginTop: i > 0 ? "12px" : undefined }}
                   >
                     {para}
