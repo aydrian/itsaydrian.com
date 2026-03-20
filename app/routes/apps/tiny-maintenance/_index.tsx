@@ -31,6 +31,7 @@ export const links: LinksFunction = () => [
 
 export default function TinyMaintenanceLanding() {
   const [activeIndex, setActiveIndex] = useState<null | number>(null);
+  const [openFaq, setOpenFaq] = useState<null | string>(null);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -40,6 +41,27 @@ export default function TinyMaintenanceLanding() {
     window.addEventListener("keydown", handleKey);
     return () => window.removeEventListener("keydown", handleKey);
   }, [activeIndex]);
+
+  const faqs = [
+    // About the App
+    { a: "Tiny Maintenance is an iOS app that helps you track recurring maintenance tasks for your home, car, garden, pets, and more. Set how often each task repeats and get reminders so nothing slips through the cracks.", category: "About the App", key: "what-is", q: "What is Tiny Maintenance?" },
+    { a: "Yes — Tiny Maintenance is free to download and use.", category: "About the App", key: "is-free", q: "Is it free?" },
+    { a: "No account required. Open the app and start adding tasks immediately. Nothing to sign up for.", category: "About the App", key: "account", q: "Do I need to create an account?" },
+    { a: "Yes. All your data is stored locally on your device. No internet connection is needed.", category: "About the App", key: "offline", q: "Does it work offline?" },
+    // Data & Privacy
+    { a: "Your data lives entirely on your device. It is never uploaded to a server or shared with anyone.", category: "Data & Privacy", key: "data-stored", q: "Where is my data stored?" },
+    { a: "Export is not available yet, but it's something we're considering for a future update.", category: "Data & Privacy", key: "export", q: "Can I export my data?" },
+    { a: "No. By design, your data stays on your device to keep things private and simple.", category: "Data & Privacy", key: "cloud-sync", q: "Is there cloud sync?" },
+    // Features
+    { a: "Tiny Maintenance comes with built-in templates covering home, car, garden, and pet care — and you can add anything custom.", category: "Features", key: "categories", q: "What maintenance categories are included?" },
+    { a: "Yes. You can create tasks from scratch with any name, interval, and notes you need — not just from built-in templates.", category: "Features", key: "custom-templates", q: "Can I create custom tasks?" },
+    { a: "Yes. Tiny Maintenance can remind you when a task is coming up or overdue.", category: "Features", key: "reminders", q: "Does it have reminders and notifications?" },
+    { a: "Not yet — Tiny Maintenance is currently iOS only. Android is not on the roadmap right now.", category: "Features", key: "android", q: "Is there an Android version?" },
+    { a: "It's on our radar. For now, the app is optimized for iPhone.", category: "Features", key: "ipad", q: "Will there be an iPad version?" },
+    // Technical
+    { a: "Tiny Maintenance requires iOS 17 or later.", category: "Technical", key: "ios-version", q: "What iOS version is required?" },
+    { a: "Email us at developer@itsaydrian.com — we read everything.", category: "Technical", key: "bugs", q: "How do I report bugs or request features?" },
+  ];
 
   const screenshots = [
     {
@@ -386,6 +408,101 @@ export default function TinyMaintenanceLanding() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="px-8 py-20" style={{ background: "#E2E9F2" }}>
+          <div className="mx-auto max-w-3xl">
+            <h2
+              className="mb-3 text-center tracking-tight"
+              style={{
+                color: "#1A2535",
+                fontFamily: "'Fraunces', serif",
+                fontSize: "clamp(28px, 4vw, 40px)",
+                fontWeight: 500
+              }}
+            >
+              Frequently asked questions
+            </h2>
+            <p className="mb-10 text-center text-base" style={{ color: "#5A6A7E" }}>
+              Everything you need to know.
+            </p>
+            <div className="flex flex-col">
+              {faqs.map(({ a, category, key, q }, i) => {
+                const isFirst = i === 0 || faqs[i - 1].category !== category;
+                const isOpen = openFaq === key;
+                return (
+                  <div key={key}>
+                    {isFirst && (
+                      <p
+                        className="mt-6 mb-2 text-xs font-medium uppercase tracking-widest"
+                        style={{ color: "#3A5A8C" }}
+                      >
+                        {category}
+                      </p>
+                    )}
+                    <div
+                      style={{
+                        borderBottom: "1px solid #CDD7E4",
+                        borderTop: isFirst ? "1px solid #CDD7E4" : "none"
+                      }}
+                    >
+                      <button
+                        aria-controls={`faq-answer-${key}`}
+                        aria-expanded={isOpen}
+                        className="flex w-full items-center justify-between gap-4 py-4 text-left"
+                        onClick={() => setOpenFaq(isOpen ? null : key)}
+                        style={{ background: "none", border: "none", cursor: "pointer" }}
+                        type="button"
+                      >
+                        <span
+                          className="font-medium"
+                          style={{ color: "#1A2535", fontSize: "15px" }}
+                        >
+                          {q}
+                        </span>
+                        <span
+                          aria-hidden="true"
+                          style={{
+                            color: "#3A5A8C",
+                            flexShrink: 0,
+                            fontSize: "20px",
+                            fontWeight: 300,
+                            lineHeight: 1
+                          }}
+                        >
+                          {isOpen ? "−" : "+"}
+                        </span>
+                      </button>
+                      {isOpen && (
+                        <p
+                          className="pb-4"
+                          id={`faq-answer-${key}`}
+                          style={{
+                            color: "#5A6A7E",
+                            fontSize: "14px",
+                            lineHeight: 1.7
+                          }}
+                        >
+                          {a}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="mt-10 text-center text-sm" style={{ color: "#5A6A7E" }}>
+              Still have questions?{" "}
+              <a
+                className="transition-colors duration-100 hover:text-[#1A2535]"
+                href="mailto:developer@itsaydrian.com"
+                style={{ color: "#3A5A8C", textDecoration: "underline" }}
+              >
+                Email us
+              </a>
+            </p>
           </div>
         </section>
       </main>
