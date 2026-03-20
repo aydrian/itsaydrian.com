@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import type { LinksFunction } from "react-router";
 
+import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
 export const handle = { standalone: true };
@@ -30,7 +30,7 @@ export const links: LinksFunction = () => [
 ];
 
 export default function TinyMaintenanceLanding() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<null | number>(null);
 
   useEffect(() => {
     if (activeIndex === null) return;
@@ -147,16 +147,17 @@ export default function TinyMaintenanceLanding() {
           </p>
 
           {/* App Store CTA */}
-          {/* TODO: Replace with real App Store URL before launch */}
-          <a
-            aria-label="Download Tiny Maintenance on the App Store"
-            className="inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-base font-medium tracking-tight transition-all duration-150 hover:scale-[1.02] active:scale-[0.98]"
-            href="https://apps.apple.com"
+          {/* TODO: Replace with real App Store URL and re-enable after launch (issue #21) */}
+          <span
+            aria-label="Coming soon to the App Store"
+            className="inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-base font-medium tracking-tight"
             style={{
               background: "#1A2535",
               boxShadow: "0 4px 16px rgba(26,37,53,0.20)",
               color: "#F0F4F8",
-              textDecoration: "none"
+              cursor: "default",
+              opacity: 0.6,
+              pointerEvents: "none",
             }}
           >
             <svg
@@ -168,8 +169,8 @@ export default function TinyMaintenanceLanding() {
             >
               <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
             </svg>
-            Download on the App Store
-          </a>
+            Coming to App Store
+          </span>
         </section>
 
         {/* Screenshots */}
@@ -196,15 +197,15 @@ export default function TinyMaintenanceLanding() {
             <div
               className="flex items-end justify-center gap-4 overflow-x-auto pb-4"
             >
-              {screenshots.map(({ src, label, scale }, i) => (
+              {screenshots.map(({ label, scale, src }, i) => (
                 <div
                   aria-label={`View ${label} screenshot`}
                   className={`flex flex-shrink-0 flex-col items-center gap-3 ${scale} cursor-pointer`}
                   key={label}
-                  role="button"
-                  tabIndex={0}
                   onClick={() => setActiveIndex(i)}
                   onKeyDown={(e) => e.key === "Enter" && setActiveIndex(i)}
+                  role="button"
+                  tabIndex={0}
                 >
                   <div
                     className="overflow-hidden rounded-[32px]"
@@ -256,14 +257,14 @@ export default function TinyMaintenanceLanding() {
             </p>
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
               {[
-                { emoji: "🏠", label: "Home", detail: "Filters, HVAC, smoke alarms, gutters" },
-                { emoji: "🚗", label: "Car", detail: "Oil changes, tire rotation, registration" },
-                { emoji: "🪴", label: "Garden & Plants", detail: "Watering, fertilizing, seasonal prep" },
-                { emoji: "🐾", label: "Pet Care", detail: "Vet visits, flea treatment, grooming" }
-              ].map(({ emoji, label, detail }) => (
+                { detail: "Filters, HVAC, smoke alarms, gutters", emoji: "🏠", label: "Home" },
+                { detail: "Oil changes, tire rotation, registration", emoji: "🚗", label: "Car" },
+                { detail: "Watering, fertilizing, seasonal prep", emoji: "🪴", label: "Garden & Plants" },
+                { detail: "Vet visits, flea treatment, grooming", emoji: "🐾", label: "Pet Care" }
+              ].map(({ detail, emoji, label }) => (
                 <div
-                  key={label}
                   className="flex flex-col items-center gap-2 rounded-2xl p-5 text-center"
+                  key={label}
                   style={{ background: "#E2E9F2" }}
                 >
                   <span style={{ fontSize: "28px" }}>{emoji}</span>
@@ -299,22 +300,22 @@ export default function TinyMaintenanceLanding() {
             <div className="grid gap-8 sm:grid-cols-3">
               {[
                 {
-                  step: "1",
+                  detail: "Create a maintenance item from a template or from scratch. Set how often it repeats.",
                   heading: "Add what needs doing",
-                  detail: "Create a maintenance item from a template or from scratch. Set how often it repeats."
+                  step: "1"
                 },
                 {
-                  step: "2",
+                  detail: "Tiny Maintenance tracks the schedule and reminds you when something is coming up.",
                   heading: "Get reminded when it's due",
-                  detail: "Tiny Maintenance tracks the schedule and reminds you when something is coming up."
+                  step: "2"
                 },
                 {
-                  step: "3",
+                  detail: "One tap and the task resets for next time. Your history is saved automatically.",
                   heading: "Mark it done",
-                  detail: "One tap and the task resets for next time. Your history is saved automatically."
+                  step: "3"
                 }
-              ].map(({ step, heading, detail }) => (
-                <div key={step} className="flex flex-col gap-3">
+              ].map(({ detail, heading, step }) => (
+                <div className="flex flex-col gap-3" key={step}>
                   <div
                     className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-medium"
                     style={{ background: "#3A5A8C", color: "#F0F4F8" }}
@@ -356,21 +357,21 @@ export default function TinyMaintenanceLanding() {
             <div className="grid gap-6 sm:grid-cols-3">
               {[
                 {
-                  heading: "No account required",
-                  detail: "Start using the app immediately. Nothing to sign up for."
+                  detail: "Start using the app immediately. Nothing to sign up for.",
+                  heading: "No account required"
                 },
                 {
-                  heading: "Works offline",
-                  detail: "All your data lives on your device. No internet connection needed."
+                  detail: "All your data lives on your device. No internet connection needed.",
+                  heading: "Works offline"
                 },
                 {
-                  heading: "Private by default",
-                  detail: "Your maintenance items are never uploaded or shared with anyone."
+                  detail: "Your maintenance items are never uploaded or shared with anyone.",
+                  heading: "Private by default"
                 }
-              ].map(({ heading, detail }) => (
+              ].map(({ detail, heading }) => (
                 <div
-                  key={heading}
                   className="rounded-2xl p-6"
+                  key={heading}
                   style={{ background: "#E2E9F2" }}
                 >
                   <h3
@@ -395,15 +396,15 @@ export default function TinyMaintenanceLanding() {
           aria-label="Screenshot preview"
           aria-modal="true"
           className="fixed inset-0 z-50 flex items-center justify-center"
+          onClick={() => setActiveIndex(null)}
           role="dialog"
           style={{ background: "rgba(0,0,0,0.85)" }}
-          onClick={() => setActiveIndex(null)}
         >
           <button
             aria-label="Close preview"
             className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full text-white transition-opacity hover:opacity-75"
-            style={{ background: "rgba(255,255,255,0.15)" }}
             onClick={() => setActiveIndex(null)}
+            style={{ background: "rgba(255,255,255,0.15)" }}
           >
             <svg
               fill="none"
@@ -419,6 +420,7 @@ export default function TinyMaintenanceLanding() {
           <img
             alt={screenshots[activeIndex].label}
             className="rounded-[24px]"
+            onClick={(e) => e.stopPropagation()}
             src={screenshots[activeIndex].src}
             style={{
               boxShadow: "0 24px 64px rgba(0,0,0,0.5)",
@@ -426,7 +428,6 @@ export default function TinyMaintenanceLanding() {
               maxWidth: "min(420px, 90vw)",
               width: "auto"
             }}
-            onClick={(e) => e.stopPropagation()}
           />
         </div>
       )}
