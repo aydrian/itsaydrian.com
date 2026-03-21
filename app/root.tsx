@@ -1,5 +1,6 @@
 import type { LinksFunction } from "react-router";
 
+import { usePostHog } from "@posthog/react";
 import {
   Link,
   Links,
@@ -13,7 +14,10 @@ import {
 import { Icon, type IconName } from "~/components/icon";
 import { ThemeSwitcher } from "~/components/theme-switcher";
 import { ThemeProvider } from "~/contexts/theme-context";
+import logo from "~/images/ItsAydrian Logo.png";
 import styles from "~/styles/tailwind.css?url";
+
+import type { Route } from "./+types/root";
 
 export const links: LinksFunction = () => [
   { href: styles, rel: "stylesheet" },
@@ -46,9 +50,11 @@ export default function App() {
         <header className="p-8">
           <nav className="flex items-center justify-between">
             <Link to="/">
-              <h1 className="text-foreground text-3xl font-bold text-shadow-sm dark:drop-shadow-sm">
-                ItsAydrian LLC
-              </h1>
+              <img
+                alt="ItsAydrian LLC"
+                className="h-16 w-auto dark:invert"
+                src={logo}
+              />
             </Link>
             <ThemeSwitcher />
           </nav>
@@ -79,6 +85,27 @@ export default function App() {
         </footer>
       </div>
     </ThemeProvider>
+  );
+}
+
+export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
+  const posthog = usePostHog();
+  posthog?.captureException(error as Error);
+  return (
+    <html lang="en">
+      <head>
+        <meta charSet="utf-8" />
+        <meta content="width=device-width, initial-scale=1" name="viewport" />
+        <title>Something went wrong</title>
+      </head>
+      <body>
+        <div style={{ fontFamily: "sans-serif", padding: "2rem" }}>
+          <h1>Something went wrong</h1>
+          <p>Sorry, an unexpected error occurred.</p>
+        </div>
+        <Scripts />
+      </body>
+    </html>
   );
 }
 

@@ -170,6 +170,7 @@ export default function TinyMaintenanceLanding() {
 
           {/* App Store CTA */}
           {/* TODO: Replace with real App Store URL and re-enable after launch (issue #21) */}
+          {/* TODO(#21): When converting to <a>, add onClick={() => posthog?.capture("app_store_button_click", { app: "tiny_maintenance" })} */}
           <span
             aria-label="Coming soon to the App Store"
             className="inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-base font-medium tracking-tight"

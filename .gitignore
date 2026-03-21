@@ -10,3 +10,7 @@
 .mf
 .wrangler
 .dev.vars*
+
+# Local env vars
+.env
+.env.local

@@ -27,5 +27,8 @@ export default defineConfig({
     devtoolsJson(),
     blogManifestPlugin(),
     tsconfigPaths()
-  ]
+  ],
+  ssr: {
+    noExternal: ["@posthog/react", "posthog-js"]
+  }
 });
