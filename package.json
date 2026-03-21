@@ -14,6 +14,7 @@
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/eslint .",
     "typecheck": "tsc --noEmit",
+    "build:favicons": "bun run scripts/generate-favicons.ts",
     "build:og": "bun run scripts/generate-og-images.ts",
     "rr:typegen": "react-router typegen",
     "rr:routes": "react-router routes",

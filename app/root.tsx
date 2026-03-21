@@ -21,7 +21,10 @@ import type { Route } from "./+types/root";
 
 export const links: LinksFunction = () => [
   { href: styles, rel: "stylesheet" },
-  { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" }
+  { href: "/fonts/noto-sans-jp/font.css", rel: "stylesheet" },
+  { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
+  { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+  { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" }
 ];
 
 export default function App() {
