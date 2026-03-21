@@ -14,3 +14,5 @@
 # Local env vars
 .env
 .env.local
+
+.claude/settings.local.json
