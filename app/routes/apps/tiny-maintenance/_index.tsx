@@ -95,17 +95,35 @@ export default function TinyMaintenanceLanding() {
         fontFamily: "'DM Sans', sans-serif"
       }}
     >
-      {/* Pre-launch banner — remove once app is live */}
+      {/* Celebration banner — remove after April 2026 */}
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
+            @keyframes celebrationGlow {
+              0%, 100% { box-shadow: 0 4px 12px rgba(58, 90, 140, 0.15); }
+              50% { box-shadow: 0 4px 20px rgba(58, 90, 140, 0.4); }
+            }
+            @keyframes fadeIn {
+              from { opacity: 0; }
+              to { opacity: 1; }
+            }
+            @media (prefers-reduced-motion: reduce) {
+              .celebration-banner { animation: none !important; }
+            }
+          `
+        }}
+      />
       <div
-        className="w-full py-3 text-center text-sm font-medium"
+        className="celebration-banner w-full py-3 text-center text-sm font-medium"
         style={{
+          animation: "fadeIn 600ms ease-out, celebrationGlow 3s ease-in-out infinite",
           background: "#3A5A8C",
           color: "#F0F4F8",
           fontFamily: "'DM Sans', sans-serif",
           letterSpacing: "0.01em"
         }}
       >
-        🚀 Coming soon — currently in App Store Review
+        🎉 Now Available on the App Store!
       </div>
 
       {/* Hero */}
