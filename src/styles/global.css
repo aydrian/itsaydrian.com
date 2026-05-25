@@ -275,6 +275,15 @@ main { flex: 1; }
   --rule: rgba(255,255,255,0.18);
   --bg-soft: rgba(255,255,255,0.08);
 }
+.site-header[data-overlay="true"]:not([data-scrolled="true"]) .nav-links a {
+  color: rgba(244, 239, 238, 0.85);
+}
+.site-header[data-overlay="true"]:not([data-scrolled="true"]) .nav-links a:hover {
+  color: #f4efee;
+}
+.site-header[data-overlay="true"]:not([data-scrolled="true"]) .nav-links a[aria-current="page"] {
+  color: #93c5d2;
+}
 
 .nav {
   display: flex;
@@ -289,9 +298,10 @@ main { flex: 1; }
   text-decoration: none;
 }
 .site-logo img {
-  height: 32px;
+  height: 48px;
   width: auto;
   display: block;
+  margin: -6px -4px;
   transition: filter var(--dur) var(--ease-out-quart);
 }
 :root.dark .site-logo img { filter: invert(1) brightness(1.1); }
