@@ -1,27 +1,62 @@
-# Welcome to Remix!
+# itsaydrian.com
 
-- [Remix Docs](https://remix.run/docs)
+Personal site for ItsAydrian LLC, built with Astro and deployed to Cloudflare Workers.
 
 ## Development
 
-You will be utilizing Wrangler for local development to emulate the Cloudflare runtime. This is already wired up in your package.json as the `dev` script:
+Requires Node.js >= 22.12.0 and Bun.
 
-```sh
-# start the remix dev server and wrangler
-npm run dev
+```bash
+# Install dependencies
+bun install
+
+# Start dev server
+bun dev
+
+# Build for production
+bun run build
+
+# Preview production build locally
+bun run preview
 ```
-
-Open up [http://127.0.0.1:8788](http://127.0.0.1:8788) and you should be ready to go!
 
 ## Deployment
 
-Cloudflare Pages are currently only deployable through their Git provider integrations.
+### Manual
 
-If you don't already have an account, then [create a Cloudflare account here](https://dash.cloudflare.com/sign-up/pages) and after verifying your email address with Cloudflare, go to your dashboard and follow the [Cloudflare Pages deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-anything).
+```bash
+# Build and deploy to Cloudflare
+bun run deploy
+```
 
-Configure the "Build command" should be set to `npm run build`, and the "Build output directory" should be set to `public`.
+### CI/CD
 
-## 📝 License
+The site deploys automatically via GitHub Actions:
 
-Copyright © 2023 [Aydrian Howard](https://itsaydrian.com). <br />
-This project is [MIT](./LICENSE) licensed.
+- **Pull request**: Deploys a preview worker and comments the URL on the PR
+- **Push to `main`**: Deploys to production (`itsaydrian-astro`)
+- **Push to `refactor-astro`**: Builds to verify no issues, but does not deploy
+
+Required repository secrets:
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+
+## Project Structure
+
+```
+/
+├── public/          # Static assets
+├── src/
+│   ├── layouts/     # Page layouts
+│   ├── pages/       # Routes
+│   ├── scripts/     # Client-side JS
+│   └── styles/      # Global CSS
+├── astro.config.mjs
+└── wrangler.jsonc   # Cloudflare Worker config
+```
+
+## Tech Stack
+
+- [Astro](https://astro.build/)
+- [@astrojs/cloudflare](https://docs.astro.build/en/guides/integrations-guide/cloudflare/)
+- [Wrangler](https://developers.cloudflare.com/workers/wrangler/)

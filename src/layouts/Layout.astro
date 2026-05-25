@@ -1,0 +1,151 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  ogImageAlt?: string;
+  overlayHeader?: boolean;
+  preloadImage?: string;
+}
+
+const {
+  title,
+  description = "A small studio for the things I'm into — curated travel, pet care in NYC, and software I want to exist. Run by Aydrian Howard.",
+  ogImage = "/assets/aydrian-tokyo-hero-1600.jpg",
+  ogImageAlt = "Aydrian standing on a neon-lit Tokyo street at night.",
+  overlayHeader = false,
+  preloadImage
+} = Astro.props;
+
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{title} — ItsAydrian</title>
+  <meta name="description" content={description}>
+
+  <meta property="og:title" content={title}>
+  <meta property="og:description" content={description}>
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={Astro.url}>
+  <meta property="og:image" content={new URL(ogImage, Astro.url)}>
+  <meta property="og:image:alt" content={ogImageAlt}>
+  <meta property="og:site_name" content="ItsAydrian LLC">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@itsaydrian">
+  <meta name="twitter:site" content="@itsaydrian">
+  <meta name="twitter:title" content={title}>
+  <meta name="twitter:description" content={description}>
+  <meta name="twitter:image" content={new URL(ogImage, Astro.url)}>
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {preloadImage && <link rel="preload" as="image" href={preloadImage}>}
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <script is:inline>
+    (function () {
+      try {
+        var stored = localStorage.getItem("theme-preference");
+        var theme = stored === "light" || stored === "dark" ? stored : "system";
+        var resolved = theme === "system"
+          ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light")
+          : theme;
+        if (resolved === "dark") document.documentElement.classList.add("dark");
+        document.documentElement.dataset.themePreference = theme;
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <slot name="banner" />
+
+  <header class="site-header" data-overlay={overlayHeader ? "true" : undefined}>
+    <div class="container nav">
+      <a href="/" class="site-logo" aria-label="ItsAydrian — home">
+        <img src="/assets/itsaydrian-logo.png" alt="ItsAydrian">
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#what-i-do">What I do</a>
+        <a href="/apps/tiny-maintenance/" aria-current={Astro.url.pathname.startsWith('/apps/') ? 'page' : undefined}>Apps</a>
+        <a href="/atticus-list/" aria-current={Astro.url.pathname === '/atticus-list/' ? 'page' : undefined}>Atticus's list</a>
+        <a href="/#contact">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="theme-toggle" role="group" aria-label="Theme">
+          <button type="button" data-theme-set="light" aria-label="Light theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          <button type="button" data-theme-set="dark" aria-label="Dark theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          </button>
+          <button type="button" data-theme-set="system" aria-label="System theme">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <p class="display"><em>Itsa</em>ydrian.</p>
+          <p class="body-sm">A small studio for the things I'm into. Run from a 5-floor walkup in New York, NY.</p>
+          <div class="socials" aria-label="Social media">
+            <a href="https://instagram.com/itsaydrian" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg aria-hidden="true"><use href="/assets/sprite.svg#Instagram"/></svg></a>
+            <a href="https://youtube.com/@itsaydrian" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><svg aria-hidden="true"><use href="/assets/sprite.svg#Youtube"/></svg></a>
+            <a href="https://twitch.com/itsaydrian" target="_blank" rel="noopener noreferrer" aria-label="Twitch"><svg aria-hidden="true"><use href="/assets/sprite.svg#Twitch"/></svg></a>
+            <a href="https://x.com/itsaydrian" target="_blank" rel="noopener noreferrer" aria-label="X"><svg aria-hidden="true"><use href="/assets/sprite.svg#X"/></svg></a>
+            <a href="https://github.com/aydrian" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg aria-hidden="true"><use href="/assets/sprite.svg#Github"/></svg></a>
+            <a href="https://linkedin.com/in/aydrian/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg aria-hidden="true"><use href="/assets/sprite.svg#Linkedin"/></svg></a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4>What I do</h4>
+          <ul class="footer-list" role="list">
+            <li><a href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">Travel advising</a></li>
+            <li><a href="https://www.rover.com/sit/aydrih08941" target="_blank" rel="noopener noreferrer">Pet care · Rover</a></li>
+            <li><a href="/atticus-list/">Atticus's favorite things</a></li>
+            <li><a href="/apps/tiny-maintenance/">Tiny Maintenance for iOS</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Get in touch</h4>
+          <ul class="footer-list" role="list">
+            <li><a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a></li>
+            <li><a href="https://github.com/aydrian" target="_blank" rel="noopener noreferrer">GitHub · @aydrian</a></li>
+            <li><a href="https://linkedin.com/in/aydrian/" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-meta">
+        <span>© 2026 ItsAydrian LLC. All rights reserved.</span>
+        <span class="jp">いつもありがとうございます</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/src/scripts/theme.ts"></script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pageTitle = "Page Not Found";
+const pageDescription = "Sorry, the page you're looking for doesn't exist.";
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+>
+  <section class="error-section container" aria-labelledby="error-title">
+    <div class="error-content">
+      <h1 id="error-title" class="error-code">404</h1>
+      <p class="error-message">
+        The page you are looking for does not exist. It might have been moved or deleted.
+      </p>
+      <a href="/" class="error-link">Go back home</a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .error-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: var(--space-16) var(--space-4);
+  }
+
+  .error-content {
+    max-width: 480px;
+  }
+
+  .error-code {
+    font-family: var(--font-display);
+    font-size: var(--fs-display);
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: var(--space-6);
+  }
+
+  .error-message {
+    font-family: var(--font-body);
+    font-size: var(--fs-18);
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: var(--space-8);
+  }
+
+  .error-link {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: var(--fs-16);
+    font-weight: 500;
+    color: var(--bg);
+    background: var(--accent);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--space-2);
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .error-link:hover {
+    background: var(--accent-hover);
+  }
+</style>

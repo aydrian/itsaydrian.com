@@ -1,0 +1,53 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const pageTitle = "Terms of Use — Tiny Maintenance";
+const pageDescription = "Terms of use for Tiny Maintenance.";
+---
+
+<Layout
+  title="Terms of Use"
+  description={pageDescription}
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <header class="section-head rise">
+        <span class="eyebrow">Tiny Maintenance · Terms</span>
+        <h1 class="display"><em>Terms</em> of use.</h1>
+        <p class="lede">Last updated: 2026-01-15.</p>
+      </header>
+
+      <article class="rise" data-delay="1" style="display:flex; flex-direction:column; gap: var(--space-6); max-width: 70ch;">
+        <h2 class="h3">Using the app</h2>
+        <p class="body">Tiny Maintenance is provided as-is for personal use. By installing the app, you agree to use it lawfully and to take responsibility for the maintenance schedules you create. The app is a reminder tool — it is not a substitute for professional advice on safety, vehicle, building, or pet care.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">No warranty</h2>
+        <p class="body">The app is provided without warranty of any kind. We do our best to ship reliable software, but we cannot guarantee that reminders will fire if your device is off, low on battery, or in a state where iOS suppresses notifications. Always treat critical maintenance (smoke alarms, brake checks, etc.) with appropriate redundancy.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Liability</h2>
+        <p class="body">To the fullest extent permitted by law, ItsAydrian LLC is not liable for any indirect, incidental, or consequential damages arising from use of the app. Total liability for any claim is limited to the amount you paid for the app — which, since the app is free, is zero.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Your data</h2>
+        <p class="body">Tiny Maintenance does not collect or transmit your data. See the <a href="/apps/tiny-maintenance/privacy/">privacy policy</a> for details. You are responsible for backing up your device — your maintenance items live in your device's standard app storage and are covered by iCloud Backup if enabled.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">App Store terms</h2>
+        <p class="body">When you install Tiny Maintenance from the App Store, Apple's Licensed Application End User License Agreement also applies. In any conflict between these terms and the Apple EULA, the Apple EULA governs your right to use the app.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Changes</h2>
+        <p class="body">These terms may change. We'll bump the date above and call out material changes in release notes.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Contact</h2>
+        <p class="body">Questions, bug reports, or feature requests: <a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a>.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="site-footer" style="margin-top: var(--space-16);">
+    <div class="container">
+      <div class="footer-meta" style="border-top: none; margin-top: 0; padding-top: 0;">
+        <span><a href="/apps/tiny-maintenance/">← Back to Tiny Maintenance</a></span>
+        <span>© 2026 ItsAydrian LLC.</span>
+      </div>
+    </div>
+  </footer>
+</Layout>

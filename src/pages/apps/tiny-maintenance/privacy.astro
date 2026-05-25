@@ -1,0 +1,59 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const pageTitle = "Privacy Policy — Tiny Maintenance";
+const pageDescription = "Privacy policy for Tiny Maintenance. Short version: we don't collect anything.";
+---
+
+<Layout
+  title="Privacy Policy"
+  description={pageDescription}
+>
+  <section class="section">
+    <div class="container container-narrow">
+      <header class="section-head rise">
+        <span class="eyebrow">Tiny Maintenance · Privacy</span>
+        <h1 class="display"><em>Privacy</em> policy.</h1>
+        <p class="lede">Last updated: 2026-01-15. Short version: we don't collect anything.</p>
+      </header>
+
+      <article class="rise" data-delay="1" style="display:flex; flex-direction:column; gap: var(--space-6); max-width: 70ch;">
+        <h2 class="h3">The short version</h2>
+        <p class="body">Tiny Maintenance does not collect, transmit, or store any personal information. There is no account system, no analytics SDK, no third-party telemetry, and no server. Every maintenance item, completion record, and reminder lives only on your device.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">What stays on your phone</h2>
+        <p class="body">All app data — task names, intervals, completion history, reminder schedules, and any custom notes — is stored locally using iOS's standard on-device storage. It is included in your device backups (iCloud or local) only because Apple's backup system covers your apps' data; we do not run any cloud sync.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">What we never see</h2>
+        <ul class="body" style="padding-left: 1.25em; display:flex; flex-direction:column; gap:0.5em;">
+          <li>Your maintenance items.</li>
+          <li>Your reminder schedule.</li>
+          <li>Your completion history.</li>
+          <li>Your name, email, IP address, or device identifiers.</li>
+          <li>Anything else, really. We have no servers to send it to.</li>
+        </ul>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Notifications</h2>
+        <p class="body">Tiny Maintenance schedules push notifications locally via iOS. They do not pass through our infrastructure. You can revoke notification permission at any time from Settings → Notifications → Tiny Maintenance.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Children</h2>
+        <p class="body">Tiny Maintenance is not directed at children under 13 and does not knowingly collect any information from anyone, of any age, ever.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Changes</h2>
+        <p class="body">If this policy ever changes — for example, if we ship optional iCloud sync — we'll update this page and bump the date above. Material changes will be highlighted in the app's release notes.</p>
+
+        <h2 class="h3" style="margin-top: var(--space-6);">Questions</h2>
+        <p class="body">Email <a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a>. ItsAydrian LLC is a one-person studio in New York, NY.</p>
+      </article>
+    </div>
+  </section>
+
+  <footer class="site-footer" style="margin-top: var(--space-16);">
+    <div class="container">
+      <div class="footer-meta" style="border-top: none; margin-top: 0; padding-top: 0;">
+        <span><a href="/apps/tiny-maintenance/">← Back to Tiny Maintenance</a></span>
+        <span>© 2026 ItsAydrian LLC.</span>
+      </div>
+    </div>
+  </footer>
+</Layout>
