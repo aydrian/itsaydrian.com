@@ -53,7 +53,6 @@
             type="text"
             id="chat-name"
             name="name"
-            required
             autocomplete="name"
             placeholder="Your name"
             aria-label="Your name"
@@ -71,7 +70,6 @@
             type="email"
             id="chat-email"
             name="email"
-            required
             autocomplete="email"
             placeholder="you@example.com"
             aria-label="Your email"
@@ -104,7 +102,6 @@
             class="chat-input chat-textarea"
             id="chat-message"
             name="message"
-            required
             rows="4"
             placeholder="We're planning a 2-week trip to Japan in October..."
             aria-label="About your trip"
@@ -459,6 +456,10 @@
       // Hide all field groups except first
       fields.forEach((f, i) => {
         const el = document.getElementById(f.id);
+        const input = document.getElementById(f.input) as HTMLInputElement | HTMLTextAreaElement | null;
+        if (input) {
+          input.required = false;
+        }
         if (el) {
           if (i === 0) {
             el.removeAttribute('hidden');
@@ -522,9 +523,17 @@
       setTimeout(() => input?.focus(), 100);
       const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
       if (inputEl) {
+        // Only the currently visible field is required
+        if (fields[index].input !== 'chat-destination') {
+          inputEl.required = true;
+        }
+
         const advance = () => {
           const val = inputEl.value.trim();
           if (!val || index !== currentField) return;
+
+          // Remove required from answered field so browser doesn't validate it
+          inputEl.required = false;
 
           // Replace the input row with a plain text answer bubble
           const inputRow = group.querySelector('.chat-field-input-row');
@@ -571,6 +580,25 @@
       e.preventDefault();
       if (!submitBtn || !status) return;
       if (isSubmitted) return;
+
+      // Manual validation for required fields
+      const requiredFields = [
+        { id: 'chat-name', name: 'Your name' },
+        { id: 'chat-email', name: 'Your email' },
+        { id: 'chat-message', name: 'About your trip' },
+      ];
+      const emptyField = requiredFields.find((f) => {
+        const el = document.getElementById(f.id) as HTMLInputElement | HTMLTextAreaElement | null;
+        return el && !el.value.trim();
+      });
+      if (emptyField) {
+        status.dataset.type = 'error';
+        status.textContent = `Please fill in your ${emptyField.name.toLowerCase()}.`;
+        status.hidden = false;
+        const field = document.getElementById(emptyField.id) as HTMLElement | null;
+        field?.focus();
+        return;
+      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
