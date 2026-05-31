@@ -248,7 +248,11 @@
   .chat-form.is-hiding {
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity 0.25s ease, transform 0.25s ease;
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
   }
 
   @keyframes chat-message-in {
@@ -256,7 +260,7 @@
     to { opacity: 1; transform: translateY(0) scale(1); }
   }
   .chat-message-added {
-    animation: chat-message-in 0.35s ease forwards;
+    animation: chat-message-in 0.5s ease forwards;
   }
 
   .chat-field {
@@ -416,6 +420,10 @@
       if (form) {
         form.classList.remove('is-hiding');
         form.style.display = '';
+        form.style.maxHeight = '';
+        form.style.overflow = '';
+        form.style.margin = '';
+        form.style.padding = '';
       }
       status?.setAttribute('hidden', '');
       status?.removeAttribute('data-type');
@@ -502,20 +510,24 @@
           form.reset();
 
           const tripLabel = destination ? `${name}'s ${destination} trip` : `${name}'s trip`;
-          const userBubble = document.createElement('div');
-          userBubble.className = 'chat-message chat-message-outgoing chat-message-added';
-          userBubble.innerHTML = `<div class="chat-bubble"><p>${tripLabel}</p></div>`;
-          messages?.appendChild(userBubble);
-
-          const janineBubble = document.createElement('div');
-          janineBubble.className = 'chat-message chat-message-incoming chat-message-added';
-          janineBubble.style.animationDelay = '0.15s';
-          janineBubble.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
-          messages?.appendChild(janineBubble);
 
           form.classList.add('is-hiding');
-          setTimeout(() => { form.style.display = 'none'; }, 250);
-          messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+          setTimeout(() => { form.style.display = 'none'; }, 400);
+
+          setTimeout(() => {
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-message chat-message-outgoing chat-message-added';
+            userBubble.innerHTML = `<div class="chat-bubble"><p>${tripLabel}</p></div>`;
+            messages?.appendChild(userBubble);
+
+            const janineBubble = document.createElement('div');
+            janineBubble.className = 'chat-message chat-message-incoming chat-message-added';
+            janineBubble.style.animationDelay = '0.25s';
+            janineBubble.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
+            messages?.appendChild(janineBubble);
+
+            messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+          }, 100);
 
           submitBtn.textContent = 'Sent';
         } else {
