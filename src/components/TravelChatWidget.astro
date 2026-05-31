@@ -1,0 +1,558 @@
+<div id="travel-chat-widget" class="chat-widget" aria-label="Travel inquiry chat">
+  <!-- Floating trigger button -->
+  <button
+    id="chat-trigger"
+    class="chat-trigger"
+    aria-label="Open travel inquiry chat"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+  >
+    <span class="chat-trigger-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21.5 2.5L2 10.5L11 13L14 22L21.5 2.5Z"/>
+        <path d="M11 13L16.5 7.5"/>
+      </svg>
+    </span>
+    <span class="chat-trigger-text">Plan a trip</span>
+  </button>
+
+  <!-- Chat panel -->
+  <div id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="chat-title" hidden>
+    <div class="chat-header">
+      <div class="chat-avatar" aria-hidden="true">J</div>
+      <div class="chat-header-info">
+        <h2 id="chat-title" class="chat-header-name">Janine</h2>
+        <p class="chat-header-status">Aydrian's virtual assistant</p>
+      </div>
+      <button id="chat-close" class="chat-close" aria-label="Close chat">&times;</button>
+    </div>
+
+    <div id="chat-messages" class="chat-messages">
+      <div class="chat-message chat-message-incoming">
+        <div class="chat-bubble">
+          <p>Hi, I'm Janine — Aydrian's virtual assistant. I'll help you start planning your trip.</p>
+        </div>
+      </div>
+    </div>
+
+    <form id="chat-form" class="chat-form">
+      <!-- Honeypot -->
+      <div class="chat-hp" aria-hidden="true">
+        <label for="chat-website">Website</label>
+        <input type="text" id="chat-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </div>
+
+      <div class="chat-field">
+        <label for="chat-name" class="chat-label">Name</label>
+        <input type="text" name="name" id="chat-name" required autocomplete="name" placeholder="Your name" class="chat-input">
+      </div>
+
+      <div class="chat-field">
+        <label for="chat-email" class="chat-label">Email</label>
+        <input type="email" name="email" id="chat-email" required autocomplete="email" placeholder="you@example.com" class="chat-input">
+      </div>
+
+      <div class="chat-field">
+        <label for="chat-destination" class="chat-label">Destination <span class="chat-optional">(optional)</span></label>
+        <input type="text" name="destination" id="chat-destination" placeholder="Where do you want to go?" class="chat-input">
+      </div>
+
+      <div class="chat-field">
+        <label for="chat-message" class="chat-label">Message</label>
+        <textarea name="message" id="chat-message" rows="4" required placeholder="Tell me about your trip — dates, interests, must-sees, ideal budget, anything." class="chat-input chat-textarea"></textarea>
+      </div>
+
+      <div class="chat-form-footer">
+        <button type="submit" class="chat-submit-btn" id="chat-submit">
+          Send inquiry
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </div>
+
+      <div id="chat-status" class="chat-status" role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</div>
+
+<style is:global>
+  .chat-widget {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: 1000;
+    font-family: var(--font-body);
+  }
+
+  .chat-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: 9999px;
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: var(--fs-14);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .chat-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+  .chat-trigger:active {
+    transform: translateY(0);
+  }
+  .chat-trigger-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .chat-panel {
+    position: absolute;
+    bottom: calc(100% + var(--space-4));
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - var(--space-8));
+    max-height: 600px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+  .chat-panel[hidden] {
+    display: none;
+  }
+  .chat-panel.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+    flex-shrink: 0;
+  }
+  .chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: var(--fs-14);
+    flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; min-width: 0; }
+  .chat-header-name {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .chat-header-status {
+    font-size: var(--fs-12);
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .chat-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--ink-faint);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: var(--fs-16);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .chat-close:hover {
+    background: var(--rule);
+    color: var(--ink);
+  }
+
+  .chat-messages {
+    padding: var(--space-4);
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    overflow-y: auto;
+  }
+
+  .chat-message {
+    display: flex;
+    max-width: 85%;
+  }
+  .chat-message-incoming {
+    align-self: flex-start;
+  }
+  .chat-message-outgoing {
+    align-self: flex-end;
+  }
+  .chat-message-outgoing .chat-bubble {
+    background: var(--accent);
+    color: var(--bg);
+    border-bottom-right-radius: 4px;
+  }
+
+  .chat-bubble {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--r-lg);
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .chat-message-incoming .chat-bubble {
+    background: var(--rule);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-bubble p {
+    margin: 0;
+  }
+
+  .chat-optional {
+    font-size: var(--fs-12);
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+
+  .chat-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 0 var(--space-4) var(--space-4);
+    overflow-y: auto;
+    flex: 1;
+    max-height: 600px;
+  }
+  .chat-form.is-hiding {
+    opacity: 0;
+    transform: translateY(8px);
+    max-height: 0;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.4s ease, transform 0.4s ease, max-height 0.4s ease;
+  }
+
+  @keyframes chat-message-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .chat-message-added {
+    animation: chat-message-in 0.5s ease forwards;
+  }
+
+  .chat-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .chat-label {
+    font-size: var(--fs-12);
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .chat-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    outline: none;
+    resize: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+  .chat-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+  .chat-input::placeholder {
+    color: var(--ink-faint);
+  }
+  .chat-textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .chat-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-1);
+  }
+
+  .chat-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--r-pill);
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: var(--fs-14);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .chat-submit-btn:hover { opacity: 0.9; }
+  .chat-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .chat-status {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--r-md);
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+  .chat-status[data-type="success"] {
+    background: color-mix(in oklab, var(--hydro) 12%, transparent);
+    color: var(--hydro);
+    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
+  }
+  .chat-status[data-type="error"] {
+    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
+    color: var(--accent-hot);
+    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
+  }
+
+  .chat-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Mobile: full-width panel anchored to bottom */
+  @media (max-width: 480px) {
+    .chat-widget {
+      bottom: var(--space-4);
+      right: var(--space-4);
+    }
+    .chat-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: var(--r-lg) var(--r-lg) 0 0;
+      transform: translateY(100%);
+    }
+    .chat-panel.is-open {
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const widget = document.getElementById('travel-chat-widget');
+    const trigger = document.getElementById('chat-trigger');
+    const panel = document.getElementById('chat-panel');
+    const closeBtn = document.getElementById('chat-close');
+    const form = document.getElementById('chat-form') as HTMLFormElement | null;
+    const messages = document.getElementById('chat-messages');
+    const submitBtn = document.getElementById('chat-submit') as HTMLButtonElement | null;
+    const status = document.getElementById('chat-status');
+
+    let isSubmitted = false;
+    let lastFocused: HTMLElement | null = null;
+    let outsideController: AbortController | null = null;
+    let hideTimeout: number | null = null;
+
+    function getFocusables() {
+      if (!panel) return [];
+      return Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null);
+    }
+
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key !== 'Tab' || !panel) return;
+      const focusables = getFocusables();
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function resetForm() {
+      isSubmitted = false;
+      if (hideTimeout !== null) { clearTimeout(hideTimeout); hideTimeout = null; }
+      form?.reset();
+      if (form) {
+        form.classList.remove('is-hiding');
+        form.style.display = '';
+        form.style.maxHeight = '';
+        form.style.overflow = '';
+        form.style.margin = '';
+        form.style.padding = '';
+        form.querySelectorAll('input, textarea').forEach((el) => (el as HTMLInputElement).disabled = false);
+      }
+      status?.setAttribute('hidden', '');
+      status?.removeAttribute('data-type');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+      }
+      widget?.querySelectorAll('.chat-message-added').forEach((el) => el.remove());
+    }
+
+    function open() {
+      lastFocused = document.activeElement as HTMLElement;
+      resetForm();
+      panel?.removeAttribute('hidden');
+      panel?.removeAttribute('aria-hidden');
+      requestAnimationFrame(() => {
+        panel?.classList.add('is-open');
+      });
+      trigger?.setAttribute('aria-expanded', 'true');
+      document.addEventListener('keydown', trapFocus);
+      // Close on Escape and click outside
+      outsideController = new AbortController();
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+          close();
+        }
+      }, { signal: outsideController.signal });
+      document.addEventListener('click', (e) => {
+        if (panel?.classList.contains('is-open') && !widget?.contains(e.target as Node)) {
+          close();
+        }
+      }, { signal: outsideController.signal });
+      setTimeout(() => {
+        (document.getElementById('chat-name') as HTMLElement | null)?.focus();
+      }, 100);
+    }
+
+    function close() {
+      panel?.classList.remove('is-open');
+      panel?.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', trapFocus);
+      outsideController?.abort();
+      outsideController = null;
+      setTimeout(() => {
+        panel?.setAttribute('hidden', '');
+      }, 250);
+      trigger?.setAttribute('aria-expanded', 'false');
+      lastFocused?.focus();
+      lastFocused = null;
+    }
+
+    trigger?.addEventListener('click', () => {
+      if (panel?.classList.contains('is-open')) {
+        close();
+      } else {
+        open();
+      }
+    });
+
+    closeBtn?.addEventListener('click', close);
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || !status) return;
+      if (isSubmitted) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      status.hidden = true;
+      status.removeAttribute('data-type');
+
+      const formInputs = form.querySelectorAll('input, textarea');
+      formInputs.forEach((el) => (el as HTMLInputElement).disabled = true);
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const data = await res.json() as { success: boolean; error?: string };
+
+        if (data.success) {
+          isSubmitted = true;
+          const formData2 = new FormData(form);
+          const name = formData2.get('name') as string;
+          const destination = formData2.get('destination') as string;
+
+          const tripLabel = destination ? `${name}'s ${destination} trip` : `${name}'s trip`;
+
+          form.classList.add('is-hiding');
+          hideTimeout = setTimeout(() => { form.style.display = 'none'; form.reset(); hideTimeout = null; }, 400) as unknown as number;
+
+          setTimeout(() => {
+            const userBubble = document.createElement('div');
+            userBubble.className = 'chat-message chat-message-outgoing chat-message-added';
+            userBubble.innerHTML = `<div class="chat-bubble"><p>${tripLabel}</p></div>`;
+            messages?.appendChild(userBubble);
+
+            const janineBubble = document.createElement('div');
+            janineBubble.className = 'chat-message chat-message-incoming chat-message-added';
+            janineBubble.style.animationDelay = '0.25s';
+            janineBubble.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
+            messages?.appendChild(janineBubble);
+
+            messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+          }, 100);
+
+          submitBtn.textContent = 'Sent';
+        } else {
+          status.dataset.type = 'error';
+          status.textContent = data.error ?? 'Something went wrong. Please try again.';
+          status.hidden = false;
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+          formInputs.forEach((el) => (el as HTMLInputElement).disabled = false);
+        }
+      } catch {
+        status.dataset.type = 'error';
+        status.textContent = 'Network error. Please check your connection and try again.';
+        status.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        formInputs.forEach((el) => (el as HTMLInputElement).disabled = false);
+      }
+    });
+  })();
+</script>
