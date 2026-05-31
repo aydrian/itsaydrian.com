@@ -24,7 +24,7 @@
         <h2 id="chat-title" class="chat-header-name">Janine</h2>
         <p class="chat-header-status">Aydrian's virtual assistant</p>
       </div>
-      <button id="chat-close" class="chat-close" aria-label="Close chat">✕</button>
+      <button id="chat-close" class="chat-close" aria-label="Close chat">&times;</button>
     </div>
 
     <div id="chat-messages" class="chat-messages">
@@ -193,7 +193,8 @@
 
   .chat-messages {
     padding: var(--space-4);
-    flex-shrink: 0;
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
@@ -244,6 +245,7 @@
     padding: 0 var(--space-4) var(--space-4);
     overflow-y: auto;
     flex: 1;
+    max-height: 600px;
   }
   .chat-form.is-hiding {
     opacity: 0;
@@ -389,6 +391,7 @@
     let isSubmitted = false;
     let lastFocused: HTMLElement | null = null;
     let outsideController: AbortController | null = null;
+    let hideTimeout: number | null = null;
 
     function getFocusables() {
       if (!panel) return [];
@@ -416,6 +419,7 @@
 
     function resetForm() {
       isSubmitted = false;
+      if (hideTimeout !== null) { clearTimeout(hideTimeout); hideTimeout = null; }
       form?.reset();
       if (form) {
         form.classList.remove('is-hiding');
@@ -424,6 +428,7 @@
         form.style.overflow = '';
         form.style.margin = '';
         form.style.padding = '';
+        form.querySelectorAll('input, textarea').forEach((el) => (el as HTMLInputElement).disabled = false);
       }
       status?.setAttribute('hidden', '');
       status?.removeAttribute('data-type');
@@ -495,6 +500,9 @@
       status.hidden = true;
       status.removeAttribute('data-type');
 
+      const formInputs = form.querySelectorAll('input, textarea');
+      formInputs.forEach((el) => (el as HTMLInputElement).disabled = true);
+
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',
@@ -507,12 +515,11 @@
           const formData2 = new FormData(form);
           const name = formData2.get('name') as string;
           const destination = formData2.get('destination') as string;
-          form.reset();
 
           const tripLabel = destination ? `${name}'s ${destination} trip` : `${name}'s trip`;
 
           form.classList.add('is-hiding');
-          setTimeout(() => { form.style.display = 'none'; }, 400);
+          hideTimeout = setTimeout(() => { form.style.display = 'none'; form.reset(); hideTimeout = null; }, 400) as unknown as number;
 
           setTimeout(() => {
             const userBubble = document.createElement('div');
@@ -535,14 +542,16 @@
           status.textContent = data.error ?? 'Something went wrong. Please try again.';
           status.hidden = false;
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Send inquiry';
+          submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+          formInputs.forEach((el) => (el as HTMLInputElement).disabled = false);
         }
       } catch {
         status.dataset.type = 'error';
         status.textContent = 'Network error. Please check your connection and try again.';
         status.hidden = false;
         submitBtn.disabled = false;
-        submitBtn.textContent = 'Send inquiry';
+        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        formInputs.forEach((el) => (el as HTMLInputElement).disabled = false);
       }
     });
   })();
