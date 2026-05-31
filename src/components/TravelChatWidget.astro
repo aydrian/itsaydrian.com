@@ -1,0 +1,521 @@
+<div id="travel-chat-widget" class="chat-widget" aria-label="Travel inquiry chat" aria-hidden="true">
+  <!-- Floating trigger button -->
+  <button
+    id="chat-trigger"
+    class="chat-trigger"
+    aria-label="Open travel inquiry chat"
+    aria-expanded="false"
+    aria-controls="chat-panel"
+  >
+    <span class="chat-trigger-icon" aria-hidden="true">✈️</span>
+    <span class="chat-trigger-text">Plan a trip</span>
+  </button>
+
+  <!-- Chat panel -->
+  <div id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-title" hidden>
+    <div class="chat-header">
+      <div class="chat-avatar" aria-hidden="true">J</div>
+      <div class="chat-header-info">
+        <h2 id="chat-title" class="chat-header-name">Janine</h2>
+        <p class="chat-header-status">Travel assistant</p>
+      </div>
+      <button id="chat-close" class="chat-close" aria-label="Close chat">✕</button>
+    </div>
+
+    <div id="chat-messages" class="chat-messages">
+      <!-- Welcome message -->
+      <div class="chat-message chat-message-incoming">
+        <div class="chat-bubble">
+          <p>Hi, I'm Janine. Let's start your trip.</p>
+          <p>First I need some information.</p>
+        </div>
+      </div>
+    </div>
+
+    <form id="chat-form" class="chat-form" novalidate>
+      <!-- Honeypot -->
+      <div class="chat-hp" aria-hidden="true">
+        <label for="chat-website">Website</label>
+        <input type="text" id="chat-website" name="website" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div id="chat-field-name" class="chat-field-group">
+        <div class="chat-message chat-message-incoming">
+          <div class="chat-bubble">What's your name?</div>
+        </div>
+        <div class="chat-message chat-message-outgoing">
+          <input
+            class="chat-input"
+            type="text"
+            id="chat-name"
+            name="name"
+            required
+            autocomplete="name"
+            placeholder="Your name"
+            aria-label="Your name"
+          >
+        </div>
+      </div>
+
+      <div id="chat-field-email" class="chat-field-group" hidden>
+        <div class="chat-message chat-message-incoming">
+          <div class="chat-bubble">What's your email?</div>
+        </div>
+        <div class="chat-message chat-message-outgoing">
+          <input
+            class="chat-input"
+            type="email"
+            id="chat-email"
+            name="email"
+            required
+            autocomplete="email"
+            placeholder="you@example.com"
+            aria-label="Your email"
+          >
+        </div>
+      </div>
+
+      <div id="chat-field-destination" class="chat-field-group" hidden>
+        <div class="chat-message chat-message-incoming">
+          <div class="chat-bubble">Where are you thinking of going? <span class="chat-optional">(optional)</span></div>
+        </div>
+        <div class="chat-message chat-message-outgoing">
+          <input
+            class="chat-input"
+            type="text"
+            id="chat-destination"
+            name="destination"
+            placeholder="Japan, Italy, not sure yet…"
+            aria-label="Destination"
+          >
+        </div>
+      </div>
+
+      <div id="chat-field-message" class="chat-field-group" hidden>
+        <div class="chat-message chat-message-incoming">
+          <div class="chat-bubble">Tell me about your trip — rough dates, how many people, travel style, budget, what you're hoping to experience.</div>
+        </div>
+        <div class="chat-message chat-message-outgoing">
+          <textarea
+            class="chat-input chat-textarea"
+            id="chat-message"
+            name="message"
+            required
+            rows="4"
+            placeholder="We're planning a 2-week trip to Japan in October..."
+            aria-label="About your trip"
+          ></textarea>
+        </div>
+      </div>
+
+      <div id="chat-submit-group" class="chat-field-group" hidden>
+        <div class="chat-message chat-message-outgoing">
+          <button type="submit" class="chat-submit-btn" id="chat-submit">
+            Send inquiry
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="chat-status" class="chat-status" role="status" aria-live="polite" hidden></div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .chat-widget {
+    position: fixed;
+    bottom: var(--space-6);
+    right: var(--space-6);
+    z-index: 1000;
+    font-family: var(--font-body);
+  }
+
+  .chat-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: 9999px;
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: var(--fs-14);
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .chat-trigger:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+  }
+  .chat-trigger:active {
+    transform: translateY(0);
+  }
+  .chat-trigger-icon { font-size: 1.2em; }
+
+  .chat-panel {
+    position: absolute;
+    bottom: calc(100% + var(--space-4));
+    right: 0;
+    width: 360px;
+    max-width: calc(100vw - var(--space-8));
+    max-height: 520px;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    pointer-events: none;
+  }
+  .chat-panel[hidden] {
+    display: none;
+  }
+  .chat-panel.is-open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .chat-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--rule);
+    background: var(--bg);
+  }
+  .chat-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    font-size: var(--fs-14);
+    flex-shrink: 0;
+  }
+  .chat-header-info { flex: 1; min-width: 0; }
+  .chat-header-name {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .chat-header-status {
+    font-size: var(--fs-12);
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .chat-close {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: transparent;
+    color: var(--ink-faint);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    font-size: var(--fs-16);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .chat-close:hover {
+    background: var(--rule);
+    color: var(--ink);
+  }
+
+  .chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .chat-message {
+    display: flex;
+    max-width: 85%;
+  }
+  .chat-message-incoming {
+    align-self: flex-start;
+  }
+  .chat-message-outgoing {
+    align-self: flex-end;
+  }
+
+  .chat-bubble {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .chat-message-incoming .chat-bubble {
+    background: var(--rule);
+    border-bottom-left-radius: 4px;
+  }
+  .chat-message-outgoing .chat-bubble,
+  .chat-message-outgoing .chat-input,
+  .chat-message-outgoing .chat-textarea {
+    background: var(--accent);
+    color: var(--bg);
+    border-bottom-right-radius: 4px;
+  }
+  .chat-message-outgoing .chat-input::placeholder {
+    color: color-mix(in oklab, var(--bg) 60%, transparent);
+  }
+
+  .chat-optional {
+    font-size: var(--fs-12);
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+
+  .chat-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .chat-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .chat-field-group[hidden] {
+    display: none;
+  }
+
+  .chat-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-family: var(--font-body);
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    outline: none;
+    resize: none;
+  }
+  .chat-input:focus {
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent);
+  }
+  .chat-textarea {
+    min-height: 80px;
+    resize: vertical;
+  }
+
+  .chat-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-5);
+    border-radius: var(--radius-lg);
+    border: none;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: var(--fs-14);
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+  .chat-submit-btn:hover { opacity: 0.9; }
+  .chat-submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .chat-status {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+  .chat-status[data-type="success"] {
+    background: color-mix(in oklab, var(--hydro) 12%, transparent);
+    color: var(--hydro);
+    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
+  }
+  .chat-status[data-type="error"] {
+    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
+    color: var(--accent-hot);
+    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
+  }
+
+  .chat-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  /* Mobile: full-width panel anchored to bottom */
+  @media (max-width: 480px) {
+    .chat-widget {
+      bottom: var(--space-4);
+      right: var(--space-4);
+    }
+    .chat-panel {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100%;
+      max-height: 70vh;
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      transform: translateY(100%);
+    }
+    .chat-panel.is-open {
+      transform: translateY(0);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const widget = document.getElementById('travel-chat-widget');
+    const trigger = document.getElementById('chat-trigger');
+    const panel = document.getElementById('chat-panel');
+    const closeBtn = document.getElementById('chat-close');
+    const form = document.getElementById('chat-form') as HTMLFormElement | null;
+    const messages = document.getElementById('chat-messages');
+    const submitBtn = document.getElementById('chat-submit') as HTMLButtonElement | null;
+    const status = document.getElementById('chat-status');
+
+    const fields = [
+      { id: 'chat-field-name', input: 'chat-name' },
+      { id: 'chat-field-email', input: 'chat-email' },
+      { id: 'chat-field-destination', input: 'chat-destination' },
+      { id: 'chat-field-message', input: 'chat-message' },
+    ];
+    let currentField = 0;
+    let isSubmitted = false;
+
+    function open() {
+      panel?.removeAttribute('hidden');
+      // small delay for transition
+      requestAnimationFrame(() => {
+        panel?.classList.add('is-open');
+      });
+      trigger?.setAttribute('aria-expanded', 'true');
+      widget?.setAttribute('aria-hidden', 'false');
+      showField(0);
+    }
+
+    function close() {
+      panel?.classList.remove('is-open');
+      setTimeout(() => {
+        panel?.setAttribute('hidden', '');
+      }, 250);
+      trigger?.setAttribute('aria-expanded', 'false');
+      widget?.setAttribute('aria-hidden', 'true');
+    }
+
+    function showField(index: number) {
+      if (index >= fields.length) {
+        document.getElementById('chat-submit-group')?.removeAttribute('hidden');
+        setTimeout(() => submitBtn?.focus(), 100);
+        return;
+      }
+      const group = document.getElementById(fields[index].id);
+      if (!group) return;
+      group.removeAttribute('hidden');
+      const input = document.getElementById(fields[index].input) as HTMLElement | null;
+      setTimeout(() => input?.focus(), 100);
+      // Auto-advance on blur if value exists
+      const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
+      if (inputEl) {
+        const onBlur = () => {
+          if (inputEl.value.trim() && index === currentField) {
+            currentField++;
+            showField(currentField);
+          }
+        };
+        inputEl.addEventListener('blur', onBlur, { once: true });
+      }
+    }
+
+    trigger?.addEventListener('click', () => {
+      if (panel?.classList.contains('is-open')) {
+        close();
+      } else {
+        open();
+      }
+    });
+
+    closeBtn?.addEventListener('click', close);
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+        close();
+      }
+    });
+
+    // Also close when clicking outside the panel
+    document.addEventListener('click', (e) => {
+      if (panel?.classList.contains('is-open') && !widget?.contains(e.target as Node)) {
+        close();
+      }
+    });
+
+    form?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!submitBtn || !status) return;
+      if (isSubmitted) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending…';
+      status.hidden = true;
+      status.removeAttribute('data-type');
+
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const data = await res.json() as { success: boolean; error?: string };
+
+        if (data.success) {
+          isSubmitted = true;
+          status.dataset.type = 'success';
+          status.textContent = "Got it — we'll look over it and get back to you.";
+          status.hidden = false;
+          form.reset();
+
+          // Add Janine's confirmation message
+          const confirmation = document.createElement('div');
+          confirmation.className = 'chat-message chat-message-incoming';
+          confirmation.innerHTML = '<div class="chat-bubble"><p>We\'ll look over it and get back to you.</p></div>';
+          messages?.appendChild(confirmation);
+          messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+
+          submitBtn.textContent = 'Sent';
+        } else {
+          status.dataset.type = 'error';
+          status.textContent = data.error ?? 'Something went wrong. Please try again.';
+          status.hidden = false;
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        }
+      } catch {
+        status.dataset.type = 'error';
+        status.textContent = 'Network error. Please check your connection and try again.';
+        status.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+      }
+    });
+  })();
+</script>

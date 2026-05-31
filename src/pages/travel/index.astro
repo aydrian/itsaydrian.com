@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import TravelChatWidget from '../../components/TravelChatWidget.astro';
 
 const pageTitle = "Travel Advising — ItsAydrian Travel";
 const pageDescription = "Curated travel planning for trips worth taking. Certified Fora advisor with deep Japan expertise and a network spanning four continents.";
@@ -32,13 +33,13 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         handled. You show up and enjoy it.
       </p>
       <div class="hero-cta rise" data-delay="3">
-        <a class="btn btn-primary" href="#inquire" aria-label="Start planning your trip">
+        <button class="btn btn-primary chat-trigger-btn" data-open-chat aria-label="Start planning your trip">
           Start planning
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a class="btn btn-ghost" href="#inquire">
+        </button>
+        <button class="btn btn-ghost chat-trigger-btn" data-open-chat>
           Tell me where you're going
-        </a>
+        </button>
       </div>
     </div>
 
@@ -159,56 +160,6 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     </div>
   </section>
 
-  <!-- ============================== INQUIRY FORM ============================== -->
-  <section id="inquire" class="section section-soft travel-form-section">
-    <div class="container-narrow">
-      <header class="section-head rise">
-        <span class="eyebrow">Start planning</span>
-        <h2 class="h2">Tell me about <em>your trip.</em></h2>
-        <p class="lede">Share what you have in mind — dates, destination, style, budget. I'll reply within a couple of days with honest thoughts and, if it's a good fit, next steps.</p>
-      </header>
-
-      <form id="inquiry-form" class="inquiry-form rise" data-delay="1" novalidate>
-        <!-- Honeypot: hidden from real users, filled by bots -->
-        <div class="inquiry-hp" aria-hidden="true">
-          <label for="website">Website</label>
-          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-
-        <div class="inquiry-row">
-          <div class="inquiry-field">
-            <label class="inquiry-label" for="name">Name <span class="inquiry-required" aria-hidden="true">*</span></label>
-            <input class="inquiry-input" type="text" id="name" name="name" required autocomplete="name" placeholder="Aydrian Howard">
-          </div>
-          <div class="inquiry-field">
-            <label class="inquiry-label" for="email">Email <span class="inquiry-required" aria-hidden="true">*</span></label>
-            <input class="inquiry-input" type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
-          </div>
-        </div>
-
-        <div class="inquiry-field">
-          <label class="inquiry-label" for="destination">
-            Destination
-            <span class="inquiry-optional">(optional)</span>
-          </label>
-          <input class="inquiry-input" type="text" id="destination" name="destination" placeholder="Japan, Southeast Asia, not sure yet…">
-        </div>
-
-        <div class="inquiry-field">
-          <label class="inquiry-label" for="message">About your trip <span class="inquiry-required" aria-hidden="true">*</span></label>
-          <textarea class="inquiry-input inquiry-textarea" id="message" name="message" required rows="6" placeholder="Rough dates, how many people, travel style, budget range, what you're hoping to experience — anything helps."></textarea>
-        </div>
-
-        <div id="inquiry-status" class="inquiry-status" role="status" aria-live="polite" hidden></div>
-
-        <button type="submit" class="btn btn-hot btn-lg" id="inquiry-submit">
-          Send inquiry
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </button>
-      </form>
-    </div>
-  </section>
-
   <!-- ============================== CTA ============================== -->
   <section class="section" style="text-align: center;">
     <div class="container">
@@ -217,13 +168,15 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         No obligation, no pressure. Just a conversation about where you want to go.
       </p>
       <div class="rise" data-delay="2" style="margin-top: var(--space-8);">
-        <a class="btn btn-primary btn-lg" href="#inquire" aria-label="Jump to inquiry form">
+        <button class="btn btn-primary btn-lg chat-trigger-btn" data-open-chat aria-label="Open travel inquiry chat">
           Reach out
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
+        </button>
       </div>
     </div>
   </section>
+
+  <TravelChatWidget />
 
 </Layout>
 
@@ -277,144 +230,25 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     object-fit: cover;
   }
 
-  /* ---- Form section ---- */
-  .travel-form-section { border-top: 1px solid var(--rule); }
-
-  .inquiry-hp {
-    position: absolute;
-    left: -9999px;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
+  .chat-trigger-btn {
+    cursor: pointer;
+    border: none;
+    font-family: inherit;
   }
-
-  .inquiry-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-    position: relative;
-  }
-
-  .inquiry-row {
-    display: grid;
-    gap: var(--space-6);
-    grid-template-columns: 1fr;
-  }
-  @media (min-width: 600px) {
-    .inquiry-row { grid-template-columns: 1fr 1fr; }
-  }
-
-  .inquiry-field {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-
-  .inquiry-label {
-    font-size: var(--fs-14);
-    font-weight: 500;
+  .chat-trigger-btn.btn-ghost {
+    background: transparent;
     color: var(--ink);
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
   }
-  .inquiry-required { color: var(--accent-hot); }
-  .inquiry-optional {
-    font-size: var(--fs-12);
-    font-weight: 400;
-    color: var(--ink-faint);
-  }
-
-  .inquiry-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: var(--r-md);
-    border: 1px solid var(--rule-strong);
-    background: var(--bg-card);
-    color: var(--ink);
-    font-family: var(--font-body);
-    font-size: var(--fs-16);
-    line-height: 1.5;
-    transition: border-color var(--dur-fast) var(--ease-out-quart),
-                box-shadow var(--dur-fast) var(--ease-out-quart);
-    appearance: none;
-    -webkit-appearance: none;
-  }
-  .inquiry-input::placeholder { color: var(--ink-faint); }
-  .inquiry-input:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent);
-  }
-  .inquiry-input[aria-invalid="true"] {
-    border-color: var(--accent-hot);
-    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-hot) 15%, transparent);
-  }
-
-  .inquiry-textarea {
-    resize: vertical;
-    min-height: 160px;
-  }
-
-  .inquiry-status {
-    padding: var(--space-4) var(--space-6);
-    border-radius: var(--r-md);
-    font-size: var(--fs-14);
-    font-weight: 500;
-  }
-  .inquiry-status[data-type="success"] {
-    background: color-mix(in oklab, var(--hydro) 12%, transparent);
-    color: var(--hydro);
-    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
-  }
-  .inquiry-status[data-type="error"] {
-    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
-    color: var(--accent-hot);
-    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
-  }
-  :root.dark .inquiry-status[data-type="success"] { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 30%, transparent); }
 </style>
 
 <script>
-  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
-  const submitBtn = document.getElementById('inquiry-submit') as HTMLButtonElement | null;
-  const status = document.getElementById('inquiry-status') as HTMLElement | null;
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    if (!submitBtn || !status) return;
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Sending…';
-    status.hidden = true;
-    status.removeAttribute('data-type');
-
-    try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        body: new FormData(form),
-      });
-      const data = await res.json() as { success: boolean; error?: string };
-
-      if (data.success) {
-        status.dataset.type = 'success';
-        status.textContent = "Got it — I'll be in touch within a couple of days.";
-        status.hidden = false;
-        form.reset();
-        submitBtn.textContent = 'Sent';
-      } else {
-        status.dataset.type = 'error';
-        status.textContent = data.error ?? 'Something went wrong. Please try again.';
-        status.hidden = false;
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+  // Wire up external chat triggers
+  document.querySelectorAll('[data-open-chat]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const trigger = document.getElementById('chat-trigger');
+      if (trigger && !document.getElementById('chat-panel')?.classList.contains('is-open')) {
+        trigger.click();
       }
-    } catch {
-      status.dataset.type = 'error';
-      status.textContent = 'Network error. Please check your connection and try again.';
-      status.hidden = false;
-      submitBtn.disabled = false;
-      submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
-    }
+    });
   });
 </script>
