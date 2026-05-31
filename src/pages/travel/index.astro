@@ -4,24 +4,21 @@ import Layout from '../../layouts/Layout.astro';
 const pageTitle = "Travel Advising — ItsAydrian Travel";
 const pageDescription = "Curated travel planning for trips worth taking. Certified Fora advisor with deep Japan expertise and a network spanning four continents.";
 ---
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"TravelAgency","name":"ItsAydrian Travel","url":"https://itsaydrian.com/travel","email":"aydrian.howard@foratravel.com","founder":{"@type":"Person","name":"Aydrian Howard"},"areaServed":"Worldwide","knowsAbout":["Japan travel","Luxury travel","Itinerary planning","Hotel sourcing","Restaurant reservations"],"memberOf":{"@type":"Organization","name":"Fora Travel"},"sameAs":["https://www.foratravel.com/advisor/aydrian-howard"]}
-</script>
-
 <Layout
-  title="Travel"
+  title={pageTitle}
   description={pageDescription}
   ogImage="/assets/aydrian-travel.jpg"
   ogImageAlt="Aydrian traveling — curated trips, planned well."
   overlayHeader={true}
   preloadImage="/assets/aydrian-travel.jpg"
 >
+  <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"TravelAgency","name":"ItsAydrian Travel","url":"https://itsaydrian.com/travel","email":"aydrian.howard@foratravel.com","founder":{"@type":"Person","name":"Aydrian Howard"},"areaServed":"Worldwide","knowsAbout":["Japan travel","Luxury travel","Itinerary planning","Hotel sourcing","Restaurant reservations"],"memberOf":{"@type":"Organization","name":"Fora Travel"},"sameAs":["https://www.foratravel.com/advisor/aydrian-howard"]}</script>
   <!-- ============================== HERO ============================== -->
   <section class="hero" aria-labelledby="travel-hero-title">
     <div class="hero-image">
       <picture>
         <source media="(max-width: 800px)" srcset="/assets/aydrian-travel-800.jpg">
-        <img src="/assets/aydrian-travel.jpg" alt="Aydrian on a train platform with luggage, ready to travel." fetchpriority="high">
+        <img src="/assets/aydrian-travel.jpg" alt="Aydrian on a train platform with luggage, ready to travel." width="1200" height="675" fetchpriority="high">
       </picture>
     </div>
 
@@ -34,21 +31,21 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         handled. You show up and enjoy it.
       </p>
       <div class="hero-cta rise" data-delay="3">
-        <a class="btn btn-primary" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">
+        <a class="btn btn-primary" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer" aria-label="Start planning (opens in new tab)">
           Start planning
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
         <a class="btn btn-ghost" href="#inquiry">
-          Tell me where
+          Tell me where you're going
         </a>
       </div>
     </div>
 
-    <a href="#intro" class="hero-scroll" aria-label="Scroll to intro">Read on</a>
+    <a href="#intro" class="hero-scroll" aria-label="Read on">Read on</a>
   </section>
 
   <!-- ============================== INTRO ============================== -->
-  <section id="intro" class="intro">
+  <section id="intro" class="intro" aria-label="Introduction">
     <div class="container">
       <div class="intro-grid">
         <p class="intro-lead rise">
@@ -117,7 +114,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
           <span class="eyebrow rise">Deep expertise</span>
           <h2 class="h2 rise" data-delay="1">Japan is a <em>specialty.</em></h2>
           <p class="lede rise" data-delay="2">
-            Four years of Japanese study. Yearly trips. JLPT N5 certified and climbing.
+            Four years of Japanese study. Yearly trips. JLPT-tested and working toward fluency.
             This isn't armchair travel — it's lived experience.
           </p>
           <p class="body rise" data-delay="3">
@@ -131,14 +128,14 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
           </p>
         </div>
         <div class="split-media rise" data-delay="2">
-          <img src="/assets/aydrian-tokyo-hero-1600.jpg" alt="Aydrian on a neon-lit Tokyo street at night.">
+          <img src="/assets/aydrian-tokyo-hero-1600.jpg" alt="Aydrian on a neon-lit Tokyo street at night." width="800" height="600" loading="lazy">
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============================== CREDIBILITY ============================== -->
-  <section class="section">
+  <section class="section" aria-label="Credentials">
     <div class="container">
       <div class="credibility-strip" style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: center; justify-content: center;">
         <div class="credibility-item rise" style="text-align: center;">
@@ -155,50 +152,29 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         </div>
         <div class="credibility-item rise" data-delay="3" style="text-align: center;">
           <p style="font-size: var(--text-3xl); font-weight: 700; color: var(--color-fg); line-height: 1;">1</p>
-          <p style="font-size: var(--text-sm); color: var(--color-muted);">Person handling everything</p>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">Always direct</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============================== INQUIRY FORM ============================== -->
+  <!-- ============================== INQUIRY ============================== -->
   <section class="section section-soft" id="inquiry">
-    <div class="container" style="max-width: 64ch;">
-      <header class="section-head rise" style="text-align:center;">
+    <div class="container" style="max-width: 64ch; text-align: center;">
+      <header class="section-head rise">
         <span class="eyebrow">Get started</span>
-        <h2 class="h2">Where do you want to go?</h2>
-        <p class="lede">Drop your email and a few details. I'll be in touch within 24 hours.</p>
+        <h2 class="h2">Get in touch</h2>
+        <p class="lede">Ready to start planning? Send me an email and I'll be in touch within 24 hours.</p>
       </header>
 
-      <form
-        class="inquiry-form rise"
-        action="https://formspree.io/f/YOUR_FORM_ID"
-        method="POST"
-        data-delay="1"
-      >
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" name="name" required placeholder="Your name">
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" required placeholder="you@example.com">
-        </div>
-        <div class="form-group">
-          <label for="destination">Destination (or vibe)</label>
-          <input type="text" id="destination" name="destination" required placeholder="Japan, Italy, 'somewhere warm in February'...">
-        </div>
-        <div class="form-group">
-          <label for="details">Tell me more</label>
-          <textarea id="details" name="details" rows="4" placeholder="Trip type, dates, budget range, must-sees, concerns..."></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-          Send inquiry
-        </button>
-        <p style="font-size: var(--text-xs); color: var(--color-muted); text-align: center; margin-top: var(--space-4);">
-          Prefer email? <a href="mailto:aydrian.howard@foratravel.com">aydrian.howard@foratravel.com</a>
+      <div class="rise" data-delay="1" style="margin-top: var(--space-8);">
+        <a class="btn btn-primary btn-lg" href="mailto:aydrian.howard@foratravel.com?subject=Travel%20Inquiry">
+          Send me an email
+        </a>
+        <p style="font-size: var(--text-sm); color: var(--color-muted); margin-top: var(--space-4);">
+          Prefer to book directly? <a href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">Book through Fora</a>
         </p>
-      </form>
+      </div>
     </div>
   </section>
 
@@ -210,7 +186,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         No obligation, no pressure. Just a conversation about where you want to go.
       </p>
       <div class="rise" data-delay="2" style="margin-top: var(--space-8);">
-        <a class="btn btn-primary btn-lg" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">
+        <a class="btn btn-primary btn-lg" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer" aria-label="Book through Fora (opens in new tab)">
           Book through Fora
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
@@ -271,50 +247,5 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     object-fit: cover;
   }
 
-  .inquiry-form {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-4);
-    margin-top: var(--space-8);
-  }
 
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-1);
-  }
-
-  .form-group label {
-    font-size: var(--text-sm);
-    font-weight: 500;
-    color: var(--color-fg);
-  }
-
-  .form-group input,
-  .form-group textarea {
-    padding: var(--space-3);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    background: var(--color-bg);
-    color: var(--color-fg);
-    font-size: var(--text-base);
-    font-family: inherit;
-    transition: border-color var(--transition-fast);
-  }
-
-  .form-group input:focus,
-  .form-group textarea:focus {
-    outline: none;
-    border-color: var(--color-accent);
-  }
-
-  .form-group input::placeholder,
-  .form-group textarea::placeholder {
-    color: var(--color-muted);
-  }
-
-  .form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
 </style>
