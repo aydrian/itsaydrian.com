@@ -13,6 +13,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
   preloadImage="/assets/aydrian-travel.jpg"
 >
   <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"TravelAgency","name":"ItsAydrian Travel","url":"https://itsaydrian.com/travel","email":"aydrian.howard@foratravel.com","founder":{"@type":"Person","name":"Aydrian Howard"},"areaServed":"Worldwide","knowsAbout":["Japan travel","Luxury travel","Itinerary planning","Hotel sourcing","Restaurant reservations"],"memberOf":{"@type":"Organization","name":"Fora Travel"},"sameAs":["https://www.foratravel.com/advisor/aydrian-howard"]}</script>
+
   <!-- ============================== HERO ============================== -->
   <section class="hero" aria-labelledby="travel-hero-title">
     <div class="hero-image">
@@ -35,7 +36,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
           Start planning
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
         </a>
-        <a class="btn btn-ghost" href="#inquiry">
+        <a class="btn btn-ghost" href="#inquire">
           Tell me where you're going
         </a>
       </div>
@@ -91,7 +92,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
           <p>Hard-to-book tables, local favorites, and dietary restrictions handled in advance.</p>
         </div>
         <div class="service-card rise" data-delay="4">
-          <h3>Transport & logistics</h3>
+          <h3>Transport &amp; logistics</h3>
           <p>JR Pass strategy, airport transfers, domestic flights, and the connections between them.</p>
         </div>
         <div class="service-card rise" data-delay="5">
@@ -158,23 +159,53 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     </div>
   </section>
 
-  <!-- ============================== INQUIRY ============================== -->
-  <section class="section section-soft" id="inquiry">
-    <div class="container" style="max-width: 64ch; text-align: center;">
+  <!-- ============================== INQUIRY FORM ============================== -->
+  <section id="inquire" class="section section-soft travel-form-section">
+    <div class="container-narrow">
       <header class="section-head rise">
-        <span class="eyebrow">Get started</span>
-        <h2 class="h2">Get in touch</h2>
-        <p class="lede">Ready to start planning? Send me an email and I'll be in touch within 24 hours.</p>
+        <span class="eyebrow">Start planning</span>
+        <h2 class="h2">Tell me about <em>your trip.</em></h2>
+        <p class="lede">Share what you have in mind — dates, destination, style, budget. I'll reply within a couple of days with honest thoughts and, if it's a good fit, next steps.</p>
       </header>
 
-      <div class="rise" data-delay="1" style="margin-top: var(--space-8);">
-        <a class="btn btn-primary btn-lg" href="mailto:aydrian.howard@foratravel.com?subject=Travel%20Inquiry">
-          Send me an email
-        </a>
-        <p style="font-size: var(--text-sm); color: var(--color-muted); margin-top: var(--space-4);">
-          Prefer to book directly? <a href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">Book through Fora</a>
-        </p>
-      </div>
+      <form id="inquiry-form" class="inquiry-form rise" data-delay="1" novalidate>
+        <!-- Honeypot: hidden from real users, filled by bots -->
+        <div class="inquiry-hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="inquiry-row">
+          <div class="inquiry-field">
+            <label class="inquiry-label" for="name">Name <span class="inquiry-required" aria-hidden="true">*</span></label>
+            <input class="inquiry-input" type="text" id="name" name="name" required autocomplete="name" placeholder="Aydrian Howard">
+          </div>
+          <div class="inquiry-field">
+            <label class="inquiry-label" for="email">Email <span class="inquiry-required" aria-hidden="true">*</span></label>
+            <input class="inquiry-input" type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+        </div>
+
+        <div class="inquiry-field">
+          <label class="inquiry-label" for="destination">
+            Destination
+            <span class="inquiry-optional">(optional)</span>
+          </label>
+          <input class="inquiry-input" type="text" id="destination" name="destination" placeholder="Japan, Southeast Asia, not sure yet…">
+        </div>
+
+        <div class="inquiry-field">
+          <label class="inquiry-label" for="message">About your trip <span class="inquiry-required" aria-hidden="true">*</span></label>
+          <textarea class="inquiry-input inquiry-textarea" id="message" name="message" required rows="6" placeholder="Rough dates, how many people, travel style, budget range, what you're hoping to experience — anything helps."></textarea>
+        </div>
+
+        <div id="inquiry-status" class="inquiry-status" role="status" aria-live="polite" hidden></div>
+
+        <button type="submit" class="btn btn-hot btn-lg" id="inquiry-submit">
+          Send inquiry
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </form>
     </div>
   </section>
 
@@ -193,6 +224,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
       </div>
     </div>
   </section>
+
 </Layout>
 
 <style>
@@ -236,9 +268,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
   }
 
   @media (max-width: 800px) {
-    .split {
-      grid-template-columns: 1fr;
-    }
+    .split { grid-template-columns: 1fr; }
   }
 
   .split-media img {
@@ -247,5 +277,144 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     object-fit: cover;
   }
 
+  /* ---- Form section ---- */
+  .travel-form-section { border-top: 1px solid var(--rule); }
 
+  .inquiry-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: relative;
+  }
+
+  .inquiry-row {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 600px) {
+    .inquiry-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  .inquiry-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .inquiry-label {
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .inquiry-required { color: var(--accent-hot); }
+  .inquiry-optional {
+    font-size: var(--fs-12);
+    font-weight: 400;
+    color: var(--ink-faint);
+  }
+
+  .inquiry-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--r-md);
+    border: 1px solid var(--rule-strong);
+    background: var(--bg-card);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--fs-16);
+    line-height: 1.5;
+    transition: border-color var(--dur-fast) var(--ease-out-quart),
+                box-shadow var(--dur-fast) var(--ease-out-quart);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .inquiry-input::placeholder { color: var(--ink-faint); }
+  .inquiry-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent);
+  }
+  .inquiry-input[aria-invalid="true"] {
+    border-color: var(--accent-hot);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-hot) 15%, transparent);
+  }
+
+  .inquiry-textarea {
+    resize: vertical;
+    min-height: 160px;
+  }
+
+  .inquiry-status {
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--r-md);
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+  .inquiry-status[data-type="success"] {
+    background: color-mix(in oklab, var(--hydro) 12%, transparent);
+    color: var(--hydro);
+    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
+  }
+  .inquiry-status[data-type="error"] {
+    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
+    color: var(--accent-hot);
+    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
+  }
+  :root.dark .inquiry-status[data-type="success"] { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 30%, transparent); }
 </style>
+
+<script>
+  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('inquiry-submit') as HTMLButtonElement | null;
+  const status = document.getElementById('inquiry-status') as HTMLElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !status) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    status.hidden = true;
+    status.removeAttribute('data-type');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const data = await res.json() as { success: boolean; error?: string };
+
+      if (data.success) {
+        status.dataset.type = 'success';
+        status.textContent = "Got it — I'll be in touch within a couple of days.";
+        status.hidden = false;
+        form.reset();
+        submitBtn.textContent = 'Sent';
+      } else {
+        status.dataset.type = 'error';
+        status.textContent = data.error ?? 'Something went wrong. Please try again.';
+        status.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+      }
+    } catch {
+      status.dataset.type = 'error';
+      status.textContent = 'Network error. Please check your connection and try again.';
+      status.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+    }
+  });
+</script>
