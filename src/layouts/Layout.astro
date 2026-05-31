@@ -79,6 +79,7 @@ import '../styles/global.css';
 
       <nav class="nav-links" aria-label="Primary">
         <a href="/#what-i-do">What I do</a>
+        <a href="/travel/" aria-current={Astro.url.pathname.startsWith('/travel/') ? 'page' : undefined}>Travel</a>
         <a href="/apps/tiny-maintenance/" aria-current={Astro.url.pathname.startsWith('/apps/') ? 'page' : undefined}>Apps</a>
         <a href="/atticus-list/" aria-current={Astro.url.pathname === '/atticus-list/' ? 'page' : undefined}>Atticus's list</a>
         <a href="/#contact">Contact</a>
