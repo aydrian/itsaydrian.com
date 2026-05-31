@@ -67,7 +67,8 @@ export const POST: APIRoute = async ({ request }) => {
   if (webhookUrl) {
     const token = env.WEBHOOK_AUTH_TOKEN;
     try {
-      const body = JSON.stringify(inquiry);
+      const payload = { event_type: 'inquiry', ...inquiry };
+      const body = JSON.stringify(payload);
       const sig = token ? await hmacSha256(token, body) : '';
       console.log('Sending webhook to:', webhookUrl);
       console.log('Signature:', sig ? 'present' : 'missing');
