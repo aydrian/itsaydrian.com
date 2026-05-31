@@ -1,0 +1,251 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const pageTitle = "Travel Advising — ItsAydrian Travel";
+const pageDescription = "Curated travel planning for trips worth taking. Certified Fora advisor with deep Japan expertise and a network spanning four continents.";
+---
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/assets/aydrian-travel.jpg"
+  ogImageAlt="Aydrian traveling — curated trips, planned well."
+  overlayHeader={true}
+  preloadImage="/assets/aydrian-travel.jpg"
+>
+  <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"TravelAgency","name":"ItsAydrian Travel","url":"https://itsaydrian.com/travel","email":"aydrian.howard@foratravel.com","founder":{"@type":"Person","name":"Aydrian Howard"},"areaServed":"Worldwide","knowsAbout":["Japan travel","Luxury travel","Itinerary planning","Hotel sourcing","Restaurant reservations"],"memberOf":{"@type":"Organization","name":"Fora Travel"},"sameAs":["https://www.foratravel.com/advisor/aydrian-howard"]}</script>
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="travel-hero-title">
+    <div class="hero-image">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/aydrian-travel-800.jpg">
+        <img src="/assets/aydrian-travel.jpg" alt="Aydrian on a train platform with luggage, ready to travel." width="1200" height="675" fetchpriority="high">
+      </picture>
+    </div>
+
+    <div class="container hero-inner">
+      <h1 id="travel-hero-title" class="hero-title rise" data-delay="1">
+        Travel is better<br>when someone<br><em>has your back.</em>
+      </h1>
+      <p class="hero-tagline rise" data-delay="2">
+        Curated planning for trips worth taking. Hotels, trains, restaurants, logistics —
+        handled. You show up and enjoy it.
+      </p>
+      <div class="hero-cta rise" data-delay="3">
+        <a class="btn btn-primary" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer" aria-label="Start planning (opens in new tab)">
+          Start planning
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#inquiry">
+          Tell me where you're going
+        </a>
+      </div>
+    </div>
+
+    <a href="#intro" class="hero-scroll" aria-label="Read on">Read on</a>
+  </section>
+
+  <!-- ============================== INTRO ============================== -->
+  <section id="intro" class="intro" aria-label="Introduction">
+    <div class="container">
+      <div class="intro-grid">
+        <p class="intro-lead rise">
+          I plan trips the way I want my own trips planned — <em>thoroughly, personally, and without the guesswork.</em>
+        </p>
+
+        <div class="intro-body">
+          <p class="rise" data-delay="1">
+            I'm a certified Fora travel advisor with a network across four continents and a particular
+            obsession with Japan. I've walked the backstreets of Kyoto, navigated Tokyo's subway at rush hour,
+            and eaten my way through Osaka's alleyways. That firsthand knowledge goes into every itinerary.
+          </p>
+          <p class="body rise" data-delay="2">
+            But Japan isn't the only place I know well. Whether it's a honeymoon in Italy, a family reunion
+            in the Caribbean, or a solo adventure in Southeast Asia — I handle the research, booking, and
+            logistics so you don't have to.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== SERVICES ============================== -->
+  <section class="section" id="services">
+    <div class="container">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto;">
+        <span class="eyebrow">What I handle</span>
+        <h2 class="h2">The details, <em>sorted.</em></h2>
+        <p class="lede">You dream it. I build the itinerary.</p>
+      </header>
+
+      <div class="services-grid">
+        <div class="service-card rise" data-delay="1">
+          <h3>Itinerary planning</h3>
+          <p>Day-by-day schedules with pacing that makes sense. No 7-museum days. No wasted transfers.</p>
+        </div>
+        <div class="service-card rise" data-delay="2">
+          <h3>Hotel sourcing</h3>
+          <p>Properties that match your style and budget — from boutique ryokans to business-friendly chains.</p>
+        </div>
+        <div class="service-card rise" data-delay="3">
+          <h3>Restaurant reservations</h3>
+          <p>Hard-to-book tables, local favorites, and dietary restrictions handled in advance.</p>
+        </div>
+        <div class="service-card rise" data-delay="4">
+          <h3>Transport & logistics</h3>
+          <p>JR Pass strategy, airport transfers, domestic flights, and the connections between them.</p>
+        </div>
+        <div class="service-card rise" data-delay="5">
+          <h3>Activity booking</h3>
+          <p>Museum tickets, guided tours, cooking classes, onsen reservations — locked in before you land.</p>
+        </div>
+        <div class="service-card rise" data-delay="6">
+          <h3>Real-time support</h3>
+          <p>Mid-trip changes happen. I troubleshoot, rebook, and adjust so you stay on track.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== JAPAN SPECIALTY ============================== -->
+  <section class="section section-soft" id="japan">
+    <div class="container">
+      <div class="split" style="--split-gap: var(--space-16);">
+        <div class="split-text">
+          <span class="eyebrow rise">Deep expertise</span>
+          <h2 class="h2 rise" data-delay="1">Japan is a <em>specialty.</em></h2>
+          <p class="lede rise" data-delay="2">
+            Four years of Japanese study. Yearly trips. JLPT-tested and working toward fluency.
+            This isn't armchair travel — it's lived experience.
+          </p>
+          <p class="body rise" data-delay="3">
+            I know which train to take, which side of the platform, and which convenience store
+            has the best onigiri. I can read the menus, navigate the apps, and explain the customs.
+            If Japan is on your list, you want someone who's been there, done that, and made the mistakes
+            so you don't have to.
+          </p>
+          <p class="body rise" data-delay="4">
+            <strong>Current trip on the books:</strong> Planning a honeymoon in Japan. Want to be next?
+          </p>
+        </div>
+        <div class="split-media rise" data-delay="2">
+          <img src="/assets/aydrian-tokyo-hero-1600.jpg" alt="Aydrian on a neon-lit Tokyo street at night." width="800" height="600" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CREDIBILITY ============================== -->
+  <section class="section" aria-label="Credentials">
+    <div class="container">
+      <div class="credibility-strip" style="display: flex; flex-wrap: wrap; gap: var(--space-8); align-items: center; justify-content: center;">
+        <div class="credibility-item rise" style="text-align: center;">
+          <img src="/assets/fora-profile.jpg" alt="Fora Travel profile" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto var(--space-4);">
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">Certified Fora Advisor</p>
+        </div>
+        <div class="credibility-item rise" data-delay="1" style="text-align: center;">
+          <p style="font-size: var(--text-3xl); font-weight: 700; color: var(--color-fg); line-height: 1;">4+</p>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">Years studying Japanese</p>
+        </div>
+        <div class="credibility-item rise" data-delay="2" style="text-align: center;">
+          <p style="font-size: var(--text-3xl); font-weight: 700; color: var(--color-fg); line-height: 1;">4</p>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">Continents in network</p>
+        </div>
+        <div class="credibility-item rise" data-delay="3" style="text-align: center;">
+          <p style="font-size: var(--text-3xl); font-weight: 700; color: var(--color-fg); line-height: 1;">1</p>
+          <p style="font-size: var(--text-sm); color: var(--color-muted);">Always direct</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== INQUIRY ============================== -->
+  <section class="section section-soft" id="inquiry">
+    <div class="container" style="max-width: 64ch; text-align: center;">
+      <header class="section-head rise">
+        <span class="eyebrow">Get started</span>
+        <h2 class="h2">Get in touch</h2>
+        <p class="lede">Ready to start planning? Send me an email and I'll be in touch within 24 hours.</p>
+      </header>
+
+      <div class="rise" data-delay="1" style="margin-top: var(--space-8);">
+        <a class="btn btn-primary btn-lg" href="mailto:aydrian.howard@foratravel.com?subject=Travel%20Inquiry">
+          Send me an email
+        </a>
+        <p style="font-size: var(--text-sm); color: var(--color-muted); margin-top: var(--space-4);">
+          Prefer to book directly? <a href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">Book through Fora</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CTA ============================== -->
+  <section class="section" style="text-align: center;">
+    <div class="container">
+      <h2 class="h2 rise">Ready when you are.</h2>
+      <p class="lede rise" data-delay="1">
+        No obligation, no pressure. Just a conversation about where you want to go.
+      </p>
+      <div class="rise" data-delay="2" style="margin-top: var(--space-8);">
+        <a class="btn btn-primary btn-lg" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer" aria-label="Book through Fora (opens in new tab)">
+          Book through Fora
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+
+  .service-card {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    transition: box-shadow var(--transition-fast);
+  }
+
+  .service-card:hover {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .service-card h3 {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    margin-bottom: var(--space-2);
+    color: var(--color-fg);
+  }
+
+  .service-card p {
+    font-size: var(--text-sm);
+    color: var(--color-muted);
+    line-height: 1.6;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--split-gap, var(--space-12));
+    align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .split-media img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    object-fit: cover;
+  }
+
+
+</style>
