@@ -19,6 +19,7 @@
 		"astro": "^6.3.7"
 	},
 	"devDependencies": {
+		"@astrojs/sitemap": "^3.4.0",
 		"wrangler": "^4.94.0"
 	},
 	"overrides": {
