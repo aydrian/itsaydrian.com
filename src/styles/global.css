@@ -683,25 +683,6 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
   .hero-inner { grid-template-columns: minmax(0, 56%) 1fr; }
   .hero-inner > * { grid-column: 1; }
 }
-.hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6em;
-  font-family: var(--font-body);
-  font-size: var(--fs-12);
-  font-weight: 500;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: rgba(244, 239, 238, 0.78);
-  margin-bottom: var(--space-6);
-}
-.hero-eyebrow::before {
-  content: "";
-  display: inline-block;
-  width: 32px;
-  height: 1px;
-  background: rgba(244, 239, 238, 0.5);
-}
 .hero-title {
   font-family: var(--font-display);
   font-size: clamp(3rem, 8vw, 6.5rem);
@@ -731,19 +712,32 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
   text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 .hero-tagline strong { color: var(--ink-on-image); font-weight: 600; }
-.hero-eyebrow { text-shadow: 0 1px 4px rgba(0,0,0,0.4); }
-.hero-meta {
+.hero-cta {
   margin-top: var(--space-10);
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-4);
   align-items: center;
 }
-.hero-meta .pill {
+.hero-cta .btn-primary {
+  background: var(--ink-on-image);
+  color: #14110e;
+  box-shadow: var(--shadow-sm);
+}
+.hero-cta .btn-primary:hover {
+  background: #ffffff;
+  color: #14110e;
+  box-shadow: var(--shadow-md);
+}
+.hero-cta .btn-ghost {
+  background: transparent;
+  color: var(--ink-on-image);
+  border: 1px solid rgba(244, 239, 238, 0.35);
+}
+.hero-cta .btn-ghost:hover {
   background: rgba(244, 239, 238, 0.10);
-  color: rgba(244, 239, 238, 0.92);
-  border-color: rgba(244, 239, 238, 0.22);
-  backdrop-filter: blur(6px);
+  border-color: rgba(244, 239, 238, 0.55);
+  color: #ffffff;
 }
 .hero-scroll {
   position: absolute;
@@ -779,6 +773,8 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
 @media (max-width: 700px) {
   .hero { min-height: 80vh; min-height: 80dvh; }
   .hero-tagline { font-size: var(--fs-16); }
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta .btn { width: 100%; }
 }
 
 /* Intro / "right now" strip */
