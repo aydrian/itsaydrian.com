@@ -1,0 +1,27 @@
+# llms.txt for itsaydrian.com
+
+> This file is intended for LLM crawlers and AI agents. It provides a structured overview of the site and links to key content areas.
+
+## About
+
+itsaydrian.com is the personal site of Aydrian — a one-person studio for travel advising, pet care, and indie software. The site is built with Astro and deployed on Cloudflare Pages.
+
+## Key Content Areas
+
+### Main Site
+- [Homepage](https://itsaydrian.com/) — Overview of the studio and primary offerings
+- [Privacy Policy](https://itsaydrian.com/privacy) — Site-wide privacy policy
+- [Terms of Service](https://itsaydrian.com/terms) — Site-wide terms of service
+
+### Indie Software
+- [Tiny Maintenance](https://itsaydrian.com/apps/tiny-maintenance) — App landing page for Tiny Maintenance
+  - [Privacy Policy](https://itsaydrian.com/apps/tiny-maintenance/privacy) — App-specific privacy policy
+  - [Terms of Service](https://itsaydrian.com/apps/tiny-maintenance/terms) — App-specific terms of service
+
+### Pet Care
+- [Atticus's List](https://itsaydrian.com/atticus-list) — Curated Amazon affiliate pet products and recommendations
+
+## Contact & Presence
+- Site: https://itsaydrian.com
+- Deployed on Cloudflare Pages
+- Astro-based static site

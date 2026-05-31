@@ -1,0 +1,240 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const pageTitle = "Aydrian Howard — ItsAydrian LLC";
+const pageDescription = "A small studio for the things I'm into — curated travel (with a Japan habit), pet care in NYC, and software I want to exist. Run by Aydrian Howard.";
+---
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","name":"Aydrian Howard","jobTitle":"Developer Advocate / Travel Advisor / Pet Care Provider","description":"One-person studio for travel advising, pet care, and indie software","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"worksFor":{"@type":"Organization","name":"ItsAydrian LLC"}},{"@type":"Organization","name":"ItsAydrian LLC","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","founder":{"@type":"Person","name":"Aydrian Howard"},"sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"areaServed":["New York, NY","Tokyo, Japan"],"knowsAbout":["Travel","Japan","Pet care","iOS development"]},{"@type":"WebSite","name":"ItsAydrian","url":"https://itsaydrian.com","description":"A small studio for travel advising, pet care, and indie software","publisher":{"@type":"Organization","name":"ItsAydrian LLC"}}]}</script>
+
+<Layout
+  title="Aydrian Howard"
+  description={pageDescription}
+  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
+  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
+  overlayHeader={true}
+  preloadImage="/assets/aydrian-tokyo-hero-1600.jpg"
+>
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-image">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/aydrian-tokyo-hero-800.jpg">
+        <source media="(max-width: 1600px)" srcset="/assets/aydrian-tokyo-hero-1600.jpg">
+        <img src="/assets/aydrian-tokyo-hero.jpg" alt="Aydrian standing on a neon-lit Tokyo street at night." fetchpriority="high">
+      </picture>
+    </div>
+
+    <div class="container hero-inner">
+      <h1 id="hero-title" class="hero-title rise" data-delay="1">
+        A small studio<br>for things <em>worth doing</em><br>well.
+        <span class="jp">いつもの場所、いつも丁寧に</span>
+      </h1>
+      <p class="hero-tagline rise" data-delay="2">
+        Travel advising with a Japan habit. Trusted pet care in New York. iOS apps I wanted to exist.
+        One person, three crafts, one address — <strong>howdy@itsaydrian.com</strong>.
+      </p>
+      <div class="hero-cta rise" data-delay="3">
+        <a class="btn btn-primary" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">
+          Plan a trip
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="mailto:howdy@itsaydrian.com">
+          Say howdy
+        </a>
+      </div>
+    </div>
+
+    <a href="#intro" class="hero-scroll" aria-label="Scroll to intro">Read on</a>
+  </section>
+
+  <!-- ============================== INTRO ============================== -->
+  <section id="intro" class="intro">
+    <div class="container">
+      <div class="intro-grid">
+        <p class="intro-lead rise">
+          Hi, I'm <em>Aydrian</em>. I run a one-person studio in New York for the work I most want to do.
+        </p>
+
+        <div class="intro-body">
+          <p class="rise" data-delay="1">
+            That work falls into three buckets: <strong>helping people travel well</strong> (especially in Japan),
+            <strong>looking after pets</strong> in my Manhattan neighborhood, and <strong>building small, careful software</strong> that
+            I think the world should have.
+          </p>
+          <p class="body rise" data-delay="2">
+            These aren't side hustles — they're the actual jobs. Every booking, walk, and download routes through this LLC.
+            If any of them sound useful, please get in touch.
+          </p>
+
+          <div class="now-strip rise" data-delay="3" aria-label="Recent activity">
+            <span class="eyebrow">Right now</span>
+            <ul>
+              <li><strong>Planning</strong> a honeymoon in Japan.</li>
+              <li><strong>Walking</strong> Atticus and friends in Upper Manhattan.</li>
+              <li><strong>Shipping</strong> Tiny Maintenance v1.3 — backup, history, and export.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WHAT I DO ============================== -->
+  <section id="what-i-do" class="section">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">What I do</span>
+        <h2 class="h2">Three crafts. <em>One person.</em></h2>
+        <p class="lede">All run through ItsAydrian LLC. Pick whichever fits — they're equally serious.</p>
+      </header>
+
+      <div class="services-grid">
+
+        <!-- Travel -->
+        <article class="card rise" data-delay="1" aria-labelledby="card-travel">
+          <div class="card-media card-media-portrait">
+            <img src="/assets/aydrian-travel.jpg" alt="Aydrian leaning against vending machines on a Tokyo street at night." loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="pill pill-cool">Travel advising</span>
+            <h3 id="card-travel">Plan a trip you'll <em>actually remember.</em></h3>
+            <p class="body-sm">
+              I'm an independent Fora-certified advisor specializing in Japan, solo trips, and budget-conscious itineraries that still feel curated. Hotel perks, restaurant access, and a real plan for the day you wake up jet-lagged.
+            </p>
+            <ul class="card-meta" role="list" aria-label="Specialties">
+              <li class="pill">Japan</li>
+              <li class="pill">Solo trips</li>
+              <li class="pill">Budget craft</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-primary" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer">
+              Plan with me
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+            <a class="btn-link" href="mailto:howdy@itsaydrian.com?subject=Travel%20advising">
+              Or just email me
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Pet Care -->
+        <article class="card rise" data-delay="2" aria-labelledby="card-pet">
+          <div class="card-media card-media-portrait">
+            <img src="/assets/atticus-card.jpg" alt="Aydrian smiling next to Atticus the corgi in a chest carrier in a Manhattan park." loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="pill pill-cool">Pet care · via Rover</span>
+            <h3 id="card-pet">Twenty years of <em>kind, careful</em> pet care.</h3>
+            <p class="body-sm">
+              Walks, sits, and overnight care across Manhattan. 5-star rated, enhanced background check, and a personal corgi (Atticus) who keeps me honest. New clients get $20 off their first booking.
+            </p>
+            <ul class="card-meta" role="list">
+              <li class="pill">⭐ 5.0 rating</li>
+              <li class="pill">NYC</li>
+              <li class="pill pill-hot">$20 off first booking</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-primary" href="https://www.rover.com/sit/aydrih08941" target="_blank" rel="noopener noreferrer">
+              Book on Rover
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+            </a>
+            <a class="btn-link" href="mailto:howdy@itsaydrian.com?subject=Pet%20care">
+              Or ask a question
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <!-- Atticus's List -->
+        <article class="card rise" data-delay="3" aria-labelledby="card-atticus">
+          <div class="card-media card-media-portrait">
+            <img src="/assets/atticus-portrait-card.jpg" alt="Atticus the corgi looking heroically across a Manhattan street." loading="lazy">
+          </div>
+          <div class="card-body">
+            <span class="pill pill-cool">Atticus's favorite things</span>
+            <h3 id="card-atticus">A corgi-tested gear list, <em>written by the corgi.</em></h3>
+            <p class="body-sm">
+              Toys, treats, supplements, and walking gear we actually use, with reviews enthusiastically dictated by Atticus himself. As an Amazon affiliate, I earn from qualifying purchases — none of which Atticus understands.
+            </p>
+            <ul class="card-meta" role="list">
+              <li class="pill">15 products</li>
+              <li class="pill">4 categories</li>
+              <li class="pill">100% corgi-approved</li>
+            </ul>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-primary" href="/atticus-list/">
+              See Atticus's picks
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== APPS ============================== -->
+  <section id="apps" class="section section-soft">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">Apps</span>
+        <h2 class="h2">Software I <em>wanted to exist.</em></h2>
+        <p class="lede">Small, opinionated tools — built carefully, sold simply, no account required.</p>
+      </header>
+
+      <div class="apps-grid">
+
+        <article class="app-card rise" data-delay="1" aria-labelledby="app-tm">
+          <img class="app-icon" src="/images/apps/tiny-maintenance/icon.png" alt="" aria-hidden="true" loading="lazy">
+          <div class="app-card-body">
+            <span class="pill">iOS · Now on the App Store</span>
+            <h3 id="app-tm">Tiny Maintenance</h3>
+            <p class="body">
+              Track recurring upkeep — filters, oil changes, fertilizing, vet visits — with reminders, templates, and a one-tap "done" that resets the schedule. Offline. Private. No login.
+            </p>
+          </div>
+          <div class="app-card-cta">
+            <a class="btn btn-hot btn-lg" href="https://apps.apple.com/us/app/tiny-maintenance/id6760630113" target="_blank" rel="noopener noreferrer">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              Download
+            </a>
+            <a class="btn-link" href="/apps/tiny-maintenance/">
+              See features
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="coming-soon rise" data-delay="2">
+          <span class="eyebrow">Cooking</span>
+          <h3>Two more in the workshop.</h3>
+          <p>I prefer to ship things when they're ready rather than tease screenshots. If you'd like early access when they land, send a note.</p>
+          <a class="btn-link" href="mailto:howdy@itsaydrian.com?subject=Early%20access">
+            Get early access
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CONTACT ============================== -->
+  <section id="contact" class="contact-band">
+    <div class="container">
+      <h2 class="display rise"><em>Say</em> howdy.</h2>
+      <p class="lede rise" data-delay="1">
+        One inbox for everything — travel quotes, dog walks, app feedback, just-saying-hi.
+        I read it all and I write back.
+      </p>
+      <a class="btn btn-hot btn-lg rise" data-delay="2" href="mailto:howdy@itsaydrian.com">
+        howdy@itsaydrian.com
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+</Layout>

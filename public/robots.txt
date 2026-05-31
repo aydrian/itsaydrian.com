@@ -1,0 +1,7 @@
+# Allow all web crawlers to access all parts of the site.
+# This is the robots.txt file for https://itsaydrian.com
+
+User-agent: *
+Allow: /
+
+Sitemap: https://itsaydrian.com/sitemap.xml

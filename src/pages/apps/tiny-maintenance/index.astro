@@ -1,0 +1,242 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+
+const pageTitle = "Tiny Maintenance — iOS";
+const pageDescription = "Track recurring upkeep for your home, car, garden, and pets. Reminders, templates, and a one-tap done — offline, no account required.";
+---
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"Tiny Maintenance","applicationCategory":"LifestyleApplication","operatingSystem":"iOS","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"inAppPurchase":"Pro subscription","description":"Track recurring upkeep with reminders, templates, and one-tap done","url":"https://itsaydrian.com/apps/tiny-maintenance","downloadUrl":"https://apps.apple.com/app/tiny-maintenance-reminders/id6760630113","author":{"@type":"Person","name":"Aydrian Howard"},"publisher":{"@type":"Organization","name":"ItsAydrian LLC"}}</script>
+
+<Layout
+  title="Tiny Maintenance"
+  description={pageDescription}
+  ogImage="/images/apps/tiny-maintenance/og.png"
+  ogImageAlt="Tiny Maintenance — Remember everything that needs doing."
+  preloadImage="/images/apps/tiny-maintenance/icon.png"
+>
+  <p slot="banner" class="tm-banner" role="status">🎉 Now available on the App Store</p>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="tm-hero">
+    <div class="container">
+      <img class="app-icon rise" src="/images/apps/tiny-maintenance/icon.png" alt="" aria-hidden="true">
+      <h1 class="display rise" data-delay="1">Tiny <em>Maintenance.</em></h1>
+      <p class="lede rise" data-delay="2">
+        Remember everything that needs doing. Never let upkeep slip through the cracks.
+      </p>
+      <p class="body rise" data-delay="3" style="max-width: 50ch; margin: var(--space-6) auto 0;">
+        Track recurring tasks for your home, car, garden, and pets. Set reminders. Stay on schedule. Never wonder when something was last done.
+      </p>
+      <a class="btn btn-primary btn-lg rise" data-delay="4" href="https://apps.apple.com/us/app/tiny-maintenance/id6760630113" target="_blank" rel="noopener noreferrer">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+        Download on the App Store
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================== SCREENSHOTS ============================== -->
+  <section class="section section-soft">
+    <div class="container">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto; align-items:center;">
+        <span class="eyebrow">A look inside</span>
+        <h2 class="h2"><em>Simple.</em> Organized. Yours.</h2>
+        <p class="lede">Everything you need, nothing you don't.</p>
+      </header>
+
+      <div class="tm-screens">
+        <figure class="tm-screen rise" data-delay="1">
+          <div class="tm-screen-img"><img src="/images/apps/tiny-maintenance/01-today.png" alt="Today's tasks list with overdue, today, and upcoming sections."></div>
+          <figcaption class="tm-screen-label">Today</figcaption>
+        </figure>
+        <figure class="tm-screen rise" data-delay="2">
+          <div class="tm-screen-img"><img src="/images/apps/tiny-maintenance/02-add-item.png" alt="Add a new maintenance item, with name, category, and interval."></div>
+          <figcaption class="tm-screen-label">Add anything</figcaption>
+        </figure>
+        <figure class="tm-screen rise" data-delay="3">
+          <div class="tm-screen-img"><img src="/images/apps/tiny-maintenance/03-templates.png" alt="Built-in templates organized by category."></div>
+          <figcaption class="tm-screen-label">Templates</figcaption>
+        </figure>
+        <figure class="tm-screen rise" data-delay="4">
+          <div class="tm-screen-img"><img src="/images/apps/tiny-maintenance/04-mark-done.png" alt="Marking a task done with a celebration animation."></div>
+          <figcaption class="tm-screen-label">Mark it done</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== CATEGORIES ============================== -->
+  <section class="section">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">Built for real life</span>
+        <h2 class="h2">Anything that needs doing <em>on a schedule.</em></h2>
+        <p class="lede">Templates ship for the obvious stuff. Custom tasks cover the rest.</p>
+      </header>
+
+      <div class="tm-categories">
+        <article class="tm-cat rise" data-delay="1">
+          <span class="tm-cat-icon" aria-hidden="true">🏠</span>
+          <h3>Home</h3>
+          <p>Filters, HVAC, smoke alarms, gutters.</p>
+        </article>
+        <article class="tm-cat rise" data-delay="2">
+          <span class="tm-cat-icon" aria-hidden="true">🚗</span>
+          <h3>Car</h3>
+          <p>Oil changes, tire rotation, registration.</p>
+        </article>
+        <article class="tm-cat rise" data-delay="3">
+          <span class="tm-cat-icon" aria-hidden="true">🪴</span>
+          <h3>Garden</h3>
+          <p>Watering, fertilizing, seasonal prep.</p>
+        </article>
+        <article class="tm-cat rise" data-delay="4">
+          <span class="tm-cat-icon" aria-hidden="true">🐾</span>
+          <h3>Pet care</h3>
+          <p>Vet visits, flea treatment, grooming.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== STEPS ============================== -->
+  <section class="section section-soft">
+    <div class="container">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto; align-items:center;">
+        <span class="eyebrow">How it works</span>
+        <h2 class="h2"><em>Three</em> steps. That's it.</h2>
+      </header>
+
+      <div class="tm-steps">
+        <div class="tm-step rise" data-delay="1">
+          <span class="tm-step-num">1</span>
+          <h3>Add what needs doing</h3>
+          <p class="body-sm">Pick a template or build from scratch. Set how often it repeats.</p>
+        </div>
+        <div class="tm-step rise" data-delay="2">
+          <span class="tm-step-num">2</span>
+          <h3>Get reminded when it's due</h3>
+          <p class="body-sm">Tiny Maintenance tracks the schedule and notifies you when something is coming up.</p>
+        </div>
+        <div class="tm-step rise" data-delay="3">
+          <span class="tm-step-num">3</span>
+          <h3>Mark it done</h3>
+          <p class="body-sm">One tap and the task resets for next time. Your history is saved automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== PRIVACY ============================== -->
+  <section class="section">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">Your data, your phone</span>
+        <h2 class="h2">Built to <em>stay out of the way.</em></h2>
+      </header>
+
+      <div class="tm-privacy">
+        <div class="tm-privacy-card rise" data-delay="1">
+          <h3>No account required</h3>
+          <p>Open the app and start. Nothing to sign up for.</p>
+        </div>
+        <div class="tm-privacy-card rise" data-delay="2">
+          <h3>Works offline</h3>
+          <p>Every feature works without an internet connection. Your data lives on your device.</p>
+        </div>
+        <div class="tm-privacy-card rise" data-delay="3">
+          <h3>Private by default</h3>
+          <p>Maintenance items are never uploaded or shared. There's no server.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ ============================== -->
+  <section class="section section-soft">
+    <div class="container container-narrow">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto; align-items:center;">
+        <span class="eyebrow">FAQ</span>
+        <h2 class="h2">Frequently asked.</h2>
+        <p class="lede">Everything you need to know.</p>
+      </header>
+
+      <div class="rise">
+
+        <div class="faq-group">
+          <h3>About the app</h3>
+          <details class="faq-item">
+            <summary>What is Tiny Maintenance?</summary>
+            <p>An iOS app for tracking recurring upkeep around your home, car, garden, and pets. Add an item, set how often it should happen, and get a friendly reminder when it's coming due. Tap "done" to reset the schedule.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is it free?</summary>
+            <p>Yes — free to download and use, no in-app purchases, no ads, no subscription.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Do I need to create an account?</summary>
+            <p>No. There's no sign-up flow. Open the app and start adding tasks.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does it work offline?</summary>
+            <p>Yes. Every feature works fully offline. The app does not require an internet connection.</p>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h3>Data & privacy</h3>
+          <details class="faq-item">
+            <summary>Where is my data stored?</summary>
+            <p>Locally on your device. There is no server — your maintenance items never leave your phone.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I export my data?</summary>
+            <p>Yes. Settings → Export produces a JSON backup you can save to Files, send to yourself, or import on a new device.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is there cloud sync?</summary>
+            <p>Not yet. Local-first is intentional. iCloud sync (so the same task list shows up on iPad) is on the roadmap.</p>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h3>Features</h3>
+          <details class="faq-item">
+            <summary>What maintenance categories are included?</summary>
+            <p>Templates ship for home, car, garden, and pet care, with dozens of pre-filled recurring tasks. Anything not in templates can be added as a custom item.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Can I create custom tasks?</summary>
+            <p>Yes. Any name, any interval (days, weeks, months, years). Templates are a head start, not a limit.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Does it have reminders and notifications?</summary>
+            <p>Yes. Push notifications when something is coming due. You control how far in advance and what time of day.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Is there an Android version?</summary>
+            <p>Not currently. iOS-only for now.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Will there be an iPad version?</summary>
+            <p>Yes — planned for a future update.</p>
+          </details>
+        </div>
+
+        <div class="faq-group">
+          <h3>Technical</h3>
+          <details class="faq-item">
+            <summary>What iOS version is required?</summary>
+            <p>iOS 17 or later.</p>
+          </details>
+          <details class="faq-item">
+            <summary>How do I report bugs or request features?</summary>
+            <p>Email <a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a>. Every message goes to me directly — I read all of them and write back.</p>
+          </details>
+        </div>
+      </div>
+
+      <p class="body-sm" style="text-align:center; margin-top: var(--space-12);">
+        Still have questions? <a href="mailto:howdy@itsaydrian.com">Email me</a>.
+      </p>
+    </div>
+  </section>
+</Layout>
