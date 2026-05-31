@@ -1,4 +1,4 @@
-<div id="travel-chat-widget" class="chat-widget" aria-label="Travel inquiry chat" aria-hidden="true">
+<div id="travel-chat-widget" class="chat-widget" aria-label="Travel inquiry chat">
   <!-- Floating trigger button -->
   <button
     id="chat-trigger"
@@ -12,7 +12,7 @@
   </button>
 
   <!-- Chat panel -->
-  <div id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chat-title" hidden>
+  <div id="chat-panel" class="chat-panel" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="chat-title" hidden>
     <div class="chat-header">
       <div class="chat-avatar" aria-hidden="true">J</div>
       <div class="chat-header-info">
@@ -401,25 +401,97 @@
     ];
     let currentField = 0;
     let isSubmitted = false;
+    let lastFocused: HTMLElement | null = null;
+    let outsideController: AbortController | null = null;
+
+    function getFocusables() {
+      if (!panel) return [];
+      return Array.from(
+        panel.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.offsetParent !== null);
+    }
+
+    function trapFocus(e: KeyboardEvent) {
+      if (e.key !== 'Tab' || !panel) return;
+      const focusables = getFocusables();
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    function resetForm() {
+      currentField = 0;
+      isSubmitted = false;
+      form?.reset();
+      status?.setAttribute('hidden', '');
+      status?.removeAttribute('data-type');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+      }
+      // Hide all field groups except first
+      fields.forEach((f, i) => {
+        const el = document.getElementById(f.id);
+        if (el) {
+          if (i === 0) {
+            el.removeAttribute('hidden');
+          } else {
+            el.setAttribute('hidden', '');
+          }
+        }
+      });
+      document.getElementById('chat-submit-group')?.setAttribute('hidden', '');
+      // Remove any added confirmation messages
+      const added = messages?.querySelectorAll('.chat-message-added');
+      added?.forEach((el) => el.remove());
+    }
 
     function open() {
+      lastFocused = document.activeElement as HTMLElement;
+      resetForm();
       panel?.removeAttribute('hidden');
-      // small delay for transition
+      panel?.removeAttribute('aria-hidden');
       requestAnimationFrame(() => {
         panel?.classList.add('is-open');
       });
       trigger?.setAttribute('aria-expanded', 'true');
-      widget?.setAttribute('aria-hidden', 'false');
+      document.addEventListener('keydown', trapFocus);
+      // Close on Escape and click outside
+      outsideController = new AbortController();
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
+          close();
+        }
+      }, { signal: outsideController.signal });
+      document.addEventListener('click', (e) => {
+        if (panel?.classList.contains('is-open') && !widget?.contains(e.target as Node)) {
+          close();
+        }
+      }, { signal: outsideController.signal });
       showField(0);
     }
 
     function close() {
       panel?.classList.remove('is-open');
+      panel?.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', trapFocus);
+      outsideController?.abort();
+      outsideController = null;
       setTimeout(() => {
         panel?.setAttribute('hidden', '');
       }, 250);
       trigger?.setAttribute('aria-expanded', 'false');
-      widget?.setAttribute('aria-hidden', 'true');
+      lastFocused?.focus();
+      lastFocused = null;
     }
 
     function showField(index: number) {
@@ -433,7 +505,6 @@
       group.removeAttribute('hidden');
       const input = document.getElementById(fields[index].input) as HTMLElement | null;
       setTimeout(() => input?.focus(), 100);
-      // Auto-advance on blur if value exists
       const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
       if (inputEl) {
         const onBlur = () => {
@@ -455,20 +526,6 @@
     });
 
     closeBtn?.addEventListener('click', close);
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && panel?.classList.contains('is-open')) {
-        close();
-      }
-    });
-
-    // Also close when clicking outside the panel
-    document.addEventListener('click', (e) => {
-      if (panel?.classList.contains('is-open') && !widget?.contains(e.target as Node)) {
-        close();
-      }
-    });
 
     form?.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -494,9 +551,8 @@
           status.hidden = false;
           form.reset();
 
-          // Add Janine's confirmation message
           const confirmation = document.createElement('div');
-          confirmation.className = 'chat-message chat-message-incoming';
+          confirmation.className = 'chat-message chat-message-incoming chat-message-added';
           confirmation.innerHTML = '<div class="chat-bubble"><p>We\'ll look over it and get back to you.</p></div>';
           messages?.appendChild(confirmation);
           messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
@@ -507,14 +563,14 @@
           status.textContent = data.error ?? 'Something went wrong. Please try again.';
           status.hidden = false;
           submitBtn.disabled = false;
-          submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+          submitBtn.textContent = 'Send inquiry';
         }
       } catch {
         status.dataset.type = 'error';
         status.textContent = 'Network error. Please check your connection and try again.';
         status.hidden = false;
         submitBtn.disabled = false;
-        submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+        submitBtn.textContent = 'Send inquiry';
       }
     });
   })();
