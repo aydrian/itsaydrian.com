@@ -245,6 +245,19 @@
     overflow-y: auto;
     flex: 1;
   }
+  .chat-form.is-hiding {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+
+  @keyframes chat-message-in {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .chat-message-added {
+    animation: chat-message-in 0.35s ease forwards;
+  }
 
   .chat-field {
     display: flex;
@@ -400,7 +413,10 @@
     function resetForm() {
       isSubmitted = false;
       form?.reset();
-      if (form) form.style.display = '';
+      if (form) {
+        form.classList.remove('is-hiding');
+        form.style.display = '';
+      }
       status?.setAttribute('hidden', '');
       status?.removeAttribute('data-type');
       if (submitBtn) {
@@ -493,10 +509,12 @@
 
           const janineBubble = document.createElement('div');
           janineBubble.className = 'chat-message chat-message-incoming chat-message-added';
+          janineBubble.style.animationDelay = '0.15s';
           janineBubble.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
           messages?.appendChild(janineBubble);
 
-          form.style.display = 'none';
+          form.classList.add('is-hiding');
+          setTimeout(() => { form.style.display = 'none'; }, 250);
           messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
 
           submitBtn.textContent = 'Sent';
