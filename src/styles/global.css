@@ -7,7 +7,7 @@
   color-scheme: light dark;
 
   /* Brand (preserved from original site) */
-  --hydro: #49747f;
+  --hydro: #3c6470;
   --angel-feather: #f4efee;
   --scoville-high: #e34b26;
   --english-breakfast: #441111;
@@ -21,7 +21,7 @@
 
   --ink: #14110e;
   --ink-soft: #5a534d;
-  --ink-faint: #8e857d;
+  --ink-faint: #706660;
   --ink-on-image: #f8f5f1;
 
   --accent: var(--crowberry-blue);
@@ -546,7 +546,7 @@ main { flex: 1; }
 .footer-brand .display { font-size: 2.25rem; line-height: 1.05; }
 .footer-brand .body-sm { max-width: 36ch; margin-top: var(--space-3); }
 
-.footer-section h4 {
+.footer-section h3 {
   font-size: var(--fs-12);
   font-weight: 500;
   letter-spacing: 0.18em;

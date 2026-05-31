@@ -14,7 +14,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
   ogImageHeight={1066}
   ogImageType="image/jpeg"
   overlayHeader={true}
-  preloadImage="/assets/aydrian-travel.jpg"
+  preloadImage="/assets/aydrian-travel-800.jpg"
 >
   <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"TravelAgency","name":"ItsAydrian Travel","url":"https://itsaydrian.com/travel","email":"aydrian.howard@foratravel.com","founder":{"@type":"Person","name":"Aydrian Howard"},"areaServed":"Worldwide","knowsAbout":["Japan travel","Luxury travel","Itinerary planning","Hotel sourcing","Restaurant reservations"],"memberOf":{"@type":"Organization","name":"Fora Travel"},"sameAs":["https://www.foratravel.com/advisor/aydrian-howard"]}</script>
 
@@ -36,17 +36,17 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         handled. You show up and enjoy it.
       </p>
       <div class="hero-cta rise" data-delay="3">
-        <button class="btn btn-primary chat-trigger-btn" data-open-chat aria-label="Start planning your trip">
+        <button class="btn btn-primary chat-trigger-btn" data-open-chat aria-label="Start planning — open travel inquiry chat">
           Start planning
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
-        <button class="btn btn-ghost chat-trigger-btn" data-open-chat>
+        <button class="btn btn-ghost chat-trigger-btn" data-open-chat aria-label="Tell me where you're going — open travel inquiry chat">
           Tell me where you're going
         </button>
       </div>
     </div>
 
-    <a href="#intro" class="hero-scroll" aria-label="Read on">Read on</a>
+    <a href="#intro" class="hero-scroll" aria-label="Read on — scroll to intro">Read on</a>
   </section>
 
   <!-- ============================== INTRO ============================== -->
@@ -171,7 +171,7 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
         No obligation, no pressure. Just a conversation about where you want to go.
       </p>
       <div class="rise" data-delay="2" style="margin-top: var(--space-8);">
-        <button class="btn btn-primary btn-lg chat-trigger-btn" data-open-chat aria-label="Open travel inquiry chat">
+        <button class="btn btn-primary btn-lg chat-trigger-btn" data-open-chat aria-label="Reach out — open travel inquiry chat">
           Reach out
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
@@ -237,10 +237,6 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
     cursor: pointer;
     border: none;
     font-family: inherit;
-  }
-  .chat-trigger-btn.btn-ghost {
-    background: transparent;
-    color: var(--ink);
   }
 </style>
 
