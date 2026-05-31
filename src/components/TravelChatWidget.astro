@@ -456,10 +456,6 @@
       // Hide all field groups except first
       fields.forEach((f, i) => {
         const el = document.getElementById(f.id);
-        const input = document.getElementById(f.input) as HTMLInputElement | HTMLTextAreaElement | null;
-        if (input) {
-          input.required = false;
-        }
         if (el) {
           if (i === 0) {
             el.removeAttribute('hidden');
@@ -523,17 +519,9 @@
       setTimeout(() => input?.focus(), 100);
       const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
       if (inputEl) {
-        // Only the currently visible field is required
-        if (fields[index].input !== 'chat-destination') {
-          inputEl.required = true;
-        }
-
         const advance = () => {
           const val = inputEl.value.trim();
           if (!val || index !== currentField) return;
-
-          // Remove required from answered field so browser doesn't validate it
-          inputEl.required = false;
 
           // Replace the input row with a plain text answer bubble
           const inputRow = group.querySelector('.chat-field-input-row');
