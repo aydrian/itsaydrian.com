@@ -203,6 +203,14 @@
   .chat-message-incoming {
     align-self: flex-start;
   }
+  .chat-message-outgoing {
+    align-self: flex-end;
+  }
+  .chat-message-outgoing .chat-bubble {
+    background: var(--accent);
+    color: var(--bg);
+    border-bottom-right-radius: 4px;
+  }
 
   .chat-bubble {
     padding: var(--space-3) var(--space-4);
@@ -388,6 +396,7 @@
     function resetForm() {
       isSubmitted = false;
       form?.reset();
+      if (form) form.style.display = '';
       status?.setAttribute('hidden', '');
       status?.removeAttribute('data-type');
       if (submitBtn) {
@@ -467,15 +476,23 @@
 
         if (data.success) {
           isSubmitted = true;
-          status.dataset.type = 'success';
-          status.textContent = "Aydrian will look over your inquiry and get back to you.";
-          status.hidden = false;
+          const formData2 = new FormData(form);
+          const name = formData2.get('name') as string;
+          const destination = formData2.get('destination') as string;
           form.reset();
 
-          const confirmation = document.createElement('div');
-          confirmation.className = 'chat-message chat-message-incoming chat-message-added';
-          confirmation.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
-          messages?.appendChild(confirmation);
+          const tripLabel = destination ? `${name}'s ${destination} trip` : `${name}'s trip`;
+          const userBubble = document.createElement('div');
+          userBubble.className = 'chat-message chat-message-outgoing chat-message-added';
+          userBubble.innerHTML = `<div class="chat-bubble"><p>${tripLabel}</p></div>`;
+          messages?.appendChild(userBubble);
+
+          const janineBubble = document.createElement('div');
+          janineBubble.className = 'chat-message chat-message-incoming chat-message-added';
+          janineBubble.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
+          messages?.appendChild(janineBubble);
+
+          form.style.display = 'none';
           messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
 
           submitBtn.textContent = 'Sent';
