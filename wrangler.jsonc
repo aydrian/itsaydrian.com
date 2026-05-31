@@ -9,5 +9,14 @@
 	},
 	"observability": {
 		"enabled": true
-	}
+	},
+	// Run: wrangler kv namespace create TRAVEL_INQUIRIES
+	// Replace the id and preview_id values with the output from that command.
+	"kv_namespaces": [
+		{
+			"binding": "TRAVEL_INQUIRIES",
+			"id": "REPLACE_WITH_PRODUCTION_KV_ID",
+			"preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+		}
+	]
 }

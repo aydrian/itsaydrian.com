@@ -1,0 +1,403 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Travel Advising","description":"Independent travel advising specializing in Japan, solo trips, and budget-conscious itineraries. Hotel perks, restaurant access, and a real plan.","provider":{"@type":"Organization","name":"ItsAydrian LLC","email":"howdy@itsaydrian.com"},"areaServed":"Worldwide","url":"https://itsaydrian.com/travel"}</script>
+
+<Layout
+  title="Travel Advising"
+  description="Independent travel advising specializing in Japan, solo trips, and budget-conscious itineraries that still feel curated. Send an inquiry to start planning."
+  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
+  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
+  overlayHeader={true}
+  preloadImage="/assets/aydrian-tokyo-hero-1600.jpg"
+>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="travel-hero">
+    <div class="travel-hero-img">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/aydrian-tokyo-hero-800.jpg">
+        <img src="/assets/aydrian-tokyo-hero-1600.jpg" alt="Aydrian on a neon-lit Tokyo street at night." fetchpriority="high">
+      </picture>
+    </div>
+    <div class="container travel-hero-inner">
+      <span class="eyebrow rise" style="color: rgba(244,239,238,0.7)">Travel advising</span>
+      <h1 class="travel-hero-title rise" data-delay="1">A trip worth <em>remembering.</em></h1>
+      <p class="travel-hero-lede rise" data-delay="2">
+        Independent Fora-certified advisor. Specializing in Japan, solo travel, and itineraries that feel curated without costing more. Hotel perks, real restaurant picks, and someone who's actually been there.
+      </p>
+      <div class="travel-hero-cta rise" data-delay="3">
+        <a class="btn btn-primary" href="#inquire" style="background: var(--ink-on-image); color: #14110e;">
+          Send an inquiry
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://www.foratravel.com/advisor/aydrian-howard" target="_blank" rel="noopener noreferrer" style="color: var(--ink-on-image); border-color: rgba(244,239,238,0.35);">
+          View Fora profile
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WHAT TO EXPECT ============================== -->
+  <section class="section travel-about">
+    <div class="container-narrow">
+      <div class="travel-about-grid">
+        <div class="rise">
+          <span class="eyebrow">What I do</span>
+          <h2 class="h2" style="margin-top: var(--space-3)">Planning that <em>actually helps.</em></h2>
+          <p class="body" style="margin-top: var(--space-6)">
+            I match hotels to your travel style, flag the spots worth your time (and skip lists are as useful as bucket lists), and put together a day-by-day plan you can actually use. If it's a bad fit I'll tell you that too.
+          </p>
+        </div>
+        <ul class="travel-specialties rise" data-delay="1" role="list">
+          <li>
+            <span class="travel-specialty-icon" aria-hidden="true">🗾</span>
+            <div>
+              <strong>Japan</strong>
+              <p>Tokyo, Kyoto, off-beat prefectures. I've been many times and plan trips there every month.</p>
+            </div>
+          </li>
+          <li>
+            <span class="travel-specialty-icon" aria-hidden="true">🧭</span>
+            <div>
+              <strong>Solo travel</strong>
+              <p>Itineraries built around one person — flexible, independent, and still well-organized.</p>
+            </div>
+          </li>
+          <li>
+            <span class="travel-specialty-icon" aria-hidden="true">✦</span>
+            <div>
+              <strong>Budget craft</strong>
+              <p>Getting a curated experience at a sensible price. No upsells on things that don't matter.</p>
+            </div>
+          </li>
+          <li>
+            <span class="travel-specialty-icon" aria-hidden="true">🏨</span>
+            <div>
+              <strong>Hotel perks</strong>
+              <p>As a Fora advisor I can add complimentary upgrades, breakfast, and credits on qualifying stays.</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== INQUIRY FORM ============================== -->
+  <section id="inquire" class="section section-soft travel-form-section">
+    <div class="container-narrow">
+      <header class="section-head rise">
+        <span class="eyebrow">Start planning</span>
+        <h2 class="h2">Tell me about <em>your trip.</em></h2>
+        <p class="lede">Share what you have in mind — dates, destination, style, budget. I'll reply within a couple of days with honest thoughts and, if it's a good fit, next steps.</p>
+      </header>
+
+      <form id="inquiry-form" class="inquiry-form rise" data-delay="1" novalidate>
+        <!-- Honeypot: hidden from real users, filled by bots -->
+        <div class="inquiry-hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="inquiry-row">
+          <div class="inquiry-field">
+            <label class="inquiry-label" for="name">Name <span class="inquiry-required" aria-hidden="true">*</span></label>
+            <input class="inquiry-input" type="text" id="name" name="name" required autocomplete="name" placeholder="Aydrian Howard">
+          </div>
+          <div class="inquiry-field">
+            <label class="inquiry-label" for="email">Email <span class="inquiry-required" aria-hidden="true">*</span></label>
+            <input class="inquiry-input" type="email" id="email" name="email" required autocomplete="email" placeholder="you@example.com">
+          </div>
+        </div>
+
+        <div class="inquiry-field">
+          <label class="inquiry-label" for="destination">
+            Destination
+            <span class="inquiry-optional">(optional)</span>
+          </label>
+          <input class="inquiry-input" type="text" id="destination" name="destination" placeholder="Japan, Southeast Asia, not sure yet…">
+        </div>
+
+        <div class="inquiry-field">
+          <label class="inquiry-label" for="message">About your trip <span class="inquiry-required" aria-hidden="true">*</span></label>
+          <textarea class="inquiry-input inquiry-textarea" id="message" name="message" required rows="6" placeholder="Rough dates, how many people, travel style, budget range, what you're hoping to experience — anything helps."></textarea>
+        </div>
+
+        <div id="inquiry-status" class="inquiry-status" role="status" aria-live="polite" hidden></div>
+
+        <button type="submit" class="btn btn-hot btn-lg" id="inquiry-submit">
+          Send inquiry
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+</Layout>
+
+<style>
+  /* ---- Hero ---- */
+  .travel-hero {
+    position: relative;
+    min-height: 80vh;
+    min-height: 80dvh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: #0a0c10;
+    margin-top: -88px;
+    padding-top: 88px;
+  }
+  .travel-hero-img {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .travel-hero-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 78% 38%;
+  }
+  .travel-hero-img::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, rgba(8,10,15,0.88) 0%, rgba(8,10,15,0.65) 30%, rgba(8,10,15,0.20) 55%, rgba(8,10,15,0.0) 72%),
+      linear-gradient(180deg, rgba(8,10,15,0.55) 0%, rgba(8,10,15,0.0) 28%),
+      linear-gradient(180deg, rgba(8,10,15,0.0) 55%, rgba(8,10,15,0.60) 82%, rgba(8,10,15,0.94) 100%);
+  }
+  .travel-hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    padding-block: var(--space-20) var(--space-16);
+    color: var(--ink-on-image);
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 900px) {
+    .travel-hero-inner { grid-template-columns: minmax(0, 58%) 1fr; }
+    .travel-hero-inner > * { grid-column: 1; }
+  }
+  .travel-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+    font-weight: 400;
+    line-height: 0.97;
+    letter-spacing: -0.018em;
+    max-width: 16ch;
+    text-wrap: balance;
+    text-shadow: 0 2px 32px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3);
+    margin-top: var(--space-3);
+  }
+  .travel-hero-title em { font-style: italic; }
+  .travel-hero-lede {
+    margin-top: var(--space-6);
+    font-size: var(--fs-18);
+    line-height: 1.55;
+    color: rgba(244, 239, 238, 0.88);
+    max-width: 52ch;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.5);
+  }
+  .travel-hero-cta {
+    margin-top: var(--space-10);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: center;
+  }
+  @media (max-width: 700px) {
+    .travel-hero { min-height: 70vh; min-height: 70dvh; }
+    .travel-hero-lede { font-size: var(--fs-16); }
+    .travel-hero-cta { flex-direction: column; align-items: stretch; }
+    .travel-hero-cta .btn { width: 100%; justify-content: center; }
+  }
+
+  /* ---- About ---- */
+  .travel-about { border-bottom: 1px solid var(--rule); }
+  .travel-about-grid {
+    display: grid;
+    gap: var(--space-12);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 860px) {
+    .travel-about-grid { grid-template-columns: 1fr 1fr; gap: var(--space-16); align-items: start; }
+  }
+
+  .travel-specialties {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .travel-specialties li {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+  }
+  .travel-specialty-icon {
+    font-size: var(--fs-20);
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .travel-specialties strong {
+    display: block;
+    font-size: var(--fs-16);
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: var(--space-1);
+  }
+  .travel-specialties p {
+    font-size: var(--fs-14);
+    color: var(--ink-soft);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ---- Form section ---- */
+  .travel-form-section { border-top: 1px solid var(--rule); }
+
+  /* Honeypot — visually and physically hidden */
+  .inquiry-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .inquiry-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    position: relative;
+  }
+
+  .inquiry-row {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+  @media (min-width: 600px) {
+    .inquiry-row { grid-template-columns: 1fr 1fr; }
+  }
+
+  .inquiry-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .inquiry-label {
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+  .inquiry-required { color: var(--accent-hot); }
+  .inquiry-optional {
+    font-size: var(--fs-12);
+    font-weight: 400;
+    color: var(--ink-faint);
+  }
+
+  .inquiry-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border-radius: var(--r-md);
+    border: 1px solid var(--rule-strong);
+    background: var(--bg-card);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--fs-16);
+    line-height: 1.5;
+    transition: border-color var(--dur-fast) var(--ease-out-quart),
+                box-shadow var(--dur-fast) var(--ease-out-quart);
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .inquiry-input::placeholder { color: var(--ink-faint); }
+  .inquiry-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 18%, transparent);
+  }
+  .inquiry-input[aria-invalid="true"] {
+    border-color: var(--accent-hot);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-hot) 15%, transparent);
+  }
+
+  .inquiry-textarea {
+    resize: vertical;
+    min-height: 160px;
+  }
+
+  .inquiry-status {
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--r-md);
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+  .inquiry-status[data-type="success"] {
+    background: color-mix(in oklab, var(--hydro) 12%, transparent);
+    color: var(--hydro);
+    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
+  }
+  .inquiry-status[data-type="error"] {
+    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
+    color: var(--accent-hot);
+    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
+  }
+  :root.dark .inquiry-status[data-type="success"] { color: var(--accent); border-color: color-mix(in oklab, var(--accent) 30%, transparent); }
+</style>
+
+<script>
+  const form = document.getElementById('inquiry-form') as HTMLFormElement | null;
+  const submitBtn = document.getElementById('inquiry-submit') as HTMLButtonElement | null;
+  const status = document.getElementById('inquiry-status') as HTMLElement | null;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!submitBtn || !status) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    status.hidden = true;
+    status.removeAttribute('data-type');
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        body: new FormData(form),
+      });
+      const data = await res.json() as { success: boolean; error?: string };
+
+      if (data.success) {
+        status.dataset.type = 'success';
+        status.textContent = "Got it — I'll be in touch within a couple of days.";
+        status.hidden = false;
+        form.reset();
+        submitBtn.textContent = 'Sent';
+      } else {
+        status.dataset.type = 'error';
+        status.textContent = data.error ?? 'Something went wrong. Please try again.';
+        status.hidden = false;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+      }
+    } catch {
+      status.dataset.type = 'error';
+      status.textContent = 'Network error. Please check your connection and try again.';
+      status.hidden = false;
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = 'Send inquiry <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
+    }
+  });
+</script>
