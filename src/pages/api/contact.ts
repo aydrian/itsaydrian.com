@@ -3,6 +3,18 @@ import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
+async function hmacSha256(secret: string, message: string): Promise<string> {
+  const key = await crypto.subtle.importKey(
+    'raw', new TextEncoder().encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false, ['sign']
+  );
+  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message));
+  return Array.from(new Uint8Array(sig))
+    .map((b) => b.toString(16).padStart(2, '0'))
+    .join('');
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let formData: FormData;
   try {
@@ -55,13 +67,15 @@ export const POST: APIRoute = async ({ request }) => {
   if (webhookUrl) {
     const token = env.WEBHOOK_AUTH_TOKEN;
     try {
+      const body = JSON.stringify(inquiry);
+      const sig = token ? await hmacSha256(token, body) : '';
       await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+          ...(sig ? { 'X-Hub-Signature-256': `sha256=${sig}` } : {}),
         },
-        body: JSON.stringify(inquiry),
+        body,
       });
     } catch (err) {
       console.error('Webhook failed:', err);
