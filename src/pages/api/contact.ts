@@ -69,7 +69,9 @@ export const POST: APIRoute = async ({ request }) => {
     try {
       const body = JSON.stringify(inquiry);
       const sig = token ? await hmacSha256(token, body) : '';
-      await fetch(webhookUrl, {
+      console.log('Sending webhook to:', webhookUrl);
+      console.log('Signature:', sig ? 'present' : 'missing');
+      const response = await fetch(webhookUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -77,6 +79,9 @@ export const POST: APIRoute = async ({ request }) => {
         },
         body,
       });
+      console.log('Webhook response status:', response.status);
+      const responseText = await response.text();
+      console.log('Webhook response body:', responseText);
     } catch (err) {
       console.error('Webhook failed:', err);
     }
