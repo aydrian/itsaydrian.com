@@ -15,8 +15,8 @@
 	"kv_namespaces": [
 		{
 			"binding": "TRAVEL_INQUIRIES",
-			"id": "REPLACE_WITH_PRODUCTION_KV_ID",
-			"preview_id": "REPLACE_WITH_PREVIEW_KV_ID"
+			"id": "a069b0f8afb448289b67c3db68a04fcb",
+			"preview_id": "3185b642052848c7854c567c30d6ab28"
 		}
 	]
 }
