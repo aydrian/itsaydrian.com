@@ -7,7 +7,12 @@
     aria-expanded="false"
     aria-controls="chat-panel"
   >
-    <span class="chat-trigger-icon" aria-hidden="true">✈️</span>
+    <span class="chat-trigger-icon">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M21.5 2.5L2 10.5L11 13L14 22L21.5 2.5Z"/>
+        <path d="M11 13L16.5 7.5"/>
+      </svg>
+    </span>
     <span class="chat-trigger-text">Plan a trip</span>
   </button>
 
@@ -17,7 +22,7 @@
       <div class="chat-avatar" aria-hidden="true">J</div>
       <div class="chat-header-info">
         <h2 id="chat-title" class="chat-header-name">Janine</h2>
-        <p class="chat-header-status">Travel assistant</p>
+        <p class="chat-header-status">Aydrian's virtual assistant</p>
       </div>
       <button id="chat-close" class="chat-close" aria-label="Close chat">✕</button>
     </div>
@@ -26,8 +31,7 @@
       <!-- Welcome message -->
       <div class="chat-message chat-message-incoming">
         <div class="chat-bubble">
-          <p>Hi, I'm Janine. Let's start your trip.</p>
-          <p>First I need some information.</p>
+          <p>Hi, I'm Janine — Aydrian's virtual assistant. I'll help you start planning your trip.</p>
         </div>
       </div>
     </div>
@@ -43,7 +47,7 @@
         <div class="chat-message chat-message-incoming">
           <div class="chat-bubble">What's your name?</div>
         </div>
-        <div class="chat-message chat-message-outgoing">
+        <div class="chat-message chat-message-outgoing chat-field-input-row">
           <input
             class="chat-input"
             type="text"
@@ -61,7 +65,7 @@
         <div class="chat-message chat-message-incoming">
           <div class="chat-bubble">What's your email?</div>
         </div>
-        <div class="chat-message chat-message-outgoing">
+        <div class="chat-message chat-message-outgoing chat-field-input-row">
           <input
             class="chat-input"
             type="email"
@@ -79,7 +83,7 @@
         <div class="chat-message chat-message-incoming">
           <div class="chat-bubble">Where are you thinking of going? <span class="chat-optional">(optional)</span></div>
         </div>
-        <div class="chat-message chat-message-outgoing">
+        <div class="chat-message chat-message-outgoing chat-field-input-row">
           <input
             class="chat-input"
             type="text"
@@ -95,7 +99,7 @@
         <div class="chat-message chat-message-incoming">
           <div class="chat-bubble">Tell me about your trip — rough dates, how many people, travel style, budget, what you're hoping to experience.</div>
         </div>
-        <div class="chat-message chat-message-outgoing">
+        <div class="chat-message chat-message-outgoing chat-field-input-row">
           <textarea
             class="chat-input chat-textarea"
             id="chat-message"
@@ -153,7 +157,11 @@
   .chat-trigger:active {
     transform: translateY(0);
   }
-  .chat-trigger-icon { font-size: 1.2em; }
+  .chat-trigger-icon {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
 
   .chat-panel {
     position: absolute;
@@ -298,6 +306,10 @@
     display: none;
   }
 
+  .chat-field-input-row.is-answered {
+    display: none;
+  }
+
   .chat-input {
     width: 100%;
     padding: var(--space-3) var(--space-4);
@@ -438,6 +450,12 @@
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
       }
+      // Remove answer bubbles and restore input rows
+      widget?.querySelectorAll('.chat-message-added').forEach((el) => el.remove());
+      fields.forEach((f) => {
+        const group = document.getElementById(f.id);
+        group?.querySelector('.chat-field-input-row')?.classList.remove('is-answered');
+      });
       // Hide all field groups except first
       fields.forEach((f, i) => {
         const el = document.getElementById(f.id);
@@ -450,9 +468,6 @@
         }
       });
       document.getElementById('chat-submit-group')?.setAttribute('hidden', '');
-      // Remove any added confirmation messages
-      const added = messages?.querySelectorAll('.chat-message-added');
-      added?.forEach((el) => el.remove());
     }
 
     function open() {
@@ -507,13 +522,38 @@
       setTimeout(() => input?.focus(), 100);
       const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
       if (inputEl) {
-        const onBlur = () => {
-          if (inputEl.value.trim() && index === currentField) {
-            currentField++;
-            showField(currentField);
+        const advance = () => {
+          const val = inputEl.value.trim();
+          if (!val || index !== currentField) return;
+
+          // Replace the input row with a plain text answer bubble
+          const inputRow = group.querySelector('.chat-field-input-row');
+          if (inputRow) {
+            const answerBubble = document.createElement('div');
+            answerBubble.className = 'chat-message chat-message-outgoing chat-message-added';
+            const bubble = document.createElement('div');
+            bubble.className = 'chat-bubble';
+            bubble.textContent = val;
+            answerBubble.appendChild(bubble);
+            inputRow.after(answerBubble);
+            (inputRow as HTMLElement).classList.add('is-answered');
           }
+
+          currentField++;
+          showField(currentField);
         };
-        inputEl.addEventListener('blur', onBlur, { once: true });
+
+        inputEl.addEventListener('blur', advance, { once: true });
+
+        // Enter confirms non-textarea fields
+        if (inputEl.tagName !== 'TEXTAREA') {
+          inputEl.addEventListener('keydown', (e: KeyboardEvent) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              inputEl.blur();
+            }
+          }, { once: true });
+        }
       }
     }
 
@@ -547,13 +587,13 @@
         if (data.success) {
           isSubmitted = true;
           status.dataset.type = 'success';
-          status.textContent = "Got it — we'll look over it and get back to you.";
+          status.textContent = "Aydrian will look over your inquiry and get back to you.";
           status.hidden = false;
           form.reset();
 
           const confirmation = document.createElement('div');
           confirmation.className = 'chat-message chat-message-incoming chat-message-added';
-          confirmation.innerHTML = '<div class="chat-bubble"><p>We\'ll look over it and get back to you.</p></div>';
+          confirmation.innerHTML = '<div class="chat-bubble"><p>Aydrian will look over your inquiry and get back to you.</p></div>';
           messages?.appendChild(confirmation);
           messages?.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
 
