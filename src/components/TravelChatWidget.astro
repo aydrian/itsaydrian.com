@@ -28,7 +28,6 @@
     </div>
 
     <div id="chat-messages" class="chat-messages">
-      <!-- Welcome message -->
       <div class="chat-message chat-message-incoming">
         <div class="chat-bubble">
           <p>Hi, I'm Janine — Aydrian's virtual assistant. I'll help you start planning your trip.</p>
@@ -36,86 +35,38 @@
       </div>
     </div>
 
-    <form id="chat-form" class="chat-form" novalidate>
+    <form id="chat-form" class="chat-form">
       <!-- Honeypot -->
       <div class="chat-hp" aria-hidden="true">
         <label for="chat-website">Website</label>
-        <input type="text" id="chat-website" name="website" tabindex="-1" autocomplete="off">
+        <input type="text" id="chat-website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
       </div>
 
-      <div id="chat-field-name" class="chat-field-group">
-        <div class="chat-message chat-message-incoming">
-          <div class="chat-bubble">What's your name?</div>
-        </div>
-        <div class="chat-message chat-message-outgoing chat-field-input-row">
-          <input
-            class="chat-input"
-            type="text"
-            id="chat-name"
-            name="name"
-            autocomplete="name"
-            placeholder="Your name"
-            aria-label="Your name"
-          >
-        </div>
+      <div class="chat-field">
+        <label for="chat-name" class="chat-label">Name</label>
+        <input type="text" name="name" id="chat-name" required autocomplete="name" placeholder="Your name" class="chat-input">
       </div>
 
-      <div id="chat-field-email" class="chat-field-group" hidden>
-        <div class="chat-message chat-message-incoming">
-          <div class="chat-bubble">What's your email?</div>
-        </div>
-        <div class="chat-message chat-message-outgoing chat-field-input-row">
-          <input
-            class="chat-input"
-            type="email"
-            id="chat-email"
-            name="email"
-            autocomplete="email"
-            placeholder="you@example.com"
-            aria-label="Your email"
-          >
-        </div>
+      <div class="chat-field">
+        <label for="chat-email" class="chat-label">Email</label>
+        <input type="email" name="email" id="chat-email" required autocomplete="email" placeholder="you@example.com" class="chat-input">
       </div>
 
-      <div id="chat-field-destination" class="chat-field-group" hidden>
-        <div class="chat-message chat-message-incoming">
-          <div class="chat-bubble">Where are you thinking of going? <span class="chat-optional">(optional)</span></div>
-        </div>
-        <div class="chat-message chat-message-outgoing chat-field-input-row">
-          <input
-            class="chat-input"
-            type="text"
-            id="chat-destination"
-            name="destination"
-            placeholder="Japan, Italy, not sure yet…"
-            aria-label="Destination"
-          >
-        </div>
+      <div class="chat-field">
+        <label for="chat-destination" class="chat-label">Destination <span class="chat-optional">(optional)</span></label>
+        <input type="text" name="destination" id="chat-destination" placeholder="Where do you want to go?" class="chat-input">
       </div>
 
-      <div id="chat-field-message" class="chat-field-group" hidden>
-        <div class="chat-message chat-message-incoming">
-          <div class="chat-bubble">Tell me about your trip — rough dates, how many people, travel style, budget, what you're hoping to experience.</div>
-        </div>
-        <div class="chat-message chat-message-outgoing chat-field-input-row">
-          <textarea
-            class="chat-input chat-textarea"
-            id="chat-message"
-            name="message"
-            rows="4"
-            placeholder="We're planning a 2-week trip to Japan in October..."
-            aria-label="About your trip"
-          ></textarea>
-        </div>
+      <div class="chat-field">
+        <label for="chat-message" class="chat-label">Message</label>
+        <textarea name="message" id="chat-message" rows="4" required placeholder="Tell me about your trip — dates, interests, must-sees, anything." class="chat-input chat-textarea"></textarea>
       </div>
 
-      <div id="chat-submit-group" class="chat-field-group" hidden>
-        <div class="chat-message chat-message-outgoing">
-          <button type="submit" class="chat-submit-btn" id="chat-submit">
-            Send inquiry
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </button>
-        </div>
+      <div class="chat-form-footer">
+        <button type="submit" class="chat-submit-btn" id="chat-submit">
+          Send inquiry
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
       </div>
 
       <div id="chat-status" class="chat-status" role="status" aria-live="polite" hidden></div>
@@ -166,7 +117,7 @@
     right: 0;
     width: 360px;
     max-width: calc(100vw - var(--space-8));
-    max-height: 520px;
+    max-height: 600px;
     display: flex;
     flex-direction: column;
     background: var(--bg-card);
@@ -195,6 +146,7 @@
     padding: var(--space-4) var(--space-6);
     border-bottom: 1px solid var(--rule);
     background: var(--bg);
+    flex-shrink: 0;
   }
   .chat-avatar {
     width: 36px;
@@ -240,12 +192,8 @@
   }
 
   .chat-messages {
-    flex: 1;
-    overflow-y: auto;
     padding: var(--space-4);
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-3);
+    flex-shrink: 0;
   }
 
   .chat-message {
@@ -254,9 +202,6 @@
   }
   .chat-message-incoming {
     align-self: flex-start;
-  }
-  .chat-message-outgoing {
-    align-self: flex-end;
   }
 
   .chat-bubble {
@@ -270,15 +215,8 @@
     background: var(--rule);
     border-bottom-left-radius: 4px;
   }
-  .chat-message-outgoing .chat-bubble,
-  .chat-message-outgoing .chat-input,
-  .chat-message-outgoing .chat-textarea {
-    background: var(--accent);
-    color: var(--bg);
-    border-bottom-right-radius: 4px;
-  }
-  .chat-message-outgoing .chat-input::placeholder {
-    color: color-mix(in oklab, var(--bg) 60%, transparent);
+  .chat-bubble p {
+    margin: 0;
   }
 
   .chat-optional {
@@ -292,38 +230,55 @@
     flex-direction: column;
     gap: var(--space-3);
     padding: 0 var(--space-4) var(--space-4);
+    overflow-y: auto;
+    flex: 1;
   }
 
-  .chat-field-group {
+  .chat-field {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-  }
-  .chat-field-group[hidden] {
-    display: none;
+    gap: var(--space-1);
   }
 
-  .chat-field-input-row.is-answered {
-    display: none;
+  .chat-label {
+    font-size: var(--fs-12);
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   .chat-input {
     width: 100%;
     padding: var(--space-3) var(--space-4);
-    border: none;
+    border: 1px solid var(--rule);
     border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
     font-family: var(--font-body);
     font-size: var(--fs-14);
     line-height: 1.5;
     outline: none;
     resize: none;
+    box-sizing: border-box;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
   }
   .chat-input:focus {
-    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 30%, transparent);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+  .chat-input::placeholder {
+    color: var(--ink-faint);
   }
   .chat-textarea {
     min-height: 80px;
     resize: vertical;
+  }
+
+  .chat-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: var(--space-1);
   }
 
   .chat-submit-btn {
@@ -402,13 +357,6 @@
     const submitBtn = document.getElementById('chat-submit') as HTMLButtonElement | null;
     const status = document.getElementById('chat-status');
 
-    const fields = [
-      { id: 'chat-field-name', input: 'chat-name' },
-      { id: 'chat-field-email', input: 'chat-email' },
-      { id: 'chat-field-destination', input: 'chat-destination' },
-      { id: 'chat-field-message', input: 'chat-message' },
-    ];
-    let currentField = 0;
     let isSubmitted = false;
     let lastFocused: HTMLElement | null = null;
     let outsideController: AbortController | null = null;
@@ -438,7 +386,6 @@
     }
 
     function resetForm() {
-      currentField = 0;
       isSubmitted = false;
       form?.reset();
       status?.setAttribute('hidden', '');
@@ -447,24 +394,7 @@
         submitBtn.disabled = false;
         submitBtn.innerHTML = 'Send inquiry <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>';
       }
-      // Remove answer bubbles and restore input rows
       widget?.querySelectorAll('.chat-message-added').forEach((el) => el.remove());
-      fields.forEach((f) => {
-        const group = document.getElementById(f.id);
-        group?.querySelector('.chat-field-input-row')?.classList.remove('is-answered');
-      });
-      // Hide all field groups except first
-      fields.forEach((f, i) => {
-        const el = document.getElementById(f.id);
-        if (el) {
-          if (i === 0) {
-            el.removeAttribute('hidden');
-          } else {
-            el.setAttribute('hidden', '');
-          }
-        }
-      });
-      document.getElementById('chat-submit-group')?.setAttribute('hidden', '');
     }
 
     function open() {
@@ -489,7 +419,9 @@
           close();
         }
       }, { signal: outsideController.signal });
-      showField(0);
+      setTimeout(() => {
+        (document.getElementById('chat-name') as HTMLElement | null)?.focus();
+      }, 100);
     }
 
     function close() {
@@ -506,54 +438,6 @@
       lastFocused = null;
     }
 
-    function showField(index: number) {
-      if (index >= fields.length) {
-        document.getElementById('chat-submit-group')?.removeAttribute('hidden');
-        setTimeout(() => submitBtn?.focus(), 100);
-        return;
-      }
-      const group = document.getElementById(fields[index].id);
-      if (!group) return;
-      group.removeAttribute('hidden');
-      const input = document.getElementById(fields[index].input) as HTMLElement | null;
-      setTimeout(() => input?.focus(), 100);
-      const inputEl = input as HTMLInputElement | HTMLTextAreaElement | null;
-      if (inputEl) {
-        const advance = () => {
-          const val = inputEl.value.trim();
-          if (!val || index !== currentField) return;
-
-          // Replace the input row with a plain text answer bubble
-          const inputRow = group.querySelector('.chat-field-input-row');
-          if (inputRow) {
-            const answerBubble = document.createElement('div');
-            answerBubble.className = 'chat-message chat-message-outgoing chat-message-added';
-            const bubble = document.createElement('div');
-            bubble.className = 'chat-bubble';
-            bubble.textContent = val;
-            answerBubble.appendChild(bubble);
-            inputRow.after(answerBubble);
-            (inputRow as HTMLElement).classList.add('is-answered');
-          }
-
-          currentField++;
-          showField(currentField);
-        };
-
-        inputEl.addEventListener('blur', advance, { once: true });
-
-        // Enter confirms non-textarea fields
-        if (inputEl.tagName !== 'TEXTAREA') {
-          inputEl.addEventListener('keydown', (e: KeyboardEvent) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              inputEl.blur();
-            }
-          }, { once: true });
-        }
-      }
-    }
-
     trigger?.addEventListener('click', () => {
       if (panel?.classList.contains('is-open')) {
         close();
@@ -568,25 +452,6 @@
       e.preventDefault();
       if (!submitBtn || !status) return;
       if (isSubmitted) return;
-
-      // Manual validation for required fields
-      const requiredFields = [
-        { id: 'chat-name', name: 'Your name' },
-        { id: 'chat-email', name: 'Your email' },
-        { id: 'chat-message', name: 'About your trip' },
-      ];
-      const emptyField = requiredFields.find((f) => {
-        const el = document.getElementById(f.id) as HTMLInputElement | HTMLTextAreaElement | null;
-        return el && !el.value.trim();
-      });
-      if (emptyField) {
-        status.dataset.type = 'error';
-        status.textContent = `Please fill in your ${emptyField.name.toLowerCase()}.`;
-        status.hidden = false;
-        const field = document.getElementById(emptyField.id) as HTMLElement | null;
-        field?.focus();
-        return;
-      }
 
       submitBtn.disabled = true;
       submitBtn.textContent = 'Sending…';
