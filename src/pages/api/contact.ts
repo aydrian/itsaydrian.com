@@ -1,10 +1,9 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request, locals }) => {
-  const { env } = locals.runtime;
-
+export const POST: APIRoute = async ({ request }) => {
   let formData: FormData;
   try {
     formData = await request.formData();
