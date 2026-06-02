@@ -117,7 +117,7 @@ const apiUrl = 'https://itsaydrian-subscriber.aydrian.workers.dev/subscribe';
         });
 
         if (res.status === 201) {
-          showStatus('success', "You're subscribed! Check your email for confirmation.");
+          showStatus('success', "Almost there! Check your email to confirm your subscription.");
           form.reset();
         } else if (res.status === 429) {
           showStatus('error', 'Too many attempts. Please try again later.');
@@ -201,20 +201,6 @@ const apiUrl = 'https://itsaydrian-subscriber.aydrian.workers.dev/subscribe';
   .subscriber-input::placeholder {
     color: var(--ink-faint);
     opacity: 0.6;
-  }
-
-  .subscriber-label {
-    font-size: var(--fs-12);
-    font-weight: 600;
-    color: var(--ink-faint);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .subscriber-optional {
-    font-weight: 400;
-    color: var(--ink-faint);
-    opacity: 0.7;
   }
 
   .subscriber-status {
