@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SubscriberForm from '../components/SubscriberForm.astro';
 
 const pageTitle = "Aydrian Howard — ItsAydrian LLC";
 const pageDescription = "A small studio for the things I'm into — curated travel (with a Japan habit), pet care in NYC, and software I want to exist. Run by Aydrian Howard.";
@@ -226,6 +227,20 @@ const pageDescription = "A small studio for the things I'm into — curated trav
     </div>
   </section>
 
+  <!-- ============================== SUBSCRIBE ============================== -->
+  <section class="section section-soft subscriber-section">
+    <div class="container subscriber-grid">
+      <div>
+        <span class="eyebrow rise">Stay in the loop</span>
+        <h2 class="h2 rise" data-delay="1">Get updates when there's something worth sharing.</h2>
+        <p class="lede rise" data-delay="2">Travel tips, app releases, Japan notes, and Atticus photos. No spam. Unsubscribe anytime.</p>
+      </div>
+      <div class="rise" data-delay="3">
+        <SubscriberForm />
+      </div>
+    </div>
+  </section>
+
   <!-- ============================== CONTACT ============================== -->
   <section id="contact" class="contact-band">
     <div class="container">
@@ -241,3 +256,19 @@ const pageDescription = "A small studio for the things I'm into — curated trav
     </div>
   </section>
 </Layout>
+
+<style>
+  .subscriber-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  @media (max-width: 800px) {
+    .subscriber-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+  }
+</style>
