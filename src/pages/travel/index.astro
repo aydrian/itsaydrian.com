@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import TravelChatWidget from '../../components/TravelChatWidget.astro';
+import SubscriberForm from '../../components/SubscriberForm.astro';
 
 const pageTitle = "Travel Advising — ItsAydrian Travel";
 const pageDescription = "Curated travel planning for trips worth taking. Certified Fora advisor with deep Japan expertise and a network spanning four continents.";
@@ -175,6 +176,18 @@ const pageDescription = "Curated travel planning for trips worth taking. Certifi
           Reach out
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== NEWSLETTER ============================== -->
+  <section class="section section-soft">
+    <div class="container" style="text-align: center; max-width: 640px;">
+      <span class="eyebrow rise">Stay in the loop</span>
+      <h2 class="h2 rise" data-delay="1">Travel tips, Japan updates, and trip ideas.</h2>
+      <p class="lede rise" data-delay="2">No spam. Unsubscribe anytime. I only write when I have something worth sharing.</p>
+      <div class="rise" data-delay="3" style="margin-top: var(--space-8);">
+        <SubscriberForm tag="travel" />
       </div>
     </div>
   </section>

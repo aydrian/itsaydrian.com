@@ -1,0 +1,245 @@
+---
+export interface Props {
+  tag?: string;
+}
+
+const { tag } = Astro.props;
+
+const uid = Math.random().toString(36).slice(2, 8);
+const formId = `subscriber-form-${uid}`;
+const nameId = `subscriber-name-${uid}`;
+const emailId = `subscriber-email-${uid}`;
+const hpId = `subscriber-hp-${uid}`;
+const apiUrl = '/api/subscribe';
+---
+
+<form class="subscriber-form" id={formId} novalidate>
+  <div class="subscriber-fields">
+    <div class="subscriber-field">
+      <label for={nameId} class="subscriber-label">Name <span class="subscriber-optional">(optional)</span></label>
+      <input
+        type="text"
+        id={nameId}
+        name="name"
+        autocomplete="name"
+        placeholder="Your name"
+        class="subscriber-input"
+      />
+    </div>
+    <div class="subscriber-field">
+      <label for={emailId} class="subscriber-label">Email</label>
+      <input
+        type="email"
+        id={emailId}
+        name="email"
+        required
+        autocomplete="email"
+        placeholder="you@example.com"
+        class="subscriber-input"
+      />
+    </div>
+  </div>
+
+  <!-- Honeypot -->
+  <div class="subscriber-hp" aria-hidden="true">
+    <label for={hpId}>Website</label>
+    <input type="text" id={hpId} name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  </div>
+
+  <button type="submit" class="btn btn-primary subscriber-submit">
+    <span class="subscriber-submit-text">Subscribe</span>
+    <span class="subscriber-submit-loading" hidden>Sending…</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </button>
+
+  <div class="subscriber-status" role="status" aria-live="polite" hidden></div>
+</form>
+
+<script define:vars={{ formId, apiUrl, tag }}>
+  (function() {
+    const form = document.getElementById(formId);
+    if (!form) return;
+    const status = form.querySelector('.subscriber-status');
+    const submitBtn = form.querySelector('.subscriber-submit');
+    const submitText = form.querySelector('.subscriber-submit-text');
+    const submitLoading = form.querySelector('.subscriber-submit-loading');
+
+    function showStatus(type, message) {
+      if (!status) return;
+      status.hidden = false;
+      status.setAttribute('data-type', type);
+      status.textContent = message;
+    }
+
+    function clearStatus() {
+      if (!status) return;
+      status.hidden = true;
+      status.removeAttribute('data-type');
+      status.textContent = '';
+    }
+
+    function setLoading(loading) {
+      submitBtn.disabled = loading;
+      submitText.hidden = loading;
+      submitLoading.hidden = !loading;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearStatus();
+
+      const honeypot = form.querySelector('input[name="website"]');
+      if (honeypot && honeypot.value) {
+        showStatus('success', "You're subscribed!");
+        form.reset();
+        return;
+      }
+
+      const formData = new FormData(form);
+      const email = formData.get('email')?.toString().trim();
+      const name = formData.get('name')?.toString().trim();
+
+      if (!email) {
+        showStatus('error', 'Please enter your email address.');
+        return;
+      }
+
+      setLoading(true);
+
+      try {
+        const payload = { email, name: name || undefined };
+        if (tag) payload.tag = tag;
+
+        const res = await fetch(apiUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        });
+
+        if (res.status === 201) {
+          showStatus('success', "Almost there! Check your email to confirm your subscription.");
+          form.reset();
+        } else if (res.status === 429) {
+          showStatus('error', 'Too many attempts. Please try again later.');
+        } else if (res.status === 400) {
+          const data = await res.json().catch(() => ({}));
+          showStatus('error', data.message || 'Invalid email address.');
+        } else {
+          showStatus('error', 'Something went wrong. Please try again.');
+        }
+      } catch (err) {
+        showStatus('error', 'Something went wrong. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    });
+  })();
+</script>
+
+<style>
+  .subscriber-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 560px;
+  }
+
+  .subscriber-fields {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-end;
+  }
+
+  @media (max-width: 560px) {
+    .subscriber-fields {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+
+  .subscriber-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    flex: 1;
+  }
+
+  .subscriber-label {
+    font-size: var(--fs-12);
+    font-weight: 600;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .subscriber-optional {
+    font-weight: 400;
+    color: var(--ink-faint);
+    opacity: 0.7;
+  }
+
+  .subscriber-input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: var(--fs-14);
+    line-height: 1.5;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    box-sizing: border-box;
+  }
+
+  .subscriber-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 20%, transparent);
+  }
+
+  .subscriber-input::placeholder {
+    color: var(--ink-faint);
+    opacity: 0.6;
+  }
+
+  .subscriber-status {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--r-md);
+    font-size: var(--fs-14);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .subscriber-status[data-type="success"] {
+    background: color-mix(in oklab, var(--hydro) 12%, transparent);
+    color: var(--hydro);
+    border: 1px solid color-mix(in oklab, var(--hydro) 28%, transparent);
+  }
+
+  .subscriber-status[data-type="error"] {
+    background: color-mix(in oklab, var(--accent-hot) 10%, transparent);
+    color: var(--accent-hot);
+    border: 1px solid color-mix(in oklab, var(--accent-hot) 25%, transparent);
+  }
+
+  .subscriber-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .subscriber-submit-loading {
+    display: inline;
+  }
+
+  .subscriber-submit-loading[hidden] {
+    display: none;
+  }
+
+  .subscriber-submit-text[hidden] {
+    display: none;
+  }
+</style>
