@@ -907,8 +907,39 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
 :root.dark .contact-band { background: var(--bg-soft); color: var(--ink); }
 .contact-band .display { color: inherit; max-width: 14ch; margin-inline: auto; line-height: 0.96; font-size: clamp(3rem, 7vw, 6rem); }
 .contact-band .lede { color: color-mix(in oklab, currentColor 78%, transparent); margin-top: var(--space-6); margin-inline: auto; max-width: 50ch; }
-.contact-band .btn { margin-top: var(--space-10); }
+.contact-band .btn { margin-top: 0; }
 .contact-band .btn-hot { color: white; }
+
+.contact-cta {
+  margin-top: var(--space-10);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-band .btn-primary {
+  background: var(--bg);
+  color: var(--ink);
+  box-shadow: var(--shadow-sm);
+}
+.contact-band .btn-primary:hover {
+  background: var(--ink-on-image);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+}
+
+.contact-band .btn-ghost {
+  background: transparent;
+  color: var(--bg);
+  border: 1px solid rgba(251, 250, 248, 0.35);
+}
+.contact-band .btn-ghost:hover {
+  background: rgba(251, 250, 248, 0.10);
+  border-color: rgba(251, 250, 248, 0.55);
+  color: #ffffff;
+}
 
 /* =============================================================================
    APPS / TINY MAINTENANCE
