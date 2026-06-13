@@ -3,12 +3,13 @@ import Layout from '../../layouts/Layout.astro';
 import { getAllPosts, getPostBySlug } from '../../data/blog';
 import type { BlogPost } from '../../data/blog';
 
-export function getStaticPaths() {
-  return getAllPosts().map((post) => ({ params: { slug: post.slug } }));
+export async function getStaticPaths() {
+  const allPosts = await getAllPosts();
+  return allPosts.map((post) => ({ params: { slug: post.slug } }));
 }
 
 const { slug } = Astro.params;
-const post = getPostBySlug(slug as string);
+const post = await getPostBySlug(slug as string);
 
 if (!post) {
   return Astro.redirect('/blog/');
@@ -20,6 +21,8 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
   day: 'numeric',
   timeZone: 'UTC',
 });
+
+const Content = post.Content;
 ---
 
 <Layout title={post.title} description={post.excerpt}>
@@ -35,7 +38,9 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
       <p class="lede">{post.excerpt}</p>
     </header>
 
-    <div class="prose" set:html={post.fullContent} />
+    <div class="prose">
+      {Content ? <Content /> : <Fragment set:html={post.fullContent} />}
+    </div>
   </article>
 </Layout>
 

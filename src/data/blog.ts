@@ -3,7 +3,8 @@ export interface BlogPost {
   slug: string;
   title: string;
   excerpt: string;
-  fullContent: string;
+  fullContent?: string;
+  Content?: any;
   date: string;
   category: BlogCategory;
   coverImage?: string;
@@ -80,21 +81,91 @@ export const posts: BlogPost[] = [
   },
 ];
 
-export function getAllPosts(): BlogPost[] {
-  return [...posts].sort(
+export function getAllCategories(): BlogCategory[] {
+  const usedCategories = new Set(posts.map((post) => post.category));
+  return categories.filter((category) => usedCategories.has(category));
+}
+
+// MDX posts live in src/posts/*.mdx and are merged with the hardcoded posts.
+// Frontmatter fields: title, excerpt, date, category, slug
+interface MdxModule {
+  frontmatter: {
+    title?: string;
+    excerpt?: string;
+    date?: string;
+    category?: string;
+    slug?: string;
+    draft?: boolean;
+    [key: string]: any;
+  };
+  Content: any;
+  file: string;
+}
+
+let mdxCache: BlogPost[] | null = null;
+
+function isValidCategory(category: string): category is BlogCategory {
+  return categories.includes(category as BlogCategory);
+}
+
+function mdxSlugFromFile(file: string, frontmatterSlug?: string): string {
+  if (frontmatterSlug) return frontmatterSlug;
+  const basename = file.split('/').pop()?.replace(/\.mdx$/, '') ?? '';
+  return basename;
+}
+
+export async function getMdxPosts(): Promise<BlogPost[]> {
+  if (mdxCache) return mdxCache;
+
+  const modules = import.meta.glob<MdxModule>('../posts/*.mdx', { eager: true });
+  const mdxPosts: BlogPost[] = [];
+
+  for (const [file, mod] of Object.entries(modules)) {
+    const fm = mod.frontmatter || {};
+    if (fm.draft) continue;
+
+    const category = fm.category || 'Life in NYC';
+    if (!isValidCategory(category)) {
+      console.warn(`Skipping MDX post ${file}: unknown category "${category}"`);
+      continue;
+    }
+
+    mdxPosts.push({
+      id: `mdx-${mdxSlugFromFile(file, fm.slug)}`,
+      slug: mdxSlugFromFile(file, fm.slug),
+      title: fm.title || mdxSlugFromFile(file, fm.slug),
+      excerpt: fm.excerpt || '',
+      Content: mod.Content,
+      date: fm.date || new Date().toISOString().split('T')[0],
+      category,
+    });
+  }
+
+  mdxCache = mdxPosts;
+  return mdxPosts;
+}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  const mdxPosts = await getMdxPosts();
+  return [...posts, ...mdxPosts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-export function getPostBySlug(slug: string): BlogPost | undefined {
-  return posts.find((post) => post.slug === slug);
+export async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
+  const mdxPosts = await getMdxPosts();
+  return (
+    posts.find((post) => post.slug === slug) ||
+    mdxPosts.find((post) => post.slug === slug)
+  );
 }
 
-export function getPostsByCategory(category: BlogCategory): BlogPost[] {
-  return getAllPosts().filter((post) => post.category === category);
+export function getPostsByCategory(category: BlogCategory): Promise<BlogPost[]> {
+  return getAllPosts().then((all) => all.filter((post) => post.category === category));
 }
 
-export function getAllCategories(): BlogCategory[] {
-  const usedCategories = new Set(posts.map((post) => post.category));
+export async function getAllCategoriesAsync(): Promise<BlogCategory[]> {
+  const all = await getAllPosts();
+  const usedCategories = new Set(all.map((post) => post.category));
   return categories.filter((category) => usedCategories.has(category));
 }

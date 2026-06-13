@@ -1,13 +1,13 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import SubscriberForm from '../../components/SubscriberForm.astro';
-import { getAllPosts, getAllCategories, type BlogCategory } from '../../data/blog';
+import { getAllPosts, getAllCategoriesAsync, type BlogCategory } from '../../data/blog';
 
 const pageTitle = "Blog — ItsAydrian";
 const pageDescription = "Notes on travel, Japan, apps, and life in New York. Written by Aydrian Howard.";
 
-const posts = getAllPosts();
-const categories = getAllCategories();
+const posts = await getAllPosts();
+const categories = await getAllCategoriesAsync();
 
 function formatDate(iso: string): string {
   const date = new Date(iso);
