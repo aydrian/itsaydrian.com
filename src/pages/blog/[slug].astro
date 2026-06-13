@@ -1,0 +1,213 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllPosts, getPostBySlug } from '../../data/blog';
+import type { BlogPost } from '../../data/blog';
+
+export async function getStaticPaths() {
+  const allPosts = await getAllPosts();
+  return allPosts.map((post) => ({ params: { slug: post.slug } }));
+}
+
+const { slug } = Astro.params;
+const post = await getPostBySlug(slug as string);
+
+if (!post) {
+  return Astro.redirect('/blog/');
+}
+
+const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+
+const Content = post.Content;
+---
+
+<Layout title={post.title} description={post.excerpt}>
+  <article class="container-narrow post">
+    <a href="/blog/" class="back-link">← Back to Blog</a>
+
+    <header class="post-header">
+      <div class="post-meta">
+        <span class="pill">{post.category}</span>
+        <time datetime={post.date} class="post-date">{formattedDate}</time>
+      </div>
+      <h1 class="h1 post-title">{post.title}</h1>
+      <p class="lede">{post.excerpt}</p>
+    </header>
+
+    <div class="prose">
+      {Content ? <Content /> : <Fragment set:html={post.fullContent} />}
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post {
+    padding-block: var(--space-12) var(--space-24);
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-bottom: var(--space-8);
+    transition: color var(--dur-fast) var(--ease-out-quart);
+  }
+  .back-link:hover {
+    color: var(--ink);
+  }
+
+  .post-header {
+    margin-bottom: var(--space-12);
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+
+  .post-date {
+    font-size: var(--fs-14);
+    color: var(--ink-faint);
+  }
+
+  .post-title {
+    margin-bottom: var(--space-4);
+    text-wrap: balance;
+  }
+
+  .prose :global(p) {
+    font-size: var(--fs-18);
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: var(--space-6);
+  }
+  .prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+  .prose :global(h2) {
+    font-family: var(--font-display);
+    font-size: var(--fs-44);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+  .prose :global(h3) {
+    font-family: var(--font-display);
+    font-size: var(--fs-32);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    margin-top: var(--space-10);
+    margin-bottom: var(--space-4);
+  }
+  .prose :global(a) {
+    color: var(--accent);
+  }
+  .prose :global(a:hover) {
+    color: var(--accent-hover);
+  }
+  .prose :global(blockquote) {
+    border-left: 3px solid var(--accent);
+    padding-left: var(--space-6);
+    margin-left: 0;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: var(--space-8);
+    margin-bottom: var(--space-6);
+  }
+  .prose :global(li) {
+    font-size: var(--fs-18);
+    line-height: 1.7;
+    color: var(--ink-soft);
+    margin-bottom: var(--space-2);
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--r-lg);
+    margin-block: var(--space-8);
+  }
+
+  .prose :global(figure) {
+    margin: 0;
+    margin-block: var(--space-8);
+  }
+
+  .prose :global(figcaption) {
+    font-size: var(--fs-14);
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  /* expressive-code sets its own dark bg — only add structural props */
+  .prose :global(.astro-code) {
+    padding: var(--space-4);
+    border-radius: var(--r-md);
+    margin-block: var(--space-6);
+    overflow-x: auto;
+  }
+
+  /* plain pre blocks without expressive-code */
+  .prose :global(pre:not(.astro-code)) {
+    background: var(--bg-soft);
+    padding: var(--space-4);
+    border-radius: var(--r-md);
+    margin-block: var(--space-6);
+    overflow-x: auto;
+  }
+
+  .prose :global(pre code) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-14);
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  /* inline code only */
+  .prose :global(:not(pre) > code) {
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    padding: 0.15em 0.35em;
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin-block: var(--space-10);
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .prose :global(em) {
+    font-style: italic;
+  }
+</style>
