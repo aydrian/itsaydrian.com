@@ -140,4 +140,74 @@ const Content = post.Content;
     color: var(--ink-soft);
     margin-bottom: var(--space-2);
   }
+
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--r-lg);
+    margin-block: var(--space-8);
+  }
+
+  .prose :global(figure) {
+    margin: 0;
+    margin-block: var(--space-8);
+  }
+
+  .prose :global(figcaption) {
+    font-size: var(--fs-14);
+    color: var(--ink-faint);
+    text-align: center;
+    margin-top: var(--space-2);
+  }
+
+  /* expressive-code sets its own dark bg — only add structural props */
+  .prose :global(.astro-code) {
+    padding: var(--space-4);
+    border-radius: var(--r-md);
+    margin-block: var(--space-6);
+    overflow-x: auto;
+  }
+
+  /* plain pre blocks without expressive-code */
+  .prose :global(pre:not(.astro-code)) {
+    background: var(--bg-soft);
+    padding: var(--space-4);
+    border-radius: var(--r-md);
+    margin-block: var(--space-6);
+    overflow-x: auto;
+  }
+
+  .prose :global(pre code) {
+    font-family: var(--font-mono);
+    font-size: var(--fs-14);
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  /* inline code only */
+  .prose :global(:not(pre) > code) {
+    background: var(--bg-soft);
+    color: var(--ink-soft);
+    padding: 0.15em 0.35em;
+    border-radius: var(--r-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+  }
+
+  .prose :global(hr) {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin-block: var(--space-10);
+  }
+
+  .prose :global(strong) {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .prose :global(em) {
+    font-style: italic;
+  }
 </style>
