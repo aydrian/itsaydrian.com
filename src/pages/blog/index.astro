@@ -1,0 +1,301 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllPosts, getAllCategories, type BlogCategory } from '../../data/blog';
+
+const pageTitle = "Blog — ItsAydrian";
+const pageDescription = "Notes on travel, Japan, apps, and life in New York. Written by Aydrian Howard.";
+
+const posts = getAllPosts();
+const categories = getAllCategories();
+
+function formatDate(iso: string): string {
+  const date = new Date(iso);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    timeZone: 'UTC'
+  });
+}
+---
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"ItsAydrian Blog","description":"Notes on travel, Japan, apps, and life in New York. Written by Aydrian Howard.","url":"https://itsaydrian.com/blog","publisher":{"@type":"Organization","name":"ItsAydrian LLC"}}</script>
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
+  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
+  ogImageWidth={1600}
+  ogImageHeight={1066}
+  ogImageType="image/jpeg"
+>
+  <!-- HERO -->
+  <section class="section">
+    <div class="container">
+      <header class="section-head" style="max-width: 60ch; margin-inline: auto; text-align: center;">
+        <span class="eyebrow rise">From the desk</span>
+        <h1 class="h1 rise" data-delay="1">Notes on travel, making things, <em>and New York.</em></h1>
+        <p class="lede rise" data-delay="2">Short dispatches from trips, projects, and whatever Atticus is up to.</p>
+      </header>
+    </div>
+  </section>
+
+  <!-- BLOG INDEX -->
+  <section class="section section-soft" aria-labelledby="blog-heading">
+    <div class="container">
+      <h2 id="blog-heading" class="visually-hidden">Blog posts</h2>
+
+      <!-- CATEGORY FILTER -->
+      <div class="blog-filter rise" data-delay="1" role="group" aria-label="Filter posts by category">
+        <button
+          type="button"
+          class="filter-btn is-active"
+          data-category="all"
+          aria-pressed="true"
+        >
+          All
+        </button>
+        {categories.map((category) => (
+          <button
+            type="button"
+            class="filter-btn"
+            data-category={category}
+            aria-pressed="false"
+          >
+            {category}
+          </button>
+        ))}
+      </div>
+
+      <!-- POSTS GRID -->
+      <div class="blog-grid">
+        {posts.map((post, index) => (
+          <article
+            class="card blog-card rise"
+            data-category={post.category}
+            data-delay={index % 3 === 0 ? undefined : index % 3 === 1 ? "1" : "2"}
+            aria-labelledby={`blog-title-${post.slug}`}
+          >
+            <div class="card-body">
+              <div class="blog-card-meta">
+                <span class="pill pill-cool">{post.category}</span>
+                <time class="blog-date" datetime={post.date}>{formatDate(post.date)}</time>
+              </div>
+              <h3 id={`blog-title-${post.slug}`} class="blog-card-title">
+                <a href={`/blog/${post.slug}/`} class="blog-card-link">
+                  {post.title}
+                </a>
+              </h3>
+              <p class="body-sm">{post.excerpt}</p>
+            </div>
+            <div class="card-footer">
+              <a class="btn-link" href={`/blog/${post.slug}/`}>
+                Read more
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div class="blog-empty" id="blog-empty" hidden>
+        <p>No posts in this category yet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SUBSCRIBE CTA -->
+  <section class="section">
+    <div class="container" style="text-align: center; max-width: 640px;">
+      <span class="eyebrow rise">Stay in the loop</span>
+      <h2 class="h2 rise" data-delay="1">Get new posts by email.</h2>
+      <p class="lede rise" data-delay="2">No spam. Just travel notes, app updates, and occasional Atticus content.</p>
+      <a class="btn btn-primary rise" data-delay="3" href="mailto:howdy@itsaydrian.com?subject=Subscribe%20to%20blog">
+        Subscribe
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .blog-filter {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-12);
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border-radius: var(--r-pill);
+    font-family: var(--font-body);
+    font-size: var(--fs-14);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    color: var(--ink-soft);
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out-quart),
+                color var(--dur-fast) var(--ease-out-quart),
+                border-color var(--dur-fast) var(--ease-out-quart),
+                box-shadow var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .filter-btn:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .filter-btn.is-active {
+    color: var(--bg);
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .filter-btn.is-active:hover {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .blog-grid {
+    display: grid;
+    gap: var(--space-6);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 720px) {
+    .blog-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1080px) {
+    .blog-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .blog-card {
+    height: 100%;
+  }
+
+  .blog-card.is-hidden {
+    display: none;
+  }
+
+  .blog-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-2);
+  }
+
+  .blog-date {
+    font-size: var(--fs-12);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+
+  .blog-card-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+  }
+
+  .blog-card-title em {
+    font-style: italic;
+  }
+
+  .blog-card-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .blog-card-link:hover {
+    color: var(--accent);
+  }
+
+  .blog-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+
+  .blog-card {
+    position: relative;
+  }
+
+  .blog-empty {
+    text-align: center;
+    padding: var(--space-16) var(--space-6);
+    color: var(--ink-soft);
+  }
+
+  .blog-empty p {
+    font-size: var(--fs-18);
+  }
+</style>
+
+<script>
+  (function () {
+    const filterGroup = document.querySelector('[data-category="all"]')?.closest('.blog-filter');
+    if (!filterGroup) return;
+
+    const buttons = filterGroup.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.blog-card');
+    const emptyState = document.getElementById('blog-empty');
+
+    function setActive(category: string) {
+      buttons.forEach((btn) => {
+        const isActive = btn.dataset.category === category;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-pressed', String(isActive));
+      });
+
+      let visibleCount = 0;
+      cards.forEach((card) => {
+        const cardCategory = card.dataset.category;
+        const shouldShow = category === 'all' || cardCategory === category;
+        card.classList.toggle('is-hidden', !shouldShow);
+        if (shouldShow) visibleCount++;
+      });
+
+      if (emptyState) {
+        emptyState.hidden = visibleCount > 0;
+      }
+    }
+
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = btn.dataset.category;
+        if (category) setActive(category);
+      });
+    });
+  })();
+</script>
