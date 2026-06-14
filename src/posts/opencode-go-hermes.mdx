@@ -1,0 +1,153 @@
+---
+title: "Running Hermes Agent on a Raspberry Pi with OpenCode Go"
+excerpt: "I run Hermes Agent on a Raspberry Pi 5 and use OpenCode Go as my inference provider. Here's the model/provider half of the stack before it changes again."
+date: "2026-06-14"
+category: "Engineering"
+slug: "opencode-go-hermes"
+draft: true
+---
+
+Howdy. I've been running my own AI agent setup long enough that it feels less like a toy and more like infrastructure, so I figured I'd write down the model/provider half before it changes again.
+
+The short version: I run [Hermes Agent](https://hermes-agent.nousresearch.com/docs/) on a Raspberry Pi 5, and I use [OpenCode Go](https://opencode.ai/go?ref=CE4TVB5MTZ) as my inference provider.
+
+*(That's my OpenCode Go referral link — if you sign up through it, we both get a $5 usage credit.)*
+
+## Why Hermes?
+
+Hermes is an open-source agent framework from Nous Research. It can talk to basically any LLM provider, runs in your terminal, and has a gateway that plugs into Discord, Telegram, Slack, Signal, email, and more.
+
+I wanted three things:
+
+1. **Model flexibility.** I don't want to rebuild my workflow every time a better model ships.
+2. **Tool use on my own hardware.** Hermes can read files, run shell commands, search the web, and delegate to other agents.
+3. **One assistant everywhere.** Terminal when I'm at my desk, Discord when I'm on my phone.
+
+Hermes checks all three.
+
+## The hardware
+
+Everything lives on a Raspberry Pi 5 under my desk.
+
+- **OS:** Linux 6.18.33+rpt-rpi-2712 (arm64)
+- **Memory:** 8 GB
+- **Storage:** SD card plus an external SSD for the heavier stuff
+
+It's not fast, but it's quiet, it's mine, and it sips power. The actual inference happens remotely through OpenCode Go, so the Pi only has to manage the agent loop, tool calls, and gateway.
+
+## Main model: `kimi-k2.7-code` via OpenCode Go
+
+My default model is `kimi-k2.7-code` from Moonshot AI, routed through OpenCode Go. That's the model doing the reasoning, tool selection, and conversation.
+
+```yaml
+model:
+  default: kimi-k2.7-code
+  provider: opencode-go
+```
+
+I keep the OpenCode Go API key in `~/.hermes/.env`, and Hermes loads it from there. The provider is configured like this:
+
+```yaml
+providers:
+  opencode-go:
+    name: OpenCode Go
+```
+
+OpenCode Go has been the cleanest provider I've tried in a while. One key, good throughput, and I can point it at whatever model I want without juggling a dozen endpoints.
+
+## Auxiliary models: `deepseek-v4-flash` via OpenCode Go
+
+Hermes offloads a bunch of background work to auxiliary models. I've pointed most of those at `deepseek-v4-flash`, also through OpenCode Go, because it's cheap and fast enough for tasks that don't need the main model's depth.
+
+My current config:
+
+```yaml
+auxiliary:
+  compression:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  web_extract:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  approval:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  title_generation:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  triage_specifier:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  kanban_decomposer:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  profile_describer:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  curator:
+    provider: opencode-go
+    model: deepseek-v4-flash
+```
+
+What each one actually does:
+
+- **Compression** summarizes the conversation when context gets long.
+- **Web extract** pulls the text out of URLs I throw at it.
+- **Approval** pre-checks shell commands before they run.
+- **Title generation** names my sessions so I can find them later.
+- **Triage / kanban / curator** route tasks and maintain my skills library.
+- **Profile describer** keeps my user model from drifting into fiction.
+
+A few auxiliaries are still on `auto` — vision, skills-hub search, MCP, and monitoring — which means Hermes picks the backend for those based on what's available.
+
+## Fallbacks and local options
+
+I also have OpenRouter and local Ollama configured, mostly so I can switch quickly if OpenCode Go is having a moment or I want to run something offline.
+
+```yaml
+providers:
+  openrouter:
+    api: https://openrouter.ai/api/v1
+    default_model: moonshotai/kimi-k2.6
+  ollama-launch:
+    api: http://127.0.0.1:11434/v1
+    default_model: qwen2.5:3b
+  local-ollama:
+    api: http://localhost:11434/v1
+    default_model: gemma3:4b
+```
+
+I don't use them as the default right now, but the option is there.
+
+## What I use it for
+
+- **Coding:** Tiny Maintenance, Waymark, Cloudflare Workers, random scripts. Hermes reads the repo, runs tests, and delegates bigger refactors to Claude Code when needed.
+- **Travel admin:** I run a Fora travel advising practice, and Hermes helps with client research, standup notes, and end-of-day wins.
+- **Content:** Drafting posts, turning rough ideas into LinkedIn captions, and keeping a parking lot of ideas I don't have time for yet.
+- **System monitoring:** Checking memory, disk, gateway status, and cron jobs without logging into a dashboard.
+
+## Setup overview
+
+If you want to try the same provider/model stack:
+
+1. Install Hermes Agent: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`
+2. Set the model/provider: `hermes model` or edit `~/.hermes/config.yaml`.
+3. Add your OpenCode Go API key to `~/.hermes/.env`.
+4. Configure the gateway if you want Discord/Slack/etc.: `hermes gateway setup`
+5. Start the gateway: `hermes gateway run` or install it as a service.
+
+That's the core loop. Everything else — memory, extra tools, custom skills — layers on top.
+
+## What's still rough
+
+- `deepseek-v4-flash` is fast, but occasionally too literal for nuanced tasks. I tweak auxiliaries when I notice a pattern.
+- The Pi handles the agent loop fine, but it's not running large local LLMs. If I ever want to go fully local, I'll need beefier hardware.
+- Hermes has a lot of knobs. It took a few sessions to figure out which auxiliary settings actually mattered for my workflow.
+
+## Bottom line
+
+This setup isn't the easiest path. A paid chatbot subscription would be faster to set up. But I like that I can swap models, keep the agent running on my own hardware, and teach it my habits over time. It feels less like using a product and more like maintaining a workshop.
+
+If you want to try OpenCode Go with Hermes, [here's that referral link again](https://opencode.ai/go?ref=CE4TVB5MTZ) — we both get $5 in usage credits.
+
+Questions? Say howdy.
