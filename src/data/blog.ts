@@ -9,6 +9,11 @@ export interface BlogPost {
   category: BlogCategory;
   coverImage?: string;
   ogImage?: string;
+  draft?: boolean;
+}
+
+export interface GetAllPostsOptions {
+  includeDrafts?: boolean;
 }
 
 export type BlogCategory =
@@ -54,7 +59,7 @@ function mdxSlugFromFile(file: string, frontmatterSlug?: string): string {
   return basename;
 }
 
-export async function getMdxPosts(): Promise<BlogPost[]> {
+async function loadMdxPosts(): Promise<BlogPost[]> {
   if (mdxCache) return mdxCache;
 
   const modules = import.meta.glob<MdxModule>('../posts/*.mdx', { eager: true });
@@ -62,8 +67,6 @@ export async function getMdxPosts(): Promise<BlogPost[]> {
 
   for (const [file, mod] of Object.entries(modules)) {
     const fm = mod.frontmatter || {};
-    if (fm.draft) continue;
-
     const category = fm.category || 'Life in NYC';
     if (!isValidCategory(category)) {
       console.warn(`Skipping MDX post ${file}: unknown category "${category}"`);
@@ -78,6 +81,7 @@ export async function getMdxPosts(): Promise<BlogPost[]> {
       Content: mod.Content,
       date: fm.date || new Date().toISOString().split('T')[0],
       category,
+      draft: !!fm.draft,
     });
   }
 
@@ -85,24 +89,44 @@ export async function getMdxPosts(): Promise<BlogPost[]> {
   return mdxPosts;
 }
 
-export async function getAllPosts(): Promise<BlogPost[]> {
-  const mdxPosts = await getMdxPosts();
-  return [...mdxPosts].sort(
+export async function getMdxPosts(): Promise<BlogPost[]> {
+  const all = await loadMdxPosts();
+  return all.filter((post) => !post.draft);
+}
+
+export async function getAllPosts(options?: GetAllPostsOptions): Promise<BlogPost[]> {
+  const includeDrafts = options?.includeDrafts ?? false;
+  const posts = includeDrafts ? await loadMdxPosts() : await getMdxPosts();
+  return [...posts].sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
   );
 }
 
-export async function getPostBySlug(slug: string): Promise<BlogPost | undefined> {
-  const mdxPosts = await getMdxPosts();
-  return mdxPosts.find((post) => post.slug === slug);
+export async function getDraftPosts(): Promise<BlogPost[]> {
+  const all = await loadMdxPosts();
+  return all
+    .filter((post) => post.draft)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }
 
-export function getPostsByCategory(category: BlogCategory): Promise<BlogPost[]> {
-  return getAllPosts().then((all) => all.filter((post) => post.category === category));
+export async function getPostBySlug(
+  slug: string,
+  options?: GetAllPostsOptions
+): Promise<BlogPost | undefined> {
+  const includeDrafts = options?.includeDrafts ?? false;
+  const posts = includeDrafts ? await loadMdxPosts() : await getMdxPosts();
+  return posts.find((post) => post.slug === slug);
 }
 
-export async function getAllCategoriesAsync(): Promise<BlogCategory[]> {
-  const all = await getAllPosts();
+export function getPostsByCategory(
+  category: BlogCategory,
+  options?: GetAllPostsOptions
+): Promise<BlogPost[]> {
+  return getAllPosts(options).then((all) => all.filter((post) => post.category === category));
+}
+
+export async function getAllCategoriesAsync(options?: GetAllPostsOptions): Promise<BlogCategory[]> {
+  const all = await getAllPosts(options);
   const usedCategories = new Set(all.map((post) => post.category));
   return categories.filter((category) => usedCategories.has(category));
 }

@@ -6,8 +6,8 @@ import { getAllPosts, getAllCategoriesAsync, type BlogCategory } from '../../dat
 const pageTitle = "Blog — ItsAydrian";
 const pageDescription = "Notes on travel, Japan, apps, and life in New York. Written by Aydrian Howard.";
 
-const posts = await getAllPosts();
-const categories = await getAllCategoriesAsync();
+const posts = await getAllPosts({ includeDrafts: false });
+const categories = await getAllCategoriesAsync({ includeDrafts: false });
 
 function formatDate(iso: string): string {
   const date = new Date(iso);

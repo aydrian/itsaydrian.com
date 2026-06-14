@@ -1,15 +1,19 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import { getAllPosts, getPostBySlug } from '../../data/blog';
-import type { BlogPost } from '../../data/blog';
+import Layout from '../../../layouts/Layout.astro';
+import { getDraftPosts, getPostBySlug } from '../../../data/blog';
 
 export async function getStaticPaths() {
-  const allPosts = await getAllPosts({ includeDrafts: false });
-  return allPosts.map((post) => ({ params: { slug: post.slug } }));
+  const shouldGenerate =
+    import.meta.env.DEV || import.meta.env.PUBLIC_DRAFT_PREVIEW === 'true';
+
+  if (!shouldGenerate) return [];
+
+  const drafts = await getDraftPosts();
+  return drafts.map((post) => ({ params: { slug: post.slug } }));
 }
 
 const { slug } = Astro.params;
-const post = await getPostBySlug(slug as string, { includeDrafts: false });
+const post = await getPostBySlug(slug as string, { includeDrafts: true });
 
 if (!post) {
   return Astro.redirect('/blog/');
@@ -25,7 +29,14 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
 const Content = post.Content;
 ---
 
-<Layout title={post.title} description={post.excerpt}>
+<Layout title={`${post.title} (Draft)`} description={post.excerpt}>
+  <meta slot="head" name="robots" content="noindex, nofollow">
+
+  <div class="draft-banner" role="status" aria-live="polite">
+    <span class="draft-badge">Draft</span>
+    <span class="draft-message">This is a preview of an unpublished post. Do not share.</span>
+  </div>
+
   <article class="container-narrow post">
     <a href="/blog/" class="back-link">← Back to Blog</a>
 
@@ -45,6 +56,39 @@ const Content = post.Content;
 </Layout>
 
 <style>
+  .draft-banner {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background: var(--accent);
+    color: var(--bg);
+    text-align: center;
+  }
+
+  .draft-badge {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25em 0.6em;
+    border-radius: var(--r-sm);
+    background: var(--bg);
+    color: var(--accent);
+    font-size: var(--fs-12);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .draft-message {
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+
   .post {
     padding-block: var(--space-12) var(--space-24);
   }
