@@ -1,0 +1,168 @@
+---
+title: "How I'm running Hermes Agent with OpenCode Go and local Honcho"
+excerpt: "The full stack: Hermes Agent on a Raspberry Pi 5, OpenCode Go for inference, and self-hosted Honcho for memory. One assistant, local data, every channel."
+date: "2026-06-14"
+category: "Engineering"
+slug: "opencode-go-hermes-honcho"
+draft: true
+---
+
+Howdy. I've been using the same setup long enough that it's stopped feeling like a toy and started feeling like infrastructure, so I figured I'd write it down before it changes again.
+
+The short version: I run [Hermes Agent](https://hermes-agent.nousresearch.com/docs/) on a Raspberry Pi 5, use [OpenCode Go](https://opencode.ai/go?ref=CE4TVB5MTZ) as the inference provider, and keep my memory layer local with a self-hosted [Honcho](https://honcho.dev/) instance. Everything talks to me through Discord, though the same agent also works from the terminal when I'm at my desk.
+
+*(That's my OpenCode Go referral link — if you sign up through it, we both get a $5 usage credit.)*
+
+## Why this stack?
+
+I wanted three things:
+
+1. **A model-agnostic agent.** I don't want to rewrite my workflow every time a new model drops.
+2. **Persistent memory that stays on my hardware.** Cloud memory is convenient, but I'm happier when my conversation history and user model live on a device I control.
+3. **One assistant across every channel.** If I'm on my laptop, I want a terminal. If I'm on my phone, I want Discord. Same agent, same context.
+
+Hermes does all of that. It's open-source, provider-agnostic, and has a gateway that can plug into Telegram, Discord, Slack, Signal, email, and a bunch of others.
+
+## The hardware
+
+Everything runs on a Raspberry Pi 5 under my desk.
+
+- **OS:** Linux 6.18.33+rpt-rpi-2712 (arm64)
+- **Memory:** 8 GB
+- **Storage:** SD card plus an external SSD for the heavier stuff
+
+It's not fast. But it's *mine*, it's quiet, and it sips power.
+
+## Models
+
+### Main model: `kimi-k2.7-code` via OpenCode Go
+
+My default model is `kimi-k2.7-code` from Moonshot AI, routed through OpenCode Go. That's the model doing the actual reasoning, tool-calling, and conversation in every session.
+
+```yaml
+model:
+  default: kimi-k2.7-code
+  provider: opencode-go
+```
+
+OpenCode Go is my provider because it gives me a clean API and good throughput without managing a dozen separate keys. I keep the API key in `~/.hermes/.env`; Hermes loads it from there.
+
+### Auxiliary models: `deepseek-v4-flash` via OpenCode Go
+
+Hermes offloads a bunch of background tasks to smaller auxiliary models. I've pointed most of those at `deepseek-v4-flash`, also through OpenCode Go. The config looks like this:
+
+```yaml
+auxiliary:
+  web_extract:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  compression:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  approval:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  title_generation:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  triage_specifier:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  kanban_decomposer:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  profile_describer:
+    provider: opencode-go
+    model: deepseek-v4-flash
+  curator:
+    provider: opencode-go
+    model: deepseek-v4-flash
+```
+
+What that actually means:
+
+- **Compression** summarizes the conversation when context gets long.
+- **Web extract** pulls the text out of URLs I throw at it.
+- **Approval** pre-checks shell commands before they run.
+- **Title generation** names my sessions so I can find them later.
+- **Triage / kanban / curator** handle task routing and skill maintenance.
+- **Profile describer** keeps my user model honest.
+
+A few auxiliaries are still on `auto` — vision, skills-hub search, MCP, and monitoring — which means Hermes picks the backend for those based on what's available.
+
+### Fallbacks and local options
+
+I also have providers configured for [OpenRouter](https://openrouter.ai/) and local [Ollama](https://ollama.com/), mostly so I can switch quickly if OpenCode Go is having a moment or I want to run something offline.
+
+```yaml
+providers:
+  openrouter:
+    api: https://openrouter.ai/api/v1
+    default_model: moonshotai/kimi-k2.6
+  ollama-launch:
+    api: http://127.0.0.1:11434/v1
+    default_model: qwen2.5:3b
+  local-ollama:
+    api: http://localhost:11434/v1
+    default_model: gemma3:4b
+```
+
+I don't use them as the default right now, but the option is there.
+
+## Memory: local Honcho
+
+The part I'm most attached to is memory.
+
+I run Honcho locally with Docker Compose at `http://localhost:8000`. Hermes connects to it through the `honcho.json` config:
+
+```json
+{
+  "baseUrl": "http://localhost:8000",
+  "workspace": "hermes",
+  "aiPeer": "janine",
+  "recallMode": "hybrid",
+  "sessionStrategy": "per-directory"
+}
+```
+
+- **Workspace:** `hermes` — one shared memory space across my profiles.
+- **AI peer:** `janine` — the identity Hermes uses when it talks to me.
+- **Recall mode:** `hybrid` — Honcho injects a base context block automatically, and I can also call memory tools explicitly when I need something specific.
+- **Sessions:** `per-directory` — each project gets its own Honcho session, so my travel-vault context doesn't leak into my app code.
+
+Honcho stores a user representation for me, a peer card for Janine, and a running session summary. That means when I pick up a project the next day, the agent already knows what we were doing, what I care about, and how I like things phrased.
+
+## What I actually use it for
+
+- **Coding:** Tiny Maintenance, Waymark, Cloudflare Workers, random scripts. Hermes reads the repo, runs tests, and delegates bigger refactors to Claude Code when needed.
+- **Travel admin:** I run a Fora travel advising practice, and Hermes helps me keep client research, standup notes, and evening wins in order.
+- **Content:** Drafting posts like this one, turning rough ideas into LinkedIn captions, and keeping a parking lot of ideas I don't have time for yet.
+- **System monitoring:** I check memory, disk, gateway status, and cron jobs without logging into a dashboard.
+
+## Setup overview
+
+If you want to try something similar, the rough steps are:
+
+1. Install Hermes Agent: `curl -fsSL https://raw.githubusercontent.com/NousResearch/hermes-agent/main/scripts/install.sh | bash`
+2. Set your provider/model: `hermes model` or edit `~/.hermes/config.yaml`.
+3. Add your OpenCode Go API key to `~/.hermes/.env`.
+4. Start Honcho locally: `docker compose up -d` in the Honcho repo, then `curl http://localhost:8000/health` to confirm.
+5. Wire Hermes to Honcho: `hermes memory setup honcho` → choose local → enter `http://localhost:8000`.
+6. Configure the gateway: `hermes gateway setup` and connect Discord (or whatever platform you want).
+7. Start the gateway: `hermes gateway run` or install it as a service.
+
+That's it. From then on, every message goes through your local agent, your local memory, and whichever model you pointed it at.
+
+## What's still rough
+
+- The Pi is fine for inference calls to OpenCode Go, but it's not running large local models itself. If I ever want to switch to local LLMs for real, I'll need beefier hardware.
+- `deepseek-v4-flash` is cheap and fast, but occasionally it's too literal for nuanced tasks. I tweak auxiliaries when I notice a pattern.
+- Honcho self-hosting means I'm my own ops team. Updates, backups, and the Postgres database are on me.
+
+## Bottom line
+
+This setup isn't the easiest path. A paid chatbot subscription would be faster to set up. But I like that I can swap models, keep my data local, and teach the agent my habits over time. It feels less like using a product and more like maintaining a workshop.
+
+If you're already running Hermes or curious about local memory, Honcho is worth the afternoon it takes to stand up. And OpenCode Go has been the least annoying inference provider I've tried in a while — which, honestly, is higher praise than it sounds.
+
+Questions? Say howdy.
