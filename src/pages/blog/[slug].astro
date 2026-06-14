@@ -4,24 +4,15 @@ import { getAllPosts, getPostBySlug } from '../../data/blog';
 import type { BlogPost } from '../../data/blog';
 
 export async function getStaticPaths() {
-  const includeDrafts =
-    import.meta.env.DEV ||
-    (import.meta.env.CF_PAGES_BRANCH !== undefined &&
-      import.meta.env.CF_PAGES_BRANCH !== 'main');
+  const includeDrafts = import.meta.env.DEV || __PREVIEW_BUILD__;
   const allPosts = await getAllPosts({ includeDrafts });
   return allPosts.map((post) => ({ params: { slug: post.slug } }));
 }
 
-function shouldIncludeDrafts(): boolean {
-  return (
-    import.meta.env.DEV ||
-    (import.meta.env.CF_PAGES_BRANCH !== undefined &&
-      import.meta.env.CF_PAGES_BRANCH !== 'main')
-  );
-}
-
 const { slug } = Astro.params;
-const post = await getPostBySlug(slug as string, { includeDrafts: shouldIncludeDrafts() });
+const post = await getPostBySlug(slug as string, {
+  includeDrafts: import.meta.env.DEV || __PREVIEW_BUILD__,
+});
 
 if (!post) {
   return Astro.redirect('/blog/');
