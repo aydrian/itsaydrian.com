@@ -25,25 +25,39 @@ function formatDate(iso: string): string {
 <Layout
   title={pageTitle}
   description={pageDescription}
-  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
-  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
+  ogImage="/assets/blog-hero-1600.jpg"
+  ogImageAlt="Aydrian in his New York apartment, reflected in a mirror."
   ogImageWidth={1600}
-  ogImageHeight={1066}
+  ogImageHeight={1067}
   ogImageType="image/jpeg"
+  overlayHeader={true}
+  preloadImage="/assets/blog-hero-800.jpg"
 >
-  <!-- HERO -->
-  <section class="section">
-    <div class="container">
-      <header class="section-head" style="max-width: 60ch; margin-inline: auto; text-align: center;">
-        <span class="eyebrow rise">From the desk</span>
-        <h1 class="h1 rise" data-delay="1">Notes on travel, making things, <em>and New York.</em></h1>
-        <p class="lede rise" data-delay="2">Short dispatches from trips, projects, and whatever Atticus is up to.</p>
-      </header>
+  <!-- ============================== HERO ============================== -->
+  <!-- NOTE: Blog hero is a placeholder mirror selfie. Revisit with a non-selfie NYC apartment or desk shot later. -->
+  <section class="hero blog-hero" aria-labelledby="blog-hero-title">
+    <div class="hero-image">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/blog-hero-800.jpg">
+        <img src="/assets/blog-hero.jpg" alt="Aydrian in his New York apartment, reflected in a mirror." width="2880" height="1920" fetchpriority="high">
+      </picture>
     </div>
+
+    <div class="container hero-inner">
+      <span class="eyebrow rise">From the desk</span>
+      <h1 id="blog-hero-title" class="hero-title rise" data-delay="1">
+        Notes on travel,<br>making things,<br><em>and New York.</em>
+      </h1>
+      <p class="hero-tagline rise" data-delay="2">
+        Short dispatches from trips, projects, and whatever Atticus is up to.
+      </p>
+    </div>
+
+    <a href="#blog-index" class="hero-scroll" aria-label="Read on — scroll to blog posts">Read on</a>
   </section>
 
   <!-- BLOG INDEX -->
-  <section class="section section-soft" aria-labelledby="blog-heading">
+  <section class="section section-soft" id="blog-index" aria-labelledby="blog-heading">
     <div class="container">
       <h2 id="blog-heading" class="visually-hidden">Blog posts</h2>
 
@@ -121,6 +135,14 @@ function formatDate(iso: string): string {
 </Layout>
 
 <style>
+  /* Blog hero: subject sits center-right; keep the left brick wall clear for text. */
+  .blog-hero .hero-image img {
+    object-position: 60% 45%;
+  }
+  @media (max-width: 900px) {
+    .blog-hero .hero-image img { object-position: 55% 40%; }
+  }
+
   .visually-hidden {
     position: absolute;
     width: 1px;
