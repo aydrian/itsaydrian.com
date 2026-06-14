@@ -6,8 +6,9 @@ import { getAllPosts, getAllCategoriesAsync, type BlogCategory } from '../../dat
 const pageTitle = "Blog — ItsAydrian";
 const pageDescription = "Notes on travel, Japan, apps, and life in New York. Written by Aydrian Howard.";
 
-const posts = await getAllPosts();
-const categories = await getAllCategoriesAsync();
+const includeDrafts = import.meta.env.DEV || __PREVIEW_BUILD__;
+const posts = await getAllPosts({ includeDrafts });
+const categories = await getAllCategoriesAsync({ includeDrafts });
 
 function formatDate(iso: string): string {
   const date = new Date(iso);
@@ -25,25 +26,38 @@ function formatDate(iso: string): string {
 <Layout
   title={pageTitle}
   description={pageDescription}
-  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
-  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
+  ogImage="/assets/blog-hero-1600.jpg"
+  ogImageAlt="Aydrian in a blue kimono with Yasaka Pagoda in the background, Kyoto."
   ogImageWidth={1600}
-  ogImageHeight={1066}
+  ogImageHeight={1067}
   ogImageType="image/jpeg"
+  overlayHeader={true}
+  preloadImage="/assets/blog-hero-800.jpg"
 >
-  <!-- HERO -->
-  <section class="section">
-    <div class="container">
-      <header class="section-head" style="max-width: 60ch; margin-inline: auto; text-align: center;">
-        <span class="eyebrow rise">From the desk</span>
-        <h1 class="h1 rise" data-delay="1">Notes on travel, making things, <em>and New York.</em></h1>
-        <p class="lede rise" data-delay="2">Short dispatches from trips, projects, and whatever Atticus is up to.</p>
-      </header>
+  <!-- ============================== HERO ============================== -->
+  <section class="hero blog-hero" aria-labelledby="blog-hero-title">
+    <div class="hero-image">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/blog-hero-800.jpg">
+        <img src="/assets/blog-hero.jpg" alt="Aydrian in a blue kimono with Yasaka Pagoda in the background, Kyoto." width="2880" height="1920" fetchpriority="high">
+      </picture>
     </div>
+
+    <div class="container hero-inner">
+      <span class="eyebrow rise">From the desk</span>
+      <h1 id="blog-hero-title" class="hero-title rise" data-delay="1">
+        Notes on travel,<br>making things,<br><em>and New York.</em>
+      </h1>
+      <p class="hero-tagline rise" data-delay="2">
+        Short dispatches from trips, projects, and whatever Atticus is up to.
+      </p>
+    </div>
+
+    <a href="#blog-index" class="hero-scroll" aria-label="Read on — scroll to blog posts">Read on</a>
   </section>
 
   <!-- BLOG INDEX -->
-  <section class="section section-soft" aria-labelledby="blog-heading">
+  <section class="section section-soft" id="blog-index" aria-labelledby="blog-heading">
     <div class="container">
       <h2 id="blog-heading" class="visually-hidden">Blog posts</h2>
 
@@ -81,6 +95,7 @@ function formatDate(iso: string): string {
             <div class="card-body">
               <div class="blog-card-meta">
                 <span class="pill pill-cool">{post.category}</span>
+                {post.draft && <span class="pill pill-draft">Draft</span>}
                 <time class="blog-date" datetime={post.date}>{formatDate(post.date)}</time>
               </div>
               <h3 id={`blog-title-${post.slug}`} class="blog-card-title">
@@ -101,9 +116,17 @@ function formatDate(iso: string): string {
       </div>
 
       <!-- EMPTY STATE -->
-      <div class="blog-empty" id="blog-empty" hidden>
-        <p>No posts in this category yet.</p>
-      </div>
+      {posts.length === 0 ? (
+        <div class="blog-empty blog-empty-all">
+          <p class="blog-empty-eyebrow">From the desk</p>
+          <h3 class="blog-empty-title">Nothing published yet.</h3>
+          <p class="blog-empty-body">I'm drafting a few dispatches. Subscribe below and I'll send a note when the first post goes live.</p>
+        </div>
+      ) : (
+        <div class="blog-empty" id="blog-empty" hidden>
+          <p>No posts in this category yet.</p>
+        </div>
+      )}
     </div>
   </section>
 
@@ -212,6 +235,11 @@ function formatDate(iso: string): string {
     margin-bottom: var(--space-2);
   }
 
+  .pill-draft {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
   .blog-date {
     font-size: var(--fs-12);
     font-weight: 500;
@@ -255,6 +283,34 @@ function formatDate(iso: string): string {
     text-align: center;
     padding: var(--space-16) var(--space-6);
     color: var(--ink-soft);
+  }
+
+  .blog-empty-all {
+    max-width: 52ch;
+    margin-inline: auto;
+  }
+
+  .blog-empty-eyebrow {
+    font-size: var(--fs-12);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-empty-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-36);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: var(--space-4);
+  }
+
+  .blog-empty-body {
+    font-size: var(--fs-18);
+    line-height: 1.6;
   }
 
   .blog-empty p {

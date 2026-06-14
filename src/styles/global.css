@@ -673,7 +673,8 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
   position: relative;
   z-index: 1;
   width: 100%;
-  padding-block: var(--space-20) var(--space-16);
+  /* Extra bottom padding keeps the scroll indicator from overlapping the CTA/tagline. */
+  padding-block: var(--space-20) calc(var(--space-16) + 72px);
   color: var(--ink-on-image);
   display: grid;
   grid-template-columns: 1fr;
@@ -772,6 +773,7 @@ html.has-anim .rise[data-delay="5"].is-in { animation-delay: 400ms; }
 
 @media (max-width: 700px) {
   .hero { min-height: 80vh; min-height: 80dvh; }
+  .hero-inner { padding-bottom: calc(var(--space-12) + 72px); }
   .hero-tagline { font-size: var(--fs-16); }
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta .btn { width: 100%; }
