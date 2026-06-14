@@ -26,7 +26,7 @@ function formatDate(iso: string): string {
   title={pageTitle}
   description={pageDescription}
   ogImage="/assets/blog-hero-1600.jpg"
-  ogImageAlt="Aydrian in his New York apartment, reflected in a mirror."
+  ogImageAlt="Aydrian in a blue kimono with Yasaka Pagoda in the background, Kyoto."
   ogImageWidth={1600}
   ogImageHeight={1067}
   ogImageType="image/jpeg"
@@ -34,12 +34,11 @@ function formatDate(iso: string): string {
   preloadImage="/assets/blog-hero-800.jpg"
 >
   <!-- ============================== HERO ============================== -->
-  <!-- NOTE: Blog hero is a placeholder mirror selfie. Revisit with a non-selfie NYC apartment or desk shot later. -->
   <section class="hero blog-hero" aria-labelledby="blog-hero-title">
     <div class="hero-image">
       <picture>
         <source media="(max-width: 800px)" srcset="/assets/blog-hero-800.jpg">
-        <img src="/assets/blog-hero.jpg" alt="Aydrian in his New York apartment, reflected in a mirror." width="2880" height="1920" fetchpriority="high">
+        <img src="/assets/blog-hero.jpg" alt="Aydrian in a blue kimono with Yasaka Pagoda in the background, Kyoto." width="2880" height="1920" fetchpriority="high">
       </picture>
     </div>
 
@@ -135,12 +134,12 @@ function formatDate(iso: string): string {
 </Layout>
 
 <style>
-  /* Blog hero: subject sits center-right; keep the left brick wall clear for text. */
+  /* Blog hero: subject is center-right; center the crop so the pagoda stays visible on the left and Aydrian on the right. */
   .blog-hero .hero-image img {
-    object-position: 60% 45%;
+    object-position: 50% 50%;
   }
   @media (max-width: 900px) {
-    .blog-hero .hero-image img { object-position: 55% 40%; }
+    .blog-hero .hero-image img { object-position: 48% 50%; }
   }
 
   .visually-hidden {
