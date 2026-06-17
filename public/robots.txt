@@ -4,4 +4,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://itsaydrian.com/sitemap.xml
+Sitemap: https://itsaydrian.com/sitemap-index.xml

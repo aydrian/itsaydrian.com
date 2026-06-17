@@ -23,6 +23,8 @@ const {
   preloadImage
 } = Astro.props;
 
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+
 import '../styles/global.css';
 ---
 
@@ -67,6 +69,12 @@ import '../styles/global.css';
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 
   <slot name="head" />
+  {gaMeasurementId && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaMeasurementId}`}></script>
+      <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${gaMeasurementId}');`}></script>
+    </>
+  )}
   <script is:inline>
     (function () {
       try {
