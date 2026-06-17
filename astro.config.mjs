@@ -6,7 +6,7 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 
 // https://astro.build/config
-const isPreviewBuild = process.env.GITHUB_HEAD_REF !== undefined && process.env.GITHUB_HEAD_REF !== 'main';
+const isPreviewBuild = !!process.env.GITHUB_HEAD_REF && process.env.GITHUB_HEAD_REF !== 'main';
 
 export default defineConfig({
   site: 'https://itsaydrian.com',
@@ -15,7 +15,7 @@ export default defineConfig({
   integrations: [sitemap(), mdx()],
   vite: {
     define: {
-      __PREVIEW_BUILD__: JSON.stringify(isPreviewBuild),
+      __PREVIEW_BUILD__: isPreviewBuild ? 'true' : 'false',
     },
   },
 });
