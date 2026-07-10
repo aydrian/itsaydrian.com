@@ -1,0 +1,156 @@
+---
+title: "Self-hosting Honcho for Hermes Agent memory"
+excerpt: "I run Honcho locally so my agent actually remembers who I am. Here's how the memory layer is wired into Hermes on a Raspberry Pi 5."
+date: "2026-06-14"
+category: "Engineering"
+slug: "honcho-local-memory"
+draft: true
+---
+
+Howdy. In my last post I wrote about running Hermes Agent on a Raspberry Pi 5 with [OpenCode Go](https://opencode.ai/go?ref=CE4TVB5MTZ) as the inference provider. This one is about the memory layer: I run [Honcho](https://honcho.dev/) locally so my agent actually remembers who I am.
+
+*(That's my OpenCode Go referral link — if you sign up through it, we both get a $5 usage credit.)*
+
+## Why local memory?
+
+A chatbot that forgets everything every session is fine for one-off questions. It's not fine for ongoing work. I wanted a user model that sticks around across days, projects, and devices — and I wanted it to live on hardware I control.
+
+Honcho does exactly that. It's an AI-native user-modeling layer. It observes conversations, builds a representation of the user, and injects relevant context back into the system prompt so the agent doesn't start from zero every time.
+
+## The setup
+
+I run Honcho self-hosted with Docker Compose on the same Raspberry Pi 5 that runs Hermes. The API is reachable at `http://localhost:8000`, and a quick health check confirms it's up:
+
+```bash
+curl http://localhost:8000/health
+# {"status":"ok"}
+```
+
+Hermes connects to it through the Honcho config at `~/.hermes/honcho.json`:
+
+```json
+{
+  "baseUrl": "http://localhost:8000",
+  "workspace": "hermes",
+  "aiPeer": "janine",
+  "recallMode": "hybrid",
+  "sessionStrategy": "per-directory"
+}
+```
+
+What each field does:
+
+- **baseUrl:** where my local Honcho API is listening.
+- **workspace:** `hermes` — the shared memory space across my Hermes profiles.
+- **aiPeer:** `janine` — the identity Hermes uses when it talks to me. Each profile can have its own peer.
+- **recallMode:** `hybrid` — Honcho injects base context automatically, and I can also call memory tools explicitly when I need something specific.
+- **sessionStrategy:** `per-directory` — each project directory gets its own Honcho session, so my travel-vault context doesn't leak into my app code.
+
+## How I wired it to Hermes
+
+The interactive wizard did most of the work:
+
+```bash
+hermes memory setup honcho
+```
+
+I chose "local," entered `http://localhost:8000`, and confirmed the workspace and peer names. Hermes created the Honcho host block and started routing memory calls there.
+
+You can verify it's working with:
+
+```bash
+hermes honcho status
+```
+
+That shows the resolved config, connection test, and peer info for the active profile.
+
+## What Honcho remembers
+
+Honcho maintains three things that get injected into the system prompt:
+
+1. **Session summary** — a digest of the current conversation so far.
+2. **User representation** — accumulated facts about me: preferences, habits, projects, communication style.
+3. **AI peer card** — a curated identity card for Janine, the AI peer.
+
+The order matters. The summary lands first so the model has immediate continuity, then the user representation, then the peer card.
+
+When I start a new session in a project directory, Honcho checks whether it already knows me. If it does, it uses a warm-start strategy and injects all three. If not, it falls back to a lighter cold-start prompt.
+
+## Observation and recall
+
+Honcho has two observation toggles per peer:
+
+- **observeMe** — whether the peer's own messages are observed.
+- **observeOthers** — whether the peer observes the other peer's messages.
+
+I leave all four on for full bidirectional observation. That means Janine learns from what I say *and* from what she says, and the user representation gets richer over time.
+
+Recall mode controls how the agent accesses memory:
+
+| Mode | Auto-inject context | Tools available |
+|------|---------------------|-----------------|
+| `hybrid` | Yes | Yes |
+| `context` | Yes | No |
+| `tools` | No | Yes |
+
+Hybrid is the default and the one I use. It gives the agent both automatic context and explicit memory tools without me having to micromanage which one to use.
+
+## Tools I can call
+
+When I need something specific from memory, there are five Honcho tools available:
+
+- **honcho_profile** — quick factual snapshot of a peer card.
+- **honcho_search** — semantic search over stored context, returns raw excerpts.
+- **honcho_context** — full snapshot: summary, representation, card, recent messages.
+- **honcho_reasoning** — synthesized answer from Honcho's dialectic engine.
+- **honcho_conclude** — write or delete a persistent fact.
+
+I use `honcho_profile` at the start of a session for a fast warmup, `honcho_search` when I need a specific past fact, and `honcho_conclude` when I share something I want remembered. I avoid `honcho_reasoning` on every turn because it costs more; auto-injection handles the routine stuff.
+
+## Session strategy
+
+The `per-directory` strategy means each folder I work in gets its own Honcho session. That's important because my travel advising context and my app development context have almost nothing to do with each other. I don't want hotel research bleeding into Cloudflare Worker configs.
+
+You can override it manually if needed:
+
+```bash
+hermes honcho map my-project-name
+```
+
+## What I use it for
+
+- **Project continuity.** I can stop working on Tiny Maintenance on Tuesday and pick it up on Thursday without re-explaining the codebase.
+- **Personal preferences.** It knows I prefer short sentences, that I avoid certain medication brand names in docs, and that I like evidence attached to claims.
+- **Workflow memory.** It remembers my canary-before-batch rule, my vault lint steps, and that I delegate code changes to Claude Code.
+- **Cross-channel consistency.** Whether I message from Discord or the terminal, the same memory layer is underneath.
+
+## Setup overview
+
+If you want to try local Honcho with Hermes:
+
+1. Clone the Honcho repo and start it locally:
+
+   ```bash
+   docker compose up -d
+   ```
+
+2. Verify the API: `curl http://localhost:8000/health`
+3. Run the Hermes setup wizard: `hermes memory setup honcho`
+4. Choose "local" and enter `http://localhost:8000`
+5. Confirm workspace and peer names, then check `hermes honcho status`
+
+From then on, Hermes will create Honcho sessions, observe messages, and inject context automatically.
+
+## What's still rough
+
+- Self-hosting means I'm my own ops team. Backups, updates, and the Postgres database are on me.
+- If the Pi is under heavy load, Honcho's dialectic calls can lag. I keep the reasoning level at `low` by default to keep things snappy.
+- Cold starts are thin. The first session in a new directory doesn't have much to inject until we've had a few exchanges.
+
+## Bottom line
+
+Local memory is the part of this stack that feels hardest to give up once you have it. The agent stops being a clever chatbot and starts being a persistent collaborator. Combined with Hermes and OpenCode Go, it's the closest thing I've found to an assistant that actually learns how I work.
+
+If you're curious about the inference side, I wrote about my Hermes + OpenCode Go setup [here](https://itsaydrian.com/blog/opencode-go-hermes/).
+
+Questions? Say howdy.
