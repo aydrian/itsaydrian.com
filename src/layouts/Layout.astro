@@ -99,13 +99,10 @@ import '../styles/global.css';
       </a>
 
       <nav class="nav-links" aria-label="Primary">
-        <a href="/#what-i-do">What I do</a>
         <a href="/travel/" aria-current={Astro.url.pathname === '/travel/' ? 'page' : undefined}>Travel</a>
-        <a href="/pet-care/" aria-current={Astro.url.pathname === '/pet-care/' ? 'page' : undefined}>Pet care</a>
+        <a href="/consulting/" aria-current={Astro.url.pathname === '/consulting/' ? 'page' : undefined}>Consulting</a>
         <a href="/apps/" aria-current={Astro.url.pathname.startsWith('/apps/') ? 'page' : undefined}>Apps</a>
         <a href="/blog/" aria-current={Astro.url.pathname.startsWith('/blog/') ? 'page' : undefined}>Blog</a>
-        <a href="/atticus-list/" aria-current={Astro.url.pathname === '/atticus-list/' ? 'page' : undefined}>Atticus's list</a>
-        <a href="/#contact">Contact</a>
       </nav>
 
       <div class="nav-actions">
@@ -152,6 +149,7 @@ import '../styles/global.css';
             <li><a href="/atticus-list/">Atticus's favorite things</a></li>
             <li><a href="/apps/">Apps</a></li>
             <li><a href="/apps/tiny-maintenance/">Tiny Maintenance for iOS</a></li>
+            <li><a href="/consulting/">Technical consulting</a></li>
           </ul>
         </div>
 

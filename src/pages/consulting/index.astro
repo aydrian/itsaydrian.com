@@ -1,0 +1,248 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const pageDescription = "Web and mobile development, developer content, and AI agent consulting. Full-stack engineer with iOS app publishing experience and a decade of developer tooling work across Okta, CockroachDB, MongoDB, and more.";
+---
+<Layout
+  title="Technical Consulting"
+  description={pageDescription}
+  ogImage="/assets/consulting-card.jpg"
+  ogImageAlt="Aydrian leaning against a ledge on a neon-lit Tokyo street at night, wearing a gray hoodie and a Remix crossbody bag."
+  ogImageWidth={1600}
+  ogImageHeight={1066}
+  ogImageType="image/jpeg"
+  overlayHeader={true}
+  preloadImage="/assets/consulting-card.jpg"
+>
+  <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"ProfessionalService","name":"ItsAydrian Consulting","url":"https://itsaydrian.com/consulting","email":"howdy@itsaydrian.com","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"founder":{"@type":"Person","name":"Aydrian Howard"},"knowsAbout":["React","React Native","TypeScript","Node.js","iOS development","Expo","Astro","Cloudflare Workers","AWS Lambda","PostgreSQL","MongoDB","Web development","Mobile app development","Technical writing","Developer education","AI agents","Hermes"]}</script>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="consulting-hero-title">
+    <div class="hero-image">
+      <picture>
+        <img src="/assets/consulting-card.jpg" alt="Aydrian leaning against a ledge on a neon-lit Tokyo street at night, wearing a gray hoodie and a Remix crossbody bag." width="1600" height="1066" fetchpriority="high">
+      </picture>
+    </div>
+
+    <div class="container hero-inner">
+      <span class="eyebrow rise" data-delay="1" style="color:var(--ink-on-image);">Technical Consulting</span>
+      <h1 id="consulting-hero-title" class="hero-title rise" data-delay="2">
+        Software that works.<br><em>Built the right way.</em>
+      </h1>
+      <p class="hero-tagline rise" data-delay="3">
+        Web and mobile apps, developer content, and AI agent setup — delivered carefully, without the overhead of a larger shop.
+        One person who knows the stack and ships what they promise.
+      </p>
+      <div class="hero-cta rise" data-delay="4">
+        <a class="btn btn-primary btn-lg" href="mailto:howdy@itsaydrian.com?subject=Consulting inquiry">
+          Get in touch
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <a href="#services" class="hero-scroll" aria-label="Read on — scroll to services">Read on</a>
+  </section>
+
+  <!-- ============================== SERVICES ============================== -->
+  <section class="section section-soft" id="services" aria-labelledby="services-heading">
+    <div class="container">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto;">
+        <span class="eyebrow">What I do</span>
+        <h2 id="services-heading" class="h2">Three ways to <em>work together.</em></h2>
+        <p class="lede">Pick the engagement that fits. All of them get real attention.</p>
+      </header>
+
+      <div class="services-grid">
+
+        <article class="service-card rise" data-delay="1" aria-labelledby="svc-dev">
+          <div class="service-card-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          </div>
+          <h3 id="svc-dev">Web &amp; Mobile App Development</h3>
+          <p>
+            Full-stack web and mobile applications — React and TypeScript on the frontend, Node.js and Python on the backend, deployed serverless on Cloudflare Workers or AWS Lambda. Databases from PostgreSQL to MongoDB. I've shipped production code on all of them — including an iOS app (Tiny Maintenance) built from scratch with React Native and Expo.
+          </p>
+          <ul class="card-meta" role="list" aria-label="Technologies">
+            <li class="pill">React</li>
+            <li class="pill">TypeScript</li>
+            <li class="pill">Node.js</li>
+            <li class="pill">React Native</li>
+            <li class="pill">iOS / Expo</li>
+            <li class="pill">Cloudflare</li>
+          </ul>
+        </article>
+
+        <article class="service-card rise" data-delay="2" aria-labelledby="svc-content">
+          <div class="service-card-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <h3 id="svc-content">Content Creation</h3>
+          <p>
+            Sample applications, blog posts, reference architectures, and workshops that ship real code for real platforms. Over a decade creating developer content across identity platforms (Okta, Auth0), AI-assisted development (Tabnine), distributed databases (CockroachDB, MongoDB), and serverless infrastructure.
+          </p>
+          <ul class="card-meta" role="list" aria-label="Formats">
+            <li class="pill">Sample apps</li>
+            <li class="pill">Blog posts</li>
+            <li class="pill">Workshops</li>
+            <li class="pill">SDK examples</li>
+          </ul>
+        </article>
+
+        <article class="service-card rise" data-delay="3" aria-labelledby="svc-hermes">
+          <div class="service-card-icon" aria-hidden="true">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+          </div>
+          <h3 id="svc-hermes">Hermes Agent Setup</h3>
+          <p>
+            Get a local AI agent running on your own hardware with your own LLM provider — no monthly SaaS subscription required.
+            I configure Hermes to your needs, walk you through it, and leave you with something you actually understand.
+          </p>
+          <ul class="card-meta" role="list" aria-label="Details">
+            <li class="pill">BYO hardware</li>
+            <li class="pill">BYO LLM provider</li>
+            <li class="pill">Local-first</li>
+          </ul>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== PROCESS ============================== -->
+  <section class="section" id="process" aria-labelledby="process-heading">
+    <div class="container">
+      <header class="section-head rise" style="text-align:center; margin-inline:auto;">
+        <span class="eyebrow">How it works</span>
+        <h2 id="process-heading" class="h2">Simple process. <em>No surprises.</em></h2>
+        <p class="lede">Four steps from first email to final delivery.</p>
+      </header>
+
+      <ol class="process-steps" role="list">
+        <li class="process-step rise" data-delay="1">
+          <span class="process-num eyebrow">01</span>
+          <h3>Discovery</h3>
+          <p>We talk through what you need, what you have, and what done looks like. No forms — just a conversation.</p>
+        </li>
+        <li class="process-step rise" data-delay="2">
+          <span class="process-num eyebrow">02</span>
+          <h3>Proposal</h3>
+          <p>I send a clear scope, timeline, and price. No vague estimates or billing-by-surprise.</p>
+        </li>
+        <li class="process-step rise" data-delay="3">
+          <span class="process-num eyebrow">03</span>
+          <h3>Build</h3>
+          <p>I do the work. You get updates as things progress — not silence until the deadline.</p>
+        </li>
+        <li class="process-step rise" data-delay="4">
+          <span class="process-num eyebrow">04</span>
+          <h3>Deliver</h3>
+          <p>Code is handed off cleanly. Documentation included. You own what was built.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================== CTA ============================== -->
+  <section class="contact-band" aria-label="Get in touch">
+    <div class="container">
+      <h2 class="display rise" style="max-width: 22ch;">Let's build something <em>awesome.</em></h2>
+      <p class="lede rise" data-delay="1">
+        Tell me what you're working on. I'll tell you honestly if I'm the right fit.
+      </p>
+      <div class="contact-cta rise" data-delay="2">
+        <a class="btn btn-primary" href="mailto:howdy@itsaydrian.com?subject=Consulting inquiry">
+          Email me
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/aydrian/" target="_blank" rel="noopener noreferrer">
+          LinkedIn
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</Layout>
+
+<style>.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-12);
+  }
+
+  .service-card {
+    padding: var(--space-8);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    background: var(--bg-card);
+    transition: box-shadow var(--dur) var(--ease-out-quart);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .service-card:hover {
+    box-shadow: var(--shadow-md);
+  }
+
+  .service-card-icon {
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .service-card h3 {
+    font-size: var(--fs-20);
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .service-card p {
+    font-size: var(--fs-14);
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  .service-card .card-meta {
+    margin-top: auto;
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-12);
+    list-style: none;
+    padding: 0;
+  }
+
+  .process-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .process-num {
+    color: var(--accent);
+    font-size: var(--fs-12);
+    letter-spacing: 0.08em;
+  }
+
+  .process-step h3 {
+    font-size: var(--fs-20);
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  .process-step p {
+    font-size: var(--fs-14);
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin: 0;
+  }
+</style>
