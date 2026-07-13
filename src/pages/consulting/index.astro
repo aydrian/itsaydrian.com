@@ -11,28 +11,36 @@ const pageDescription = "Technical consulting for web and mobile development, co
   ogImageWidth={1600}
   ogImageHeight={1066}
   ogImageType="image/jpeg"
-  overlayHeader={false}
+  overlayHeader={true}
 >
   <script slot="head" type="application/ld+json" is:raw>{"@context":"https://schema.org","@type":"ProfessionalService","name":"ItsAydrian Consulting","url":"https://itsaydrian.com/consulting","email":"howdy@itsaydrian.com","address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"founder":{"@type":"Person","name":"Aydrian Howard"},"knowsAbout":["React","React Native","iOS development","Astro","Cloudflare Workers","Web development","Mobile app development","Technical writing","Developer education","AI agents","Hermes"]}</script>
 
-  <!-- ============================== INTRO ============================== -->
-  <section class="section consulting-intro" aria-labelledby="consulting-hero-title">
-    <div class="container-narrow">
-      <span class="eyebrow rise">Technical Consulting</span>
-      <h1 id="consulting-hero-title" class="display rise" data-delay="1">
+  <!-- ============================== HERO ============================== -->
+  <section class="hero" aria-labelledby="consulting-hero-title">
+    <div class="hero-image">
+      <picture>
+        <img src="/assets/aydrian-tokyo-hero.jpg" alt="Aydrian standing on a neon-lit Tokyo street at night." width="1600" height="1066" fetchpriority="high">
+      </picture>
+    </div>
+
+    <div class="container hero-inner">
+      <span class="eyebrow rise" style="color:var(--ink-on-image);">Technical Consulting</span>
+      <h1 id="consulting-hero-title" class="hero-title rise" data-delay="1">
         Software that works.<br><em>Built the right way.</em>
       </h1>
-      <p class="lede rise" data-delay="2">
+      <p class="hero-tagline rise" data-delay="2">
         Web and mobile apps, developer content, and AI agent setup — delivered carefully, without the overhead of a larger shop.
         One person who knows the stack and ships what they promise.
       </p>
-      <div class="rise" data-delay="3">
+      <div class="hero-cta rise" data-delay="3">
         <a class="btn btn-primary btn-lg" href="mailto:howdy@itsaydrian.com?subject=Consulting inquiry">
           Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
       </div>
     </div>
+
+    <a href="#services" class="hero-scroll" aria-label="Read on — scroll to services">Read on</a>
   </section>
 
   <!-- ============================== SERVICES ============================== -->
@@ -156,27 +164,7 @@ const pageDescription = "Technical consulting for web and mobile development, co
 
 </Layout>
 
-<style>
-  .consulting-intro {
-    padding-top: var(--space-20);
-    padding-bottom: var(--space-16);
-  }
-
-  .consulting-intro .eyebrow {
-    display: block;
-    margin-bottom: var(--space-4);
-  }
-
-  .consulting-intro .display {
-    margin-bottom: var(--space-6);
-  }
-
-  .consulting-intro .lede {
-    margin-bottom: var(--space-8);
-    max-width: 60ch;
-  }
-
-  .services-grid {
+<style>.services-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-6);
