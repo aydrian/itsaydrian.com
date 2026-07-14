@@ -1,13 +1,13 @@
 # ItsAydrian.com — Claude Code Context
 
 ## Project Overview
-Personal site for ItsAydrian LLC. Astro 6 static site with Cloudflare Workers adapter. Deployed to Cloudflare via GitHub Actions.
+Personal site for ItsAydrian LLC. Astro 7 site with Cloudflare Workers adapter. Deployed to Cloudflare via GitHub Actions.
 
 ## Tech Stack
-- Astro 6.4.8 with `@astrojs/cloudflare`, `@astrojs/mdx`, `@astrojs/sitemap`
+- Astro 7.0.9 with `@astrojs/cloudflare`, `@astrojs/mdx`, `@astrojs/sitemap`
 - TypeScript (ES modules, `type: "module"`)
 - Bun for package management and scripts
-- Wrangler for Cloudflare Workers types/deploy
+- Wrangler 4.110.0 for Cloudflare Workers types/deploy
 - Cloudflare Pages/Workers deployment via GitHub Actions
 
 ## Commands
@@ -104,7 +104,7 @@ Personal site for ItsAydrian LLC. Astro 6 static site with Cloudflare Workers ad
 - `GITHUB_HEAD_REF` used at build time to detect preview builds
 
 ## Workflow Rules
-- Use Bun, not npm
+- Prefer Bun, but npm works if bun isn't available
 - Always run `bun run build` after changes before declaring done
 - Do not commit or push — Janine handles git/PR workflow
 - Do not ask clarifying questions; use best judgment
