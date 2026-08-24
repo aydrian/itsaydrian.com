@@ -14,9 +14,7 @@ itsaydrian.com is the personal site of Aydrian — a one-person studio for trave
 - [Terms of Service](https://itsaydrian.com/terms) — Site-wide terms of service
 
 ### Indie Software
-- [Tiny Maintenance](https://itsaydrian.com/apps/tiny-maintenance) — App landing page for Tiny Maintenance
-  - [Privacy Policy](https://itsaydrian.com/apps/tiny-maintenance/privacy) — App-specific privacy policy
-  - [Terms of Service](https://itsaydrian.com/apps/tiny-maintenance/terms) — App-specific terms of service
+- [Tiny Maintenance](https://tiny-maintenance.itsaydrian.com) — App site for Tiny Maintenance iOS app
 
 ### Pet Care
 - [Atticus's List](https://itsaydrian.com/atticus-list) — Curated Amazon affiliate pet products and recommendations
