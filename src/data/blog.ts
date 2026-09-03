@@ -20,6 +20,7 @@ export type BlogCategory =
   | "Travel"
   | "Japan"
   | "Apps"
+  | "Engineering"
   | "Pet care"
   | "Life in NYC";
 
@@ -27,6 +28,7 @@ export const categories: BlogCategory[] = [
   "Travel",
   "Japan",
   "Apps",
+  "Engineering",
   "Pet care",
   "Life in NYC",
 ];
