@@ -29,7 +29,7 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
 const Content = post.Content;
 ---
 
-<Layout title={isDraft ? `${post.title} (Draft)` : post.title} description={post.excerpt}>
+<Layout title={isDraft ? `${post.title} (Draft)` : post.title} description={post.excerpt} ogImage={post.ogImage} ogImageAlt={post.ogImageAlt} ogImageWidth={post.ogImageWidth} ogImageHeight={post.ogImageHeight}>
   {isDraft && <meta slot="head" name="robots" content="noindex, nofollow">}
 
   {isDraft && (

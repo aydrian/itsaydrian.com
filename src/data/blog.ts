@@ -9,6 +9,9 @@ export interface BlogPost {
   category: BlogCategory;
   coverImage?: string;
   ogImage?: string;
+  ogImageAlt?: string;
+  ogImageWidth?: number;
+  ogImageHeight?: number;
   draft?: boolean;
 }
 
@@ -81,6 +84,11 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       Content: mod.Content,
       date: fm.date || new Date().toISOString().split('T')[0],
       category,
+      coverImage: fm.coverImage,
+      ogImage: fm.ogImage,
+      ogImageAlt: fm.ogImageAlt,
+      ogImageWidth: fm.ogImageWidth,
+      ogImageHeight: fm.ogImageHeight,
       draft: !!fm.draft,
     });
   }
