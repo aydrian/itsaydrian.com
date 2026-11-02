@@ -1,0 +1,201 @@
+---
+// ===== EDIT LINKS HERE =====
+type LinkItem = { label: string; description: string; href: string; kind: "affiliate" | "external" | "internal" };
+type LinkSection = { id: string; heading: string; links: LinkItem[] };
+const SECTIONS: LinkSection[] = [
+  { id: "book", heading: "Book tours & experiences", links: [
+    { label: "Viator", description: "Tours, day trips and activities across Japan.", href: "https://www.viator.com/?pid=P00058688&uid=U00655990&mcid=58086&currency=KRW", kind: "affiliate" },
+    { label: "GetYourGuide", description: "Skip-the-line tickets and guided experiences.", href: "https://www.getyourguide.com?partner_id=UBHY2VI&travel_agent=1&cmp=share_to_earn", kind: "affiliate" }
+  ]},
+  { id: "work", heading: "Work with me", links: [
+    { label: "Travel advising", description: "Itineraries, hotels, trains and restaurants, planned by someone who goes to Japan every year.", href: "/travel/", kind: "internal" }
+  ]},
+  { id: "follow", heading: "Follow along", links: [
+    { label: "TikTok", description: "Short videos from the road.", href: "https://www.tiktok.com/@itsaydrian?_r=1&_t=ZP-9B3ZMeOAynW", kind: "external" },
+    { label: "Instagram", description: "Photos and stories between trips.", href: "https://instagram.com/itsaydrian", kind: "external" }
+  ]}
+];
+// ===== SHOP MY PICKS ===== add { label, description, href: "https://amzn.to/...", kind: "affiliate" } entries here.
+// Renders only when non-empty. Amazon disclosure line appears automatically when it is.
+const SHOP_LINKS: LinkItem[] = [];
+
+import Layout from '../../layouts/Layout.astro';
+
+const BASE_DISCLOSURE = "Some links on this page are affiliate links. If you book or buy through them, I may earn a commission at no extra cost to you.";
+const disclosureText = SHOP_LINKS.length > 0
+  ? `${BASE_DISCLOSURE} As an Amazon Associate I earn from qualifying purchases.`
+  : BASE_DISCLOSURE;
+
+function linkAttrs(kind: LinkItem["kind"]) {
+  if (kind === "affiliate") return { target: "_blank", rel: "sponsored noopener noreferrer" };
+  if (kind === "external") return { target: "_blank", rel: "noopener noreferrer" };
+  return {};
+}
+---
+<Layout title="Links" description="Book Japan tours and experiences, work with me on a trip, and follow along. Aydrian Howard, travel advisor.">
+  <div class="container-narrow links-page">
+    <header class="links-header">
+      <img src="/assets/fora-profile.jpg" alt="Aydrian Howard" width="64" height="64" class="links-avatar">
+      <h1 class="h2">Aydrian Howard</h1>
+      <p class="body-sm">Travel advisor sharing Japan tips from the road.</p>
+    </header>
+
+    <p class="body-sm links-disclosure">{disclosureText}</p>
+
+    {SECTIONS.map((section) => (
+      <section id={section.id} aria-labelledby={`${section.id}-label`} class="links-section">
+        <h2 class="eyebrow" id={`${section.id}-label`}>{section.heading}</h2>
+        <ul role="list" class="link-list">
+          {section.links.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="link-row"
+                data-outbound={section.id}
+                data-label={link.label}
+                {...linkAttrs(link.kind)}
+              >
+                <span class="link-row-text">
+                  <strong>{link.label}</strong>
+                  <span class="body-sm">{link.description}</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
+
+    {SHOP_LINKS.length > 0 && (
+      <section id="shop" aria-labelledby="shop-label" class="links-section">
+        <h2 class="eyebrow" id="shop-label">Shop my picks</h2>
+        <ul role="list" class="link-list">
+          {SHOP_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="link-row"
+                data-outbound="shop"
+                data-label={link.label}
+                {...linkAttrs(link.kind)}
+              >
+                <span class="link-row-text">
+                  <strong>{link.label}</strong>
+                  <span class="body-sm">{link.description}</span>
+                </span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
+    <p class="body-sm links-footer">Questions or a trip in mind? <a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a></p>
+  </div>
+</Layout>
+
+<style>
+  .links-page {
+    padding-block: var(--space-16) var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .links-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  .links-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: var(--space-2);
+  }
+
+  .links-disclosure {
+    border-top: 1px solid var(--rule);
+    padding-top: var(--space-4);
+  }
+
+  .links-section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .link-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .link-row {
+    min-height: 64px;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-out-quart), transform var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .link-row:hover {
+    border-color: var(--rule-strong);
+    transform: translateY(-1px);
+  }
+
+  .link-row:active {
+    border-color: var(--rule-strong);
+    transform: translateY(0);
+  }
+
+  .link-row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .link-row-text strong {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .link-row svg {
+    flex-shrink: 0;
+    color: var(--ink-faint);
+  }
+
+  .links-footer {
+    text-align: center;
+    margin-top: var(--space-6);
+  }
+</style>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    const a = target && target.closest ? target.closest("a[data-outbound]") : null;
+    if (!a) return;
+    if (typeof gtag === "function") {
+      gtag("event", "outbound_click", {
+        link_url: a.href,
+        link_label: a.dataset.label,
+        link_section: a.dataset.outbound,
+        transport_type: "beacon"
+      });
+    }
+  });
+</script>
