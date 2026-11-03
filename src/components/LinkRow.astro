@@ -1,0 +1,77 @@
+---
+type Kind = "affiliate" | "external" | "internal";
+
+interface Props {
+  label: string;
+  description: string;
+  href: string;
+  kind: Kind;
+  section: string;
+}
+
+const { label, description, href, kind, section } = Astro.props;
+
+function linkAttrs(kind: Kind) {
+  if (kind === "affiliate") return { target: "_blank", rel: "sponsored noopener noreferrer" };
+  if (kind === "external") return { target: "_blank", rel: "noopener noreferrer" };
+  return {};
+}
+---
+<li>
+  <a
+    href={href}
+    class="link-row"
+    data-outbound={section}
+    data-label={label}
+    {...linkAttrs(kind)}
+  >
+    <span class="link-row-text">
+      <strong>{label}</strong>
+      <span class="body-sm">{description}</span>
+    </span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+  </a>
+</li>
+
+<style>
+  .link-row {
+    min-height: 64px;
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    text-decoration: none;
+    transition: border-color var(--dur-fast) var(--ease-out-quart), transform var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .link-row:hover {
+    border-color: var(--rule-strong);
+    transform: translateY(-1px);
+  }
+
+  .link-row:active {
+    border-color: var(--rule-strong);
+    transform: translateY(0);
+  }
+
+  .link-row-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .link-row-text strong {
+    font-size: var(--fs-16);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .link-row svg {
+    flex-shrink: 0;
+    color: var(--ink-faint);
+  }
+</style>

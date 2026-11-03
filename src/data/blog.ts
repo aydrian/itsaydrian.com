@@ -13,6 +13,7 @@ export interface BlogPost {
   ogImageWidth?: number;
   ogImageHeight?: number;
   draft?: boolean;
+  linksPage?: { label?: string; description?: string } | boolean;
 }
 
 export interface GetAllPostsOptions {
@@ -44,6 +45,7 @@ interface MdxModule {
     category?: string;
     slug?: string;
     draft?: boolean;
+    linksPage?: { label?: string; description?: string } | boolean;
     [key: string]: any;
   };
   Content: any;
@@ -90,6 +92,7 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       ogImageWidth: fm.ogImageWidth,
       ogImageHeight: fm.ogImageHeight,
       draft: !!fm.draft,
+      linksPage: fm.linksPage,
     });
   }
 
@@ -137,4 +140,11 @@ export async function getAllCategoriesAsync(options?: GetAllPostsOptions): Promi
   const all = await getAllPosts(options);
   const usedCategories = new Set(all.map((post) => post.category));
   return categories.filter((category) => usedCategories.has(category));
+}
+
+export async function getLinksPagePosts(): Promise<BlogPost[]> {
+  const all = await getMdxPosts();
+  return all
+    .filter((post) => !!post.linksPage)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 }

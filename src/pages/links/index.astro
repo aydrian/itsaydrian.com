@@ -17,20 +17,63 @@ const SECTIONS: LinkSection[] = [
 ];
 // ===== SHOP MY PICKS ===== add { label, description, href: "https://amzn.to/...", kind: "affiliate" } entries here.
 // Renders only when non-empty. Amazon disclosure line appears automatically when it is.
-const SHOP_LINKS: LinkItem[] = [];
+const SHOP_LINKS: LinkItem[] = [
+  {
+    label: "MOFT Snap Tripod Stand & Wallet",
+    description: "Card holder that folds into a phone tripod, so you can film hands-free without packing one.",
+    href: "https://link.amazon/B0ce6VuWY",
+    kind: "affiliate",
+  },
+  {
+    label: "GL.iNet Beryl 7 Travel Router",
+    description: "Pocket Wi-Fi 7 router that puts every device on one private network, with the VPN handled at the router.",
+    href: "https://link.amazon/B04hCWCz5",
+    kind: "affiliate",
+  },
+];
+// ===== PET CARE ===== Rover referral. The sitter business is paused; new clients still get $20 off.
+const PET_LINKS: LinkItem[] = [
+  {
+    label: "Rover pet care",
+    description: "Sitters, walkers, and boarding in most US cities. New clients get $20 off their first booking, whether it's with me or another sitter.",
+    href: "https://www.rover.com/sit/aydrih08941",
+    kind: "affiliate",
+  },
+];
 
 import Layout from '../../layouts/Layout.astro';
+import LinkRow from '../../components/LinkRow.astro';
+import { getLinksPagePosts } from '../../data/blog';
 
 const BASE_DISCLOSURE = "Some links on this page are affiliate links. If you book or buy through them, I may earn a commission at no extra cost to you.";
-const disclosureText = SHOP_LINKS.length > 0
-  ? `${BASE_DISCLOSURE} As an Amazon Associate I earn from qualifying purchases.`
-  : BASE_DISCLOSURE;
+const disclosures = [BASE_DISCLOSURE];
+if (SHOP_LINKS.length > 0) disclosures.push("As an Amazon Associate I earn from qualifying purchases.");
+if (PET_LINKS.length > 0) disclosures.push("Rover referral links may credit me when you book.");
+const disclosureText = disclosures.join(" ");
 
-function linkAttrs(kind: LinkItem["kind"]) {
-  if (kind === "affiliate") return { target: "_blank", rel: "sponsored noopener noreferrer" };
-  if (kind === "external") return { target: "_blank", rel: "noopener noreferrer" };
-  return {};
-}
+const linksPagePosts = await getLinksPagePosts();
+const postLinks: LinkItem[] = linksPagePosts.map((post) => {
+  const config = post.linksPage;
+  const label = (typeof config === "object" && config.label) || post.title;
+  const description = (typeof config === "object" && config.description) || post.excerpt;
+  return {
+    label,
+    description,
+    href: `/blog/${post.slug}/`,
+    kind: "internal",
+  };
+});
+
+const hero = SECTIONS.find((section) => section.id === "book");
+const rest = SECTIONS.filter((section) => section.id !== "book");
+// Render order in one place. Empty lists drop out, so `posts` and `shop` appear only when populated.
+const RENDER_ORDER: LinkSection[] = [
+  ...(hero ? [hero] : []),
+  { id: "posts", heading: "From the blog", links: postLinks },
+  { id: "shop", heading: "Shop my picks", links: SHOP_LINKS },
+  { id: "pets", heading: "Pet care", links: PET_LINKS },
+  ...rest,
+].filter((section) => section.links.length > 0);
 ---
 <Layout title="Links" description="Book Japan tours and experiences, work with me on a trip, and follow along. Aydrian Howard, travel advisor.">
   <div class="container-narrow links-page">
@@ -42,55 +85,16 @@ function linkAttrs(kind: LinkItem["kind"]) {
 
     <p class="body-sm links-disclosure">{disclosureText}</p>
 
-    {SECTIONS.map((section) => (
+    {RENDER_ORDER.map((section) => (
       <section id={section.id} aria-labelledby={`${section.id}-label`} class="links-section">
         <h2 class="eyebrow" id={`${section.id}-label`}>{section.heading}</h2>
         <ul role="list" class="link-list">
           {section.links.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="link-row"
-                data-outbound={section.id}
-                data-label={link.label}
-                {...linkAttrs(link.kind)}
-              >
-                <span class="link-row-text">
-                  <strong>{link.label}</strong>
-                  <span class="body-sm">{link.description}</span>
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
-            </li>
+            <LinkRow label={link.label} description={link.description} href={link.href} kind={link.kind} section={section.id} />
           ))}
         </ul>
       </section>
     ))}
-
-    {SHOP_LINKS.length > 0 && (
-      <section id="shop" aria-labelledby="shop-label" class="links-section">
-        <h2 class="eyebrow" id="shop-label">Shop my picks</h2>
-        <ul role="list" class="link-list">
-          {SHOP_LINKS.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="link-row"
-                data-outbound="shop"
-                data-label={link.label}
-                {...linkAttrs(link.kind)}
-              >
-                <span class="link-row-text">
-                  <strong>{link.label}</strong>
-                  <span class="body-sm">{link.description}</span>
-                </span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
-    )}
 
     <p class="body-sm links-footer">Questions or a trip in mind? <a href="mailto:howdy@itsaydrian.com">howdy@itsaydrian.com</a></p>
   </div>
@@ -135,47 +139,6 @@ function linkAttrs(kind: LinkItem["kind"]) {
     display: flex;
     flex-direction: column;
     gap: var(--space-3);
-  }
-
-  .link-row {
-    min-height: 64px;
-    padding: var(--space-4) var(--space-6);
-    background: var(--bg-card);
-    border: 1px solid var(--rule);
-    border-radius: var(--r-md);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--space-4);
-    text-decoration: none;
-    transition: border-color var(--dur-fast) var(--ease-out-quart), transform var(--dur-fast) var(--ease-out-quart);
-  }
-
-  .link-row:hover {
-    border-color: var(--rule-strong);
-    transform: translateY(-1px);
-  }
-
-  .link-row:active {
-    border-color: var(--rule-strong);
-    transform: translateY(0);
-  }
-
-  .link-row-text {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .link-row-text strong {
-    font-size: var(--fs-16);
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .link-row svg {
-    flex-shrink: 0;
-    color: var(--ink-faint);
   }
 
   .links-footer {
