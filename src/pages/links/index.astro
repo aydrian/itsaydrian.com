@@ -31,15 +31,25 @@ const SHOP_LINKS: LinkItem[] = [
     kind: "affiliate",
   },
 ];
+// ===== PET CARE ===== Rover referral. The sitter business is paused; new clients still get $20 off.
+const PET_LINKS: LinkItem[] = [
+  {
+    label: "Rover pet care",
+    description: "Sitters, walkers, and boarding in most US cities. New clients get $20 off their first booking, whether it's with me or another sitter.",
+    href: "https://www.rover.com/sit/aydrih08941",
+    kind: "affiliate",
+  },
+];
 
 import Layout from '../../layouts/Layout.astro';
 import LinkRow from '../../components/LinkRow.astro';
 import { getLinksPagePosts } from '../../data/blog';
 
 const BASE_DISCLOSURE = "Some links on this page are affiliate links. If you book or buy through them, I may earn a commission at no extra cost to you.";
-const disclosureText = SHOP_LINKS.length > 0
-  ? `${BASE_DISCLOSURE} As an Amazon Associate I earn from qualifying purchases.`
-  : BASE_DISCLOSURE;
+const disclosures = [BASE_DISCLOSURE];
+if (SHOP_LINKS.length > 0) disclosures.push("As an Amazon Associate I earn from qualifying purchases.");
+if (PET_LINKS.length > 0) disclosures.push("Rover referral links may credit me when you book.");
+const disclosureText = disclosures.join(" ");
 
 const linksPagePosts = await getLinksPagePosts();
 const postLinks: LinkItem[] = linksPagePosts.map((post) => {
@@ -61,6 +71,7 @@ const RENDER_ORDER: LinkSection[] = [
   ...(hero ? [hero] : []),
   { id: "posts", heading: "From the blog", links: postLinks },
   { id: "shop", heading: "Shop my picks", links: SHOP_LINKS },
+  { id: "pets", heading: "Pet care", links: PET_LINKS },
   ...rest,
 ].filter((section) => section.links.length > 0);
 ---
