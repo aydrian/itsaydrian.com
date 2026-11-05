@@ -6,6 +6,7 @@ export interface BlogPost {
   fullContent?: string;
   Content?: any;
   date: string;
+  updated?: string;
   category: BlogCategory;
   coverImage?: string;
   ogImage?: string;
@@ -42,6 +43,7 @@ interface MdxModule {
     title?: string;
     excerpt?: string;
     date?: string;
+    updated?: string;
     category?: string;
     slug?: string;
     draft?: boolean;
@@ -85,6 +87,7 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       excerpt: fm.excerpt || '',
       Content: mod.Content,
       date: fm.date || new Date().toISOString().split('T')[0],
+      updated: fm.updated,
       category,
       coverImage: fm.coverImage,
       ogImage: fm.ogImage,

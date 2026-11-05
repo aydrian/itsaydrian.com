@@ -27,10 +27,30 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
 });
 
 const Content = post.Content;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const blogPostingSchema = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.title,
+  description: post.excerpt,
+  image: [new URL(post.ogImage ?? "/assets/aydrian-tokyo-hero-1600.jpg", Astro.site).href],
+  datePublished: post.date,
+  dateModified: post.updated ?? post.date,
+  author: { "@type": "Person", name: "Aydrian Howard", url: "https://itsaydrian.com" },
+  publisher: { "@type": "Organization", name: "ItsAydrian LLC", url: "https://itsaydrian.com" },
+  mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl },
+  articleSection: post.category,
+  inLanguage: "en",
+  url: canonicalUrl,
+};
 ---
 
 <Layout title={isDraft ? `${post.title} (Draft)` : post.title} description={post.excerpt} ogImage={post.ogImage} ogImageAlt={post.ogImageAlt} ogImageWidth={post.ogImageWidth} ogImageHeight={post.ogImageHeight}>
   {isDraft && <meta slot="head" name="robots" content="noindex, nofollow">}
+  {!isDraft && (
+    <script type="application/ld+json" slot="head" set:html={JSON.stringify(blogPostingSchema)} />
+  )}
 
   {isDraft && (
     <div class="draft-banner" role="status" aria-live="polite">
@@ -162,10 +182,10 @@ const Content = post.Content;
     margin-top: var(--space-10);
     margin-bottom: var(--space-4);
   }
-  .prose :global(a) {
+  .prose :global(a:not(.btn)) {
     color: var(--accent);
   }
-  .prose :global(a:hover) {
+  .prose :global(a:not(.btn):hover) {
     color: var(--accent-hover);
   }
   .prose :global(blockquote) {

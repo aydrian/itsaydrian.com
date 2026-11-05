@@ -2,6 +2,7 @@
 title: "How to See the Dyker Heights Christmas Lights (Tour or No Tour)"
 excerpt: "Dyker Heights is free, walkable, and easier to do on your own than most guides admit. Here are the blocks that actually matter, how to get there, and when the paid tours are worth the money."
 date: "2026-11-01"
+updated: "2026-11-06"
 category: "Travel"
 slug: "dyker-heights-christmas-lights"
 draft: false
@@ -16,6 +17,8 @@ ogImageHeight: 630
 ---
 
 import DykerHeightsRouteMap from '../components/DykerHeightsRouteMap.astro';
+import GearCard from '../components/GearCard.astro';
+import { GEAR, GEAR_DISCLOSURE } from '../data/dyker-gear';
 
 Every December, a few square blocks of Dyker Heights in southwest Brooklyn turn into the most over-the-top Christmas display in New York. Not "tasteful lights on a nice house." A two-story Santa. A carousel in the front yard. A nativity scene that eats the whole lawn. Somewhere, a homeowner is paying an electric bill that would make you sit down.
 
@@ -25,7 +28,10 @@ The best thing I know about Dyker Heights came from a friend who lives out there
 
 That is the entire guide. Everything below is just the logistics: how to get there, when to go, and whether you should pay someone to walk you around.
 
-<img src="/images/dyker/dyker-heights-lights-01.jpg" alt="A two-story Dyker Heights house outlined in red, green, and blue lights, with inflatable Rudolph characters and a snowman in the yard and artificial snow falling, while a small crowd watches from the sidewalk." width="680" height="907" loading="lazy" decoding="async" />
+<picture>
+  <source type="image/webp" srcset="/images/dyker/dyker-heights-lights-01-680.webp 680w, /images/dyker/dyker-heights-lights-01-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
+  <img src="/images/dyker/dyker-heights-lights-01.jpg" alt="A two-story Dyker Heights house outlined in red, green, and blue lights, with inflatable Rudolph characters and a snowman in the yard and artificial snow falling, while a small crowd watches from the sidewalk." width="680" height="907" fetchpriority="high" decoding="async" />
+</picture>
 
 ## The short version
 
@@ -35,7 +41,7 @@ That is the entire guide. Everything below is just the logistics: how to get the
 - **Go on a weeknight if you can.** Weekend nights in mid-December, between 5 and 9 p.m., are the busiest stretch of the season.
 - **Give it 90 minutes.** The loop I drew below is about 1.3 miles.
 
-## When the lights are on
+## When the Dyker Heights lights turn on
 
 The neighborhood switches on the day after Thanksgiving, which in 2026 means Friday, November 27, and the displays run through New Year's. Going early in the season works, but the full show is usually not up until mid-December.
 
@@ -43,7 +49,7 @@ Lights come on around dusk, which in December means about 4:30 to 5 p.m. Most ho
 
 If you are in town for the Macy's Thanksgiving Day Parade, this is an easy pairing. The parade is Thursday morning on the Upper West Side, and the Dyker Heights lights come on for the first time the next night. Thanksgiving Friday is busy but it has a holiday buzz that is hard to beat.
 
-## Getting there
+## How to get to Dyker Heights
 
 Dyker Heights has no subway station. That surprises people. You ride to the edge of the neighborhood and walk in.
 
@@ -69,19 +75,22 @@ Here is the route I would walk. It hits all three core blocks, keeps you moving 
 
 One thing that surprises first-timers: homeowners set up tables on the sidewalk selling hot chocolate, snacks, and neighborhood T-shirts, and some houses collect for charity. Bring a few dollars and you can turn a walk into a decent snack.
 
-<img src="/images/dyker/dyker-heights-lights-02.jpg" alt="A grey-sided house in Dyker Heights with every roofline and window outlined in warm-white lights, wreaths with red bows in each window, two nutcrackers by the steps, and visitors photographing the display." width="680" height="907" loading="lazy" decoding="async" />
+<picture>
+  <source type="image/webp" srcset="/images/dyker/dyker-heights-lights-02-680.webp 680w, /images/dyker/dyker-heights-lights-02-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
+  <img src="/images/dyker/dyker-heights-lights-02.jpg" alt="A grey-sided house in Dyker Heights with every roofline and window outlined in warm-white lights, wreaths with red bows in each window, two nutcrackers by the steps, and visitors photographing the display." width="680" height="907" loading="lazy" decoding="async" />
+</picture>
 
 *Lights photos courtesy of Christina, who lives in the neighborhood.*
 
-## The paid tours
+## The Dyker Heights tours, compared
 
-If you would rather not think about logistics, the tours are legitimate and some of them are good. Here is the honest comparison.
+If you would rather not think about logistics, the tours are legitimate and some of them are good. Here is the honest comparison. Heads up: some of the links in this post are affiliate links, which means if you book or buy through them, I may earn a commission at no extra cost to you.
 
-**Dyker Heights Christmas Lights (DHCL)** runs the tour on the website you have probably already found, and it is the one company that was founded by neighborhood residents. Their bus tour is $75 a seat, about four hours, with pickup and drop-off near the New York Public Library at 5th Avenue and 41st Street. It includes a 90-minute guided walk through the blocks, gifts for kids, and a drink on the way back. Their small-group walking tour is $35 and meets at 86th Street and 12th Avenue, which is step 1 of my loop. They also do private tours with a car and a guide. The 2026 season starts November 27.
+**Dyker Heights Christmas Lights (DHCL)** runs the tour on the website you have probably already found, and it is the one company that was founded by neighborhood residents. Their bus tour is $75 a seat, about four hours, with pickup and drop-off near the New York Public Library at 5th Avenue and 41st Street. It includes a 90-minute guided walk through the blocks, gifts for kids, and a drink on the way back. Their small-group walking tour is $35 and meets at 86th Street and 12th Avenue, which is step 1 of my loop. Book direct on <a href="https://dykerheightschristmaslights.com/tours.php" target="_blank" rel="noopener noreferrer">their site</a>, which keeps the whole fare with the locals who run it. They also do private tours with a car and a guide. The 2026 season starts November 27.
 
-**A Slice of Brooklyn** calls theirs "The Original Christmas Lights Tour of Dyker Heights" and has been running it for 17 years. Adults are $65, children under 12 are $55, it leaves from Union Square at 6 p.m. nightly through December except the 24th and 25th, and runs about three and a half hours. Their route also covers Bay Ridge and Bensonhurst, and the guides know the homeowners, which shows.
+**A Slice of Brooklyn** calls theirs "The Original Christmas Lights Tour of Dyker Heights" and has been running it for 17 years. Adults are $65, children under 12 are $55, it leaves from Union Square at 6 p.m. nightly through December except the 24th and 25th, and runs about three and a half hours. Their route also covers Bay Ridge and Bensonhurst, and the guides know the homeowners, which shows. You can book direct on <a href="https://asliceofbrooklyn.com/bus-tours/christmas-lights-tour/" target="_blank" rel="noopener noreferrer">their site</a> as well.
 
-**Marketplace tours** on GetYourGuide and Viator run from about $47 to $55 for three to four hour bus tours. Read the reviews carefully and check whether they actually walk you through the blocks or just idle the bus past them.
+**Marketplace tours:** if you would rather book through a platform than a small operator's website, a couple of options running this season: the <a href="https://www.viator.com/tours/New-York-City/Christmas-Lights-in-Dyker-Heights-Brooklyn/d687-11569P5?pid=P00058688&uid=U00655990&mcid=58086" target="_blank" rel="sponsored nofollow noopener noreferrer">bus tour through Dyker Heights and Bay Ridge</a> on Viator, or the <a href="https://www.getyourguide.com/brooklyn-l2034/new-york-city-dyker-heights-holiday-lights-walking-tour-t263037/?partner_id=UBHY2VI&travel_agent=1&cmp=share_to_earn" target="_blank" rel="sponsored nofollow noopener noreferrer">90-minute walking tour</a> on GetYourGuide. One honest note: those walking tours meet at Gigi's Bakery on 4th Avenue in Bay Ridge, not on 86th Street, so add a 15 minute walk to the plan. And the same advice applies about reading the reviews carefully and checking whether the tour walks you through the blocks or just idles the bus past them.
 
 ## Tour or no tour
 
@@ -100,11 +109,24 @@ If you want the cheapest version of the guided experience, take the $35 walking 
 - **Do not block the crosswalks.** This is the number one complaint from residents.
 - **Eat before or after, not during.** The blocks are residential. Head to 13th Avenue, the neighborhood's main street, for old-school bakeries like Grandma's Bakery between 72nd and 73rd Streets, or Krispy Pizza at 7112 13th Avenue. Bay Ridge's 3rd and 5th Avenues have the better full dinner options if you are willing to walk another 15 minutes.
 
+## What I'd pack
+
+It is a 90-minute walk in December dark, and most of it is standing still. These are the things worth having in a pocket.
+
+<p class="body-sm">{GEAR_DISCLOSURE}</p>
+
+{GEAR.map((item) => (
+  <GearCard item={item} />
+))}
+
 ## If you have one more stop in you
 
 Locals will tell you about Sam the Greek's house, which is a few blocks southwest of the loop around 71st Street and 14th Avenue. It is the one with roughly 295,000 lights. It is not part of the main display area, so treat it as a bonus stop on the way back to the train.
-<img src="/images/dyker/dyker-heights-lights-03.jpg" alt="A decorated brick row house lit up for Christmas with a red Merry Christmas sign across the facade, a Santa figure hanging from the roofline, and a toy workshop scene in the front yard." width="680" height="907" loading="lazy" decoding="async" />
+<picture>
+  <source type="image/webp" srcset="/images/dyker/dyker-heights-lights-03-680.webp 680w, /images/dyker/dyker-heights-lights-03-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
+  <img src="/images/dyker/dyker-heights-lights-03.jpg" alt="A decorated brick row house lit up for Christmas with a red Merry Christmas sign across the facade, a Santa figure hanging from the roofline, and a toy workshop scene in the front yard." width="680" height="907" loading="lazy" decoding="async" />
+</picture>
 
 ## Say howdy
 
-If you are planning a New York holiday trip and you want the rest of the itinerary to work as well as this one, that is what I do. Tell me your dates and where you would rather wake up. I will handle the booking and build the trip around it.
+If you are planning a New York holiday trip and you want the rest of the itinerary to work as well as this one, that is what I do. <a href="/travel/">Tell me your dates</a> and where you would rather wake up. I will handle the booking and build the trip around it.
