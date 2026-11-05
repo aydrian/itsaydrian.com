@@ -1,0 +1,140 @@
+---
+import { CATEGORIES, type Pick } from "../data/atticus-picks";
+
+interface Props {
+  pick: Pick;
+}
+
+const { pick } = Astro.props;
+const categoryEmoji = CATEGORIES.find((c) => c.id === pick.category)?.emoji;
+---
+
+<article class="card product-card">
+  <div class="card-media">
+    {
+      pick.image ? (
+        <img
+          src={pick.image}
+          alt={pick.imageAlt}
+          width="800"
+          height="800"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div class="pick-photo-pending">
+          <span class="pick-photo-pending-emoji" aria-hidden="true">
+            {categoryEmoji}
+          </span>
+          <span class="pick-photo-pending-label">
+            Still posing for the camera
+          </span>
+        </div>
+      )
+    }
+  </div>
+  <div class="card-body">
+    <h3>{pick.name}</h3>
+    <p class="pick-blurb">{pick.atticus}</p>
+    <p class="pick-why body-sm"><span>Why:</span> {pick.human}</p>
+    {
+      pick.bestFor && pick.bestFor.length > 0 && (
+        <ul class="pick-tags" role="list">
+          {pick.bestFor.map((tag) => <li>{tag}</li>)}
+        </ul>
+      )
+    }
+  </div>
+  <div class="card-footer">
+    <a
+      class="btn btn-primary"
+      href={pick.link}
+      target="_blank"
+      rel="sponsored nofollow noopener noreferrer"
+      data-outbound={pick.category}
+      data-product={pick.slug}
+    >
+      Shop on Amazon
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+        ><path d="M7 17 17 7"></path><path d="M7 7h10v10"></path></svg
+      >
+    </a>
+  </div>
+</article>
+
+<style>
+  .product-card .card-media {
+    display: grid;
+    place-items: center;
+  }
+
+  .pick-photo-pending {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--space-2);
+    text-align: center;
+    padding: var(--space-4);
+    outline: 1px dashed var(--rule);
+    outline-offset: -10px;
+  }
+
+  .pick-photo-pending-emoji {
+    font-size: clamp(2rem, 5vw, 3rem);
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  .pick-photo-pending-label {
+    font-size: var(--fs-12);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.3;
+  }
+
+  .pick-blurb {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pick-why {
+    margin-top: var(--space-1);
+  }
+
+  .pick-why span {
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .pick-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .pick-tags li {
+    font-size: var(--fs-12);
+    color: var(--ink-faint);
+    background: var(--bg-soft);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-pill);
+    padding: 0.2rem 0.6rem;
+  }
+</style>

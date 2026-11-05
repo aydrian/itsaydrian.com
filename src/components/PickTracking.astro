@@ -1,0 +1,15 @@
+<script is:inline>
+  document.addEventListener("click", function (event) {
+    var target = event.target;
+    var a = target && target.closest ? target.closest("a[data-outbound]") : null;
+    if (!a) return;
+    if (typeof gtag === "function") {
+      gtag("event", "outbound_click", {
+        link_url: a.href,
+        link_section: a.dataset.outbound,
+        product_slug: a.dataset.product,
+        page_path: location.pathname,
+      });
+    }
+  });
+</script>
