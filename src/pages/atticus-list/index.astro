@@ -2,7 +2,7 @@
 import Layout from "../../layouts/Layout.astro";
 import PickCard from "../../components/PickCard.astro";
 import PickTracking from "../../components/PickTracking.astro";
-import { CATEGORIES, PICKS, REVIEWED } from "../../data/atticus-picks";
+import { CATEGORIES, PICKS, REVIEWED, AFFILIATE_DISCLOSURE } from "../../data/atticus-picks";
 
 const pageTitle = "Atticus's Favorite Things";
 const pageDescription =
@@ -69,7 +69,7 @@ const itemListJsonLd = {
           supplements, and walking gear we actually use.
         </p>
         <p class="atticus-affiliate rise" data-delay="4">
-          As an Amazon Associate I earn from qualifying purchases.
+          {AFFILIATE_DISCLOSURE}
         </p>
       </div>
     </div>
