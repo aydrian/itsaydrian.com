@@ -1,0 +1,46 @@
+---
+import type { GearItem } from "../data/dyker-gear";
+
+interface Props {
+  item: GearItem;
+}
+
+const { item } = Astro.props;
+---
+
+<article class="card gear-card">
+  <h3>{item.name}</h3>
+  <p>{item.blurb}</p>
+  <a
+    class="btn btn-primary"
+    href={item.link}
+    target="_blank"
+    rel="sponsored nofollow noopener noreferrer"
+    data-outbound="dyker-gear"
+    data-product={item.slug}
+  >
+    Check price on Amazon
+  </a>
+</article>
+
+<style>
+  .gear-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+  }
+
+  .gear-card h3 {
+    margin: 0;
+  }
+
+  .gear-card p {
+    margin: 0;
+    color: var(--ink-soft);
+  }
+
+  .gear-card .btn {
+    align-self: flex-start;
+  }
+</style>

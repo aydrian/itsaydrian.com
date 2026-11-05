@@ -16,6 +16,8 @@ ogImageHeight: 630
 ---
 
 import DykerHeightsRouteMap from '../components/DykerHeightsRouteMap.astro';
+import GearCard from '../components/GearCard.astro';
+import { GEAR, GEAR_DISCLOSURE } from '../data/dyker-gear';
 
 Every December, a few square blocks of Dyker Heights in southwest Brooklyn turn into the most over-the-top Christmas display in New York. Not "tasteful lights on a nice house." A two-story Santa. A carousel in the front yard. A nativity scene that eats the whole lawn. Somewhere, a homeowner is paying an electric bill that would make you sit down.
 
@@ -75,13 +77,13 @@ One thing that surprises first-timers: homeowners set up tables on the sidewalk 
 
 ## The paid tours
 
-If you would rather not think about logistics, the tours are legitimate and some of them are good. Here is the honest comparison.
+If you would rather not think about logistics, the tours are legitimate and some of them are good. Here is the honest comparison. Heads up: some of the links in this post are affiliate links, which means if you book or buy through them, I may earn a commission at no extra cost to you.
 
-**Dyker Heights Christmas Lights (DHCL)** runs the tour on the website you have probably already found, and it is the one company that was founded by neighborhood residents. Their bus tour is $75 a seat, about four hours, with pickup and drop-off near the New York Public Library at 5th Avenue and 41st Street. It includes a 90-minute guided walk through the blocks, gifts for kids, and a drink on the way back. Their small-group walking tour is $35 and meets at 86th Street and 12th Avenue, which is step 1 of my loop. They also do private tours with a car and a guide. The 2026 season starts November 27.
+**Dyker Heights Christmas Lights (DHCL)** runs the tour on the website you have probably already found, and it is the one company that was founded by neighborhood residents. Their bus tour is $75 a seat, about four hours, with pickup and drop-off near the New York Public Library at 5th Avenue and 41st Street. It includes a 90-minute guided walk through the blocks, gifts for kids, and a drink on the way back. Their small-group walking tour is $35 and meets at 86th Street and 12th Avenue, which is step 1 of my loop. Book direct on <a href="https://dykerheightschristmaslights.com/tours.php" target="_blank" rel="noopener noreferrer">their site</a>, which keeps the whole fare with the locals who run it. They also do private tours with a car and a guide. The 2026 season starts November 27.
 
-**A Slice of Brooklyn** calls theirs "The Original Christmas Lights Tour of Dyker Heights" and has been running it for 17 years. Adults are $65, children under 12 are $55, it leaves from Union Square at 6 p.m. nightly through December except the 24th and 25th, and runs about three and a half hours. Their route also covers Bay Ridge and Bensonhurst, and the guides know the homeowners, which shows.
+**A Slice of Brooklyn** calls theirs "The Original Christmas Lights Tour of Dyker Heights" and has been running it for 17 years. Adults are $65, children under 12 are $55, it leaves from Union Square at 6 p.m. nightly through December except the 24th and 25th, and runs about three and a half hours. Their route also covers Bay Ridge and Bensonhurst, and the guides know the homeowners, which shows. You can book direct on <a href="https://asliceofbrooklyn.com/bus-tours/christmas-lights-tour/" target="_blank" rel="noopener noreferrer">their site</a> as well.
 
-**Marketplace tours** on GetYourGuide and Viator run from about $47 to $55 for three to four hour bus tours. Read the reviews carefully and check whether they actually walk you through the blocks or just idle the bus past them.
+**Marketplace tours:** if you would rather book through a platform than a small operator's website, a couple of options running this season: the <a href="https://www.viator.com/tours/New-York-City/Christmas-Lights-in-Dyker-Heights-Brooklyn/d687-11569P5?pid=P00058688&uid=U00655990&mcid=58086" target="_blank" rel="sponsored nofollow noopener noreferrer">bus tour through Dyker Heights and Bay Ridge</a> on Viator, or the <a href="https://www.getyourguide.com/brooklyn-l2034/new-york-city-dyker-heights-holiday-lights-walking-tour-t263037/?partner_id=UBHY2VI&travel_agent=1&cmp=share_to_earn" target="_blank" rel="sponsored nofollow noopener noreferrer">90-minute walking tour</a> on GetYourGuide. One honest note: those walking tours meet at Gigi's Bakery on 4th Avenue in Bay Ridge, not on 86th Street, so add a 15 minute walk to the plan. And the same advice applies about reading the reviews carefully and checking whether the tour walks you through the blocks or just idles the bus past them.
 
 ## Tour or no tour
 
@@ -99,6 +101,16 @@ If you want the cheapest version of the guided experience, take the $35 walking 
 - **Bring a battery pack.** The photos eat your phone alive.
 - **Do not block the crosswalks.** This is the number one complaint from residents.
 - **Eat before or after, not during.** The blocks are residential. Head to 13th Avenue, the neighborhood's main street, for old-school bakeries like Grandma's Bakery between 72nd and 73rd Streets, or Krispy Pizza at 7112 13th Avenue. Bay Ridge's 3rd and 5th Avenues have the better full dinner options if you are willing to walk another 15 minutes.
+
+## What I'd pack
+
+It is a 90-minute walk in December dark, and most of it is standing still. This is the one thing I keep in a jacket pocket.
+
+<p class="body-sm">{GEAR_DISCLOSURE}</p>
+
+{GEAR.map((item) => (
+  <GearCard item={item} />
+))}
 
 ## If you have one more stop in you
 
