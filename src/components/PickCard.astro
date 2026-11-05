@@ -1,23 +1,32 @@
 ---
-import type { Pick } from "../data/atticus-picks";
+import { CATEGORIES, type Pick } from "../data/atticus-picks";
 
 interface Props {
   pick: Pick;
 }
 
 const { pick } = Astro.props;
+const categoryEmoji = CATEGORIES.find((c) => c.id === pick.category)?.emoji;
 ---
 
 <article class="card product-card">
   <div class="card-media">
-    <img
-      src={pick.image}
-      alt={pick.imageAlt}
-      width="800"
-      height="800"
-      loading="lazy"
-      decoding="async"
-    />
+    {
+      pick.image ? (
+        <img
+          src={pick.image}
+          alt={pick.imageAlt}
+          width="800"
+          height="800"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <div class="pick-image-empty" aria-hidden="true">
+          {categoryEmoji}
+        </div>
+      )
+    }
   </div>
   <div class="card-body">
     <h3>{pick.name}</h3>
@@ -61,6 +70,15 @@ const { pick } = Astro.props;
   .product-card .card-media {
     display: grid;
     place-items: center;
+  }
+
+  .pick-image-empty {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    opacity: 0.55;
   }
 
   .pick-blurb {
