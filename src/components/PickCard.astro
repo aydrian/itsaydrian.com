@@ -22,8 +22,13 @@ const categoryEmoji = CATEGORIES.find((c) => c.id === pick.category)?.emoji;
           decoding="async"
         />
       ) : (
-        <div class="pick-image-empty" aria-hidden="true">
-          {categoryEmoji}
+        <div class="pick-photo-pending">
+          <span class="pick-photo-pending-emoji" aria-hidden="true">
+            {categoryEmoji}
+          </span>
+          <span class="pick-photo-pending-label">
+            Still posing for the camera
+          </span>
         </div>
       )
     }
@@ -72,13 +77,31 @@ const categoryEmoji = CATEGORIES.find((c) => c.id === pick.category)?.emoji;
     place-items: center;
   }
 
-  .pick-image-empty {
-    display: grid;
-    place-items: center;
+  .pick-photo-pending {
     width: 100%;
     height: 100%;
-    font-size: clamp(2.5rem, 6vw, 4rem);
-    opacity: 0.55;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: var(--space-2);
+    text-align: center;
+    padding: var(--space-4);
+    outline: 1px dashed var(--rule);
+    outline-offset: -10px;
+  }
+
+  .pick-photo-pending-emoji {
+    font-size: clamp(2rem, 5vw, 3rem);
+    opacity: 0.5;
+    line-height: 1;
+  }
+
+  .pick-photo-pending-label {
+    font-size: var(--fs-12);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    line-height: 1.3;
   }
 
   .pick-blurb {
