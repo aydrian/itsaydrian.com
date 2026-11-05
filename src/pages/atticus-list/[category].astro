@@ -1,0 +1,122 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PickCard from "../../components/PickCard.astro";
+import PickTracking from "../../components/PickTracking.astro";
+import { CATEGORIES, PICKS, type PickCategory } from "../../data/atticus-picks";
+
+export function getStaticPaths() {
+  return CATEGORIES.map((cat) => ({
+    params: { category: cat.id },
+    props: { cat },
+  }));
+}
+
+interface Props {
+  cat: (typeof CATEGORIES)[number];
+}
+
+const { cat } = Astro.props;
+const picks = PICKS.filter((p) => p.category === cat.id);
+
+const DESCRIPTIONS: Record<PickCategory, string> = {
+  toys: "Corgi-tested toy picks from Atticus, a short-legged corgi with strong feelings about squeakers and durability.",
+  treats: "Corgi-tested treat picks from Atticus, who rates every chew purely on how long it keeps him busy.",
+  supplements: "Corgi-tested supplement picks from Atticus, the two things that go in his bowl every single day.",
+  "walks-home": "Corgi-tested walk and home picks from Atticus, the gear for leashes, cleanup, feeding and shedding.",
+};
+
+const pageTitle = `${cat.label}: Atticus's favorite things`;
+const pageDescription = DESCRIPTIONS[cat.id];
+const canonicalUrl = `https://itsaydrian.com/atticus-list/${cat.id}/`;
+
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Atticus's favorite things",
+      item: "https://itsaydrian.com/atticus-list/",
+    },
+    { "@type": "ListItem", position: 2, name: cat.label, item: canonicalUrl },
+  ],
+};
+
+const itemListJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  itemListElement: picks.map((pick, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: pick.name,
+    url: pick.link,
+  })),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbJsonLd)} />
+<script type="application/ld+json" set:html={JSON.stringify(itemListJsonLd)} />
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  ogImage="/assets/atticus-hero.jpg"
+  ogImageAlt="Atticus the corgi smiling."
+  ogImageWidth={1800}
+  ogImageHeight={1200}
+  ogImageType="image/jpeg"
+>
+  <div class="container section">
+    <nav class="pick-breadcrumb" aria-label="Breadcrumb">
+      <a href="/atticus-list/">Atticus's favorite things</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page">{cat.label}</span>
+    </nav>
+
+    <span class="eyebrow">{cat.emoji} {cat.label}</span>
+    <h1 class="h1">{cat.label}</h1>
+    <p class="lede pick-category-blurb">{cat.blurb}</p>
+
+    <div class="product-grid pick-category-grid">
+      {picks.map((pick) => <PickCard pick={pick} />)}
+    </div>
+
+    <p class="pick-back"><a class="btn-link" href="/atticus-list/">See all {PICKS.length} picks</a></p>
+  </div>
+
+  <PickTracking />
+</Layout>
+
+<style>
+  .pick-breadcrumb {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    font-size: var(--fs-14);
+    color: var(--ink-faint);
+    margin-bottom: var(--space-6);
+  }
+
+  .pick-breadcrumb a {
+    color: var(--ink-faint);
+    text-decoration: none;
+  }
+
+  .pick-breadcrumb a:hover {
+    color: var(--ink);
+  }
+
+  .pick-category-blurb {
+    margin-top: var(--space-3);
+    max-width: 60ch;
+  }
+
+  .pick-category-grid {
+    margin-top: var(--space-10);
+  }
+
+  .pick-back {
+    margin-top: var(--space-12);
+  }
+</style>
