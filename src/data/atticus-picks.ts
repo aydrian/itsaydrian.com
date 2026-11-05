@@ -212,3 +212,6 @@ export const PICKS: Pick[] = [
 ];
 
 export const REVIEWED = "November 2026";
+
+export const AFFILIATE_DISCLOSURE =
+  "As an Amazon Associate I earn from qualifying purchases.";
