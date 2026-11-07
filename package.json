@@ -12,7 +12,8 @@
 		"astro": "astro",
 		"generate-types": "wrangler types",
 		"deploy": "astro build && wrangler deploy",
-		"cf-typegen": "wrangler types"
+		"cf-typegen": "wrangler types",
+		"og": "uv run tools/og-card/og_card.py"
 	},
 	"dependencies": {
 		"@astrojs/cloudflare": "^14.1.3",

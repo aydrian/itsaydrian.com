@@ -94,6 +94,13 @@ Personal site for ItsAydrian LLC. Astro 7 site with Cloudflare Workers adapter. 
 - Categories: Travel, Japan, Apps, Pet care, Life in NYC
 - Drafts excluded from production; pass `includeDrafts: true` to see drafts
 
+### Share images (OG cards)
+- Blog posts get a 1200x630 share card in the site style: domain, category eyebrow, Instrument Serif headline, Inter subline, full-bleed photo on the right, optional row of round image chips
+- Generator: `tools/og-card/og_card.py` (Python + Pillow, run through `uv`, which installs Pillow automatically). Fonts and their OFL licenses are in `tools/og-card/fonts/`
+- Each card has a config in `tools/og-card/cards/<slug>.json` (see the script's docstring for fields). Render with `bun run og tools/og-card/cards/<slug>.json`
+- Point the post's `ogImage` at the output, set `ogImageWidth: 1200` / `ogImageHeight: 630`, and write an `ogImageAlt` that includes the card's text
+- When replacing the card on a live post, save it under a new filename so social platforms don't keep showing a cached copy
+
 ### Images
 - Hero/preload images passed via `preloadImage` prop to Layout
 - Most content images use `loading="lazy"` except hero

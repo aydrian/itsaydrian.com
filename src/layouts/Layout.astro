@@ -7,6 +7,10 @@ export interface Props {
   ogImageWidth?: number;
   ogImageHeight?: number;
   ogImageType?: string;
+  ogType?: "website" | "article";
+  articlePublished?: string;
+  articleModified?: string;
+  articleSection?: string;
   overlayHeader?: boolean;
   preloadImage?: string;
 }
@@ -19,6 +23,10 @@ const {
   ogImageWidth = 1600,
   ogImageHeight = 1066,
   ogImageType = "image/jpeg",
+  ogType = "website",
+  articlePublished,
+  articleModified,
+  articleSection,
   overlayHeader = false,
   preloadImage
 } = Astro.props;
@@ -36,7 +44,11 @@ import '../styles/global.css';
 
   <meta property="og:title" content={`${title} — ItsAydrian`}>
   <meta property="og:description" content={description}>
-  <meta property="og:type" content="website">
+  <meta property="og:type" content={ogType}>
+  {ogType === "article" && articlePublished && <meta property="article:published_time" content={articlePublished}>}
+  {ogType === "article" && articleModified && <meta property="article:modified_time" content={articleModified}>}
+  {ogType === "article" && articleSection && <meta property="article:section" content={articleSection}>}
+  {ogType === "article" && <meta property="article:author" content="Aydrian Howard">}
   <meta property="og:url" content={Astro.url}>
   <meta property="og:image" content={new URL(ogImage, Astro.url)}>
   <meta property="og:image:alt" content={ogImageAlt}>
