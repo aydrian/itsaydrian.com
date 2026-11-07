@@ -1,0 +1,324 @@
+---
+import { BENCHES, MAP_WIDTH, MAP_HEIGHT, pinUrl } from "../data/fukusaki-benches";
+
+const PORTRAIT_R = 96;
+const STAR_R = 44;
+
+const pct = (v: number, total: number) => `${((v / total) * 100).toFixed(3)}%`;
+const circle = ([x, y]: [number, number], r: number) =>
+  `left:${pct(x - r, MAP_WIDTH)};top:${pct(y - r, MAP_HEIGHT)};width:${pct(2 * r, MAP_WIDTH)}`;
+const point = ([x, y]: [number, number]) => `left:${pct(x, MAP_WIDTH)};top:${pct(y, MAP_HEIGHT)}`;
+const stopLabel = (stop: string) => (stop === "Start" ? "Start" : `Stop ${stop}`);
+---
+
+<section class="bench-map" data-bench-map aria-label="Yokai bench map">
+  <input class="view-input" type="radio" name="bench-view" id="bench-view-map" value="map" checked />
+  <input class="view-input" type="radio" name="bench-view" id="bench-view-list" value="list" />
+
+  <div class="view-switch" role="group" aria-label="View the benches as">
+    <label for="bench-view-map">Map</label>
+    <label for="bench-view-list">List</label>
+  </div>
+
+  <figure class="panel panel-map">
+    <div class="map-frame">
+      <picture>
+        <source
+          type="image/webp"
+          srcset="/images/fukusaki/fukusaki-yokai-map-800.webp 800w, /images/fukusaki/fukusaki-yokai-map-1600.webp 1600w, /images/fukusaki/fukusaki-yokai-map-2400.webp 2400w"
+          sizes="(max-width: 720px) 92vw, 680px"
+        />
+        <img
+          src="/images/fukusaki/fukusaki-yokai-map.jpg"
+          alt="Fukusaki's hand-drawn yokai bench cycling map: a street map with numbered stars for each bench, ringed by colored-pencil drawings of each yokai."
+          width="1600"
+          height="1200"
+          loading="lazy"
+          decoding="async"
+        />
+      </picture>
+
+      {BENCHES.map((b) => (
+        <a
+          class:list={["spot", { missed: b.missed }]}
+          href={pinUrl(b.cid)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`${stopLabel(b.stop)}: ${b.name}, at ${b.benchAt}. Opens in Google Maps.`}
+          data-outbound="fukusaki-bench-map"
+          data-product={b.slug}
+        >
+          <span class="ring ring-portrait" style={circle(b.portrait, PORTRAIT_R)}></span>
+          <span class="ring ring-star" style={circle(b.star, STAR_R)}></span>
+          <span class="tag" style={point(b.star)}>
+            {b.stop === "Start" ? "Start" : b.stop} · {b.name}{b.missed ? " (missed)" : ""}
+          </span>
+        </a>
+      ))}
+    </div>
+    <figcaption>
+      Tap a yokai to open its bench in Google Maps. On a computer, hover over one to see where its bench really is on the street map.
+    </figcaption>
+  </figure>
+
+  <div class="panel panel-list">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Stop</th>
+          <th scope="col">Yokai</th>
+          <th scope="col">Bench at</th>
+          <th scope="col"><span class="visually-hidden">Google Maps</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {BENCHES.map((b) => (
+          <tr>
+            <td>{b.stop}</td>
+            <td>{b.name}{b.missed ? " (the one I missed)" : ""}</td>
+            <td>{b.benchAt}</td>
+            <td>
+              <a
+                href={pinUrl(b.cid)}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`${b.name} on Google Maps`}
+                data-outbound="fukusaki-bench-list"
+                data-product={b.slug}
+              >Map</a>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<script>
+  const KEY = "fukusaki-bench-view";
+  document.querySelectorAll<HTMLElement>("[data-bench-map]").forEach((root) => {
+    let saved: string | null = null;
+    try {
+      saved = localStorage.getItem(KEY);
+    } catch {}
+    if (saved === "list" || saved === "map") {
+      const input = root.querySelector<HTMLInputElement>(`input[value="${saved}"]`);
+      if (input) input.checked = true;
+    }
+    root.querySelectorAll<HTMLInputElement>(".view-input").forEach((input) => {
+      input.addEventListener("change", () => {
+        try {
+          localStorage.setItem(KEY, input.value);
+        } catch {}
+      });
+    });
+  });
+</script>
+
+<style>
+  .bench-map {
+    margin: var(--space-8) 0;
+  }
+
+  /* View switch: visually hidden radios driving a segmented control. */
+  .view-input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  .view-switch {
+    display: inline-flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    margin-bottom: var(--space-4);
+    border-radius: var(--r-pill);
+    background: var(--bg-soft);
+  }
+
+  .view-switch label {
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-14, 0.875rem);
+    font-weight: 600;
+    color: var(--ink-soft);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  #bench-view-map:checked ~ .view-switch label[for="bench-view-map"],
+  #bench-view-list:checked ~ .view-switch label[for="bench-view-list"] {
+    background: var(--bg-card);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  #bench-view-map:focus-visible ~ .view-switch label[for="bench-view-map"],
+  #bench-view-list:focus-visible ~ .view-switch label[for="bench-view-list"] {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  #bench-view-map:checked ~ .panel-list,
+  #bench-view-list:checked ~ .panel-map {
+    display: none;
+  }
+
+  /* Map view */
+  .bench-map .panel-map {
+    margin: 0;
+  }
+
+  .map-frame {
+    position: relative;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    background: var(--bg-soft);
+  }
+
+  .map-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .spot {
+    outline: none;
+  }
+
+  .ring {
+    position: absolute;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    box-sizing: border-box;
+  }
+
+  .ring-portrait {
+    cursor: pointer;
+    transition: box-shadow var(--dur-fast, 150ms) ease, background-color var(--dur-fast, 150ms) ease;
+  }
+
+  .ring-star {
+    pointer-events: none;
+    opacity: 0;
+    border: 4px solid var(--accent-hot);
+    background: color-mix(in srgb, var(--accent-hot) 25%, transparent);
+    transform: scale(0.6);
+    transition: opacity var(--dur-fast, 150ms) ease, transform var(--dur, 250ms) var(--ease-out-expo, ease-out);
+  }
+
+  .tag {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 1.1rem));
+    padding: 0.2em 0.6em;
+    border-radius: var(--r-pill);
+    background: var(--ink);
+    color: var(--bg);
+    font-size: 0.8rem;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: opacity var(--dur-fast, 150ms) ease;
+    z-index: 2;
+  }
+
+  .spot:hover .ring-portrait,
+  .spot:focus-visible .ring-portrait {
+    box-shadow: 0 0 0 3px var(--accent-hot), 0 0 0 6px rgb(255 255 255 / 0.85);
+  }
+
+  .spot:focus-visible .ring-portrait {
+    box-shadow: 0 0 0 3px var(--accent), 0 0 0 6px rgb(255 255 255 / 0.9);
+  }
+
+  .spot:hover .ring-star,
+  .spot:focus-visible .ring-star {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .spot:hover .tag,
+  .spot:focus-visible .tag {
+    opacity: 1;
+  }
+
+  .spot.missed .ring-star {
+    border-style: dashed;
+  }
+
+  .panel-map figcaption {
+    margin-top: var(--space-3);
+    font-size: 0.875rem;
+    color: var(--ink-faint);
+  }
+
+  /* List view */
+  .panel-list {
+    overflow-x: auto;
+  }
+
+  .panel-list table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+
+  .panel-list th,
+  .panel-list td {
+    padding: var(--space-2) var(--space-3);
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+  }
+
+  .panel-list th {
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .panel-list td:first-child {
+    white-space: nowrap;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 480px) {
+    .panel-list table {
+      font-size: 0.875rem;
+    }
+
+    .panel-list th,
+    .panel-list td {
+      padding: var(--space-2) var(--space-1);
+    }
+
+    .panel-list td:first-child,
+    .panel-list th:first-child {
+      padding-left: 0;
+    }
+
+    .panel-list td:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ring,
+    .tag {
+      transition: none;
+    }
+  }
+</style>
