@@ -15,21 +15,21 @@ const SECTIONS: LinkSection[] = [
     { label: "Instagram", description: "Photos and stories between trips.", href: "https://instagram.com/itsaydrian", kind: "external" }
   ]}
 ];
-// ===== SHOP MY PICKS ===== add { label, description, href: "https://amzn.to/...", kind: "affiliate" } entries here.
-// Renders only when non-empty. Amazon disclosure line appears automatically when it is.
+// New Amazon rows go in CREATOR_LINKS if they are shooting gear, or SHOP_LINKS if they are travel kit.
+// Both lists render only when non-empty, and the Amazon disclosure line appears when either one is.
+// ===== CREATOR GEAR ===== The kit the videos are shot on.
+const CREATOR_LINKS: LinkItem[] = [
+  { label: "DJI Osmo Pocket 3", description: "Pocket gimbal camera with a 1-inch sensor and 4K/120, so handheld clips come out smooth without a rig.", href: "https://link.amazon/B00wjpuH1", kind: "affiliate" },
+  { label: "DJI Mic 2", description: "Two wireless mics and a receiver in one charging case, with 32-bit float recording so a loud street does not wreck the audio.", href: "https://link.amazon/B07JD3SEB", kind: "affiliate" },
+  { label: "PGYTECH Osmo strap", description: "Shoulder or wrist lanyard that keeps the Pocket in reach and out of your hands, so it is already rolling when something happens.", href: "https://link.amazon/B0b3UdktX", kind: "affiliate" },
+  { label: "MOFT Snap Tripod Stand & Wallet", description: "Card holder that folds into a phone tripod, so you can film hands-free without packing one.", href: "https://link.amazon/B0ce6VuWY", kind: "affiliate" }
+];
+// ===== TRAVEL KIT =====
 const SHOP_LINKS: LinkItem[] = [
-  {
-    label: "MOFT Snap Tripod Stand & Wallet",
-    description: "Card holder that folds into a phone tripod, so you can film hands-free without packing one.",
-    href: "https://link.amazon/B0ce6VuWY",
-    kind: "affiliate",
-  },
-  {
-    label: "GL.iNet Beryl 7 Travel Router",
-    description: "Pocket Wi-Fi 7 router that puts every device on one private network, with the VPN handled at the router.",
-    href: "https://link.amazon/B04hCWCz5",
-    kind: "affiliate",
-  },
+  { label: "Cotopaxi Allpa 55L", description: "Carry-on duffel that opens flat like a suitcase and still converts to a backpack for the walk to the station.", href: "https://link.amazon/B0hjyXUto", kind: "affiliate" },
+  { label: "3-in-1 airplane sleep kit", description: "Memory foam neck pillow, eye mask, and blanket sling in one kit that still fits in a carry-on.", href: "https://link.amazon/B0dAccUic", kind: "affiliate" },
+  { label: "GL.iNet Beryl 7 Travel Router", description: "Pocket Wi-Fi 7 router that puts every device on one private network, with the VPN handled at the router.", href: "https://link.amazon/B04hCWCz5", kind: "affiliate" },
+  { label: "Neuro Gum", description: "Caffeine and L-theanine gum for the afternoon slump on a travel day, no coffee run required.", href: "https://link.amazon/B0hVT0uwz", kind: "affiliate" }
 ];
 // ===== PET CARE ===== Rover referral. The sitter business is paused; new clients still get $20 off.
 const PET_LINKS: LinkItem[] = [
@@ -47,7 +47,7 @@ import { getLinksPagePosts } from '../../data/blog';
 
 const BASE_DISCLOSURE = "Some links on this page are affiliate links. If you book or buy through them, I may earn a commission at no extra cost to you.";
 const disclosures = [BASE_DISCLOSURE];
-if (SHOP_LINKS.length > 0) disclosures.push("As an Amazon Associate I earn from qualifying purchases.");
+if (CREATOR_LINKS.length > 0 || SHOP_LINKS.length > 0) disclosures.push("As an Amazon Associate I earn from qualifying purchases.");
 if (PET_LINKS.length > 0) disclosures.push("Rover referral links may credit me when you book.");
 const disclosureText = disclosures.join(" ");
 
@@ -70,7 +70,8 @@ const rest = SECTIONS.filter((section) => section.id !== "book");
 const RENDER_ORDER: LinkSection[] = [
   ...(hero ? [hero] : []),
   { id: "posts", heading: "From the blog", links: postLinks },
-  { id: "shop", heading: "Shop my picks", links: SHOP_LINKS },
+  { id: "creator", heading: "Creator gear", links: CREATOR_LINKS },
+  { id: "shop", heading: "Travel kit", links: SHOP_LINKS },
   { id: "pets", heading: "Pet care", links: PET_LINKS },
   ...rest,
 ].filter((section) => section.links.length > 0);
