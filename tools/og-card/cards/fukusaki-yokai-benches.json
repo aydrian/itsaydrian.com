@@ -1,0 +1,47 @@
+{
+  "out": "public/images/fukusaki/fukusaki-og.jpg",
+  "photo": "public/images/fukusaki/fukusaki-oni-selfie.jpg",
+  "focusX": 0.5,
+  "focusY": 0.08,
+  "eyebrow": "Japan · Day trip from Osaka",
+  "headline": "Fukusaki’s Yokai Bench Trail",
+  "subline": "18 yokai, a ¥500 e-bike, and a Google Maps pin for every bench.",
+  "chips": [
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 198,
+      "y": 1086,
+      "r": 84
+    },
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 360,
+      "y": 228,
+      "r": 84
+    },
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 1662,
+      "y": 126,
+      "r": 84
+    },
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 1980,
+      "y": 108,
+      "r": 84
+    },
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 138,
+      "y": 234,
+      "r": 84
+    },
+    {
+      "src": "public/images/fukusaki/fukusaki-yokai-map-2400.webp",
+      "x": 1758,
+      "y": 1548,
+      "r": 84
+    }
+  ]
+}
