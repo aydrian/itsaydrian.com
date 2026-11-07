@@ -1,8 +1,23 @@
+export interface BlogVideo {
+  /** YouTube video ID */
+  id: string;
+  title: string;
+  description?: string;
+  /** ISO 8601 date the video was published */
+  uploadDate: string;
+  /** ISO 8601 duration, e.g. PT8M29S */
+  duration?: string;
+}
+
 export interface BlogPost {
   id: string;
   slug: string;
   title: string;
+  /** Shorter title for <title> and social tags; falls back to title. */
+  seoTitle?: string;
   excerpt: string;
+  /** Meta description (~155 chars); falls back to excerpt. */
+  seoDescription?: string;
   fullContent?: string;
   Content?: any;
   date: string;
@@ -13,6 +28,9 @@ export interface BlogPost {
   ogImageAlt?: string;
   ogImageWidth?: number;
   ogImageHeight?: number;
+  /** Extra images for structured data, e.g. other aspect ratios. */
+  schemaImages?: string[];
+  video?: BlogVideo;
   draft?: boolean;
   linksPage?: { label?: string; description?: string } | boolean;
 }
@@ -84,7 +102,9 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       id: `mdx-${mdxSlugFromFile(file, fm.slug)}`,
       slug: mdxSlugFromFile(file, fm.slug),
       title: fm.title || mdxSlugFromFile(file, fm.slug),
+      seoTitle: fm.seoTitle,
       excerpt: fm.excerpt || '',
+      seoDescription: fm.seoDescription,
       Content: mod.Content,
       date: fm.date || new Date().toISOString().split('T')[0],
       updated: fm.updated,
@@ -94,6 +114,8 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       ogImageAlt: fm.ogImageAlt,
       ogImageWidth: fm.ogImageWidth,
       ogImageHeight: fm.ogImageHeight,
+      schemaImages: fm.schemaImages,
+      video: fm.video,
       draft: !!fm.draft,
       linksPage: fm.linksPage,
     });

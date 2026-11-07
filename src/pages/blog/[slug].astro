@@ -29,12 +29,22 @@ const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
 const Content = post.Content;
 
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site).href;
+const metaTitle = post.seoTitle ?? post.title;
+const metaDescription = post.seoDescription ?? post.excerpt;
+const abs = (path: string) => new URL(path, Astro.site).href;
+const schemaImages = [
+  ...new Set(
+    [post.ogImage ?? "/assets/aydrian-tokyo-hero-1600.jpg", post.coverImage, ...(post.schemaImages ?? [])]
+      .filter((p): p is string => !!p)
+      .map(abs)
+  ),
+];
 const blogPostingSchema = {
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.title,
-  description: post.excerpt,
-  image: [new URL(post.ogImage ?? "/assets/aydrian-tokyo-hero-1600.jpg", Astro.site).href],
+  description: metaDescription,
+  image: schemaImages,
   datePublished: post.date,
   dateModified: post.updated ?? post.date,
   author: { "@type": "Person", name: "Aydrian Howard", url: "https://itsaydrian.com" },
@@ -44,12 +54,26 @@ const blogPostingSchema = {
   inLanguage: "en",
   url: canonicalUrl,
 };
+const videoSchema = post.video && {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: post.video.title,
+  description: post.video.description ?? metaDescription,
+  thumbnailUrl: [`https://i.ytimg.com/vi/${post.video.id}/maxresdefault.jpg`],
+  uploadDate: post.video.uploadDate,
+  ...(post.video.duration ? { duration: post.video.duration } : {}),
+  contentUrl: `https://www.youtube.com/watch?v=${post.video.id}`,
+  embedUrl: `https://www.youtube.com/embed/${post.video.id}`,
+};
 ---
 
-<Layout title={isDraft ? `${post.title} (Draft)` : post.title} description={post.excerpt} ogImage={post.ogImage} ogImageAlt={post.ogImageAlt} ogImageWidth={post.ogImageWidth} ogImageHeight={post.ogImageHeight}>
+<Layout title={isDraft ? `${metaTitle} (Draft)` : metaTitle} description={metaDescription} ogType="article" articlePublished={post.date} articleModified={post.updated ?? post.date} articleSection={post.category} ogImage={post.ogImage} ogImageAlt={post.ogImageAlt} ogImageWidth={post.ogImageWidth} ogImageHeight={post.ogImageHeight}>
   {isDraft && <meta slot="head" name="robots" content="noindex, nofollow">}
   {!isDraft && (
     <script type="application/ld+json" slot="head" set:html={JSON.stringify(blogPostingSchema)} />
+  )}
+  {!isDraft && videoSchema && (
+    <script type="application/ld+json" slot="head" set:html={JSON.stringify(videoSchema)} />
   )}
 
   {isDraft && (
