@@ -3,9 +3,10 @@ import type { GearItem } from "../data/dyker-gear";
 
 interface Props {
   item: GearItem;
+  outbound?: string;
 }
 
-const { item } = Astro.props;
+const { item, outbound = "dyker-gear" } = Astro.props;
 ---
 
 <article class="card gear-card">
@@ -16,7 +17,7 @@ const { item } = Astro.props;
     href={item.link}
     target="_blank"
     rel="sponsored nofollow noopener noreferrer"
-    data-outbound="dyker-gear"
+    data-outbound={outbound}
     data-product={item.slug}
   >
     Check price on Amazon
