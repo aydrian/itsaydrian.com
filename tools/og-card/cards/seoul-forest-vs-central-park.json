@@ -1,0 +1,15 @@
+{
+  "out": "public/images/seoul-forest/seoul-forest-og.jpg",
+  "photo": "public/images/seoul-forest/seoul-forest-sika-deer-fence.jpg",
+  "focusX": 0.5,
+  "focusY": 0.45,
+  "eyebrow": "Travel · Seoul, Korea",
+  "headline": "Seoul Forest vs. Central Park",
+  "subline": "Sika deer, a footbridge to the Han River, and one (1) turtle.",
+  "chips": [
+    {"src": "public/images/seoul-forest/seoul-forest-googly-eye-trees.jpg", "x": 335, "y": 545, "r": 190},
+    {"src": "public/images/seoul-forest/seoul-forest-mr-turtle-friend.jpg", "x": 470, "y": 790, "r": 150},
+    {"src": "public/images/seoul-forest/seoul-forest-happy-place-sign.jpg", "x": 760, "y": 640, "r": 200},
+    {"src": "public/images/seoul-forest/seoul-forest-han-river-deck-squint.jpg", "x": 600, "y": 700, "r": 380}
+  ]
+}
