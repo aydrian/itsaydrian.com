@@ -2,13 +2,15 @@
 # requires-python = ">=3.10"
 # dependencies = ["pillow>=10.0"]
 # ///
-"""Render a 1200x630 blog share image (OG card) in the itsaydrian.com style.
+"""Render a 1200x630 share image (OG card) in the itsaydrian.com style, for blog posts and pages.
 
 Left: the domain, a category eyebrow, an Instrument Serif headline, an Inter
 subline, and an optional row of round image "chips". Right: a full-bleed photo.
 
 Usage (from the repo root):
     uv run tools/og-card/og_card.py tools/og-card/cards/<post>.json [...]
+
+Page cards live in tools/og-card/cards/page-*.json and render to public/assets/og/.
 
 Card config (paths are relative to the repo root):
     {
@@ -144,15 +146,22 @@ def render(card):
     draw.text((PAD, PAD - 6), "itsaydrian.com", font=inter(22, "SemiBold"), fill=HYDRO)
 
     eyebrow_font = inter(19, "Bold")
-    headline_font, headline_lines = fit_headline(draw, card["headline"], COL_W)
     sub_font = inter(25, "Regular")
     sub_lines = wrap(draw, card["subline"], sub_font, COL_W - 10)
-
-    headline_lh = int(headline_font.size * 1.02)
     sub_lh = 36
-    block = 48 + headline_lh * len(headline_lines) + 22 + sub_lh * len(sub_lines)
     top = PAD + 60
     bottom = H - PAD - (96 if chips else 0)
+
+    # Largest headline (max 3 lines) whose whole text block still fits between
+    # the domain line and the chip row, so text never runs into the chips.
+    start = 88
+    while True:
+        headline_font, headline_lines = fit_headline(draw, card["headline"], COL_W, start=start)
+        headline_lh = int(headline_font.size * 1.02)
+        block = 48 + headline_lh * len(headline_lines) + 22 + sub_lh * len(sub_lines)
+        if block <= bottom - top or headline_font.size <= 56:
+            break
+        start = headline_font.size - 2
     y = top + max(0, (bottom - top - block) // 2)
 
     tracked(draw, (PAD, y), card["eyebrow"].upper(), eyebrow_font, HOT, 2.2)

@@ -26,6 +26,9 @@ const DESCRIPTIONS: Record<PickCategory, string> = {
 };
 
 const pageTitle = `${cat.label}: Atticus's favorite things`;
+
+// Share cards come from tools/og-card/cards/page-atticus-list-<id>.json.
+const OG_ALTS: Record<PickCategory, string> = {"toys": "Share card: Atticus’s favorite toys. Things he still plays with after week one. Cheap enough to replace when they lose.", "treats": "Share card: Atticus’s favorite treats. Chews and training treats that last longer than thirty seconds.", "supplements": "Share card: Atticus’s favorite supplements. The two he gets every day, and why they stayed.", "walks-home": "Share card: Atticus’s favorite walks and home gear. Leashes, clean-up, feeding, and the grooming tool that saves the couch."};
 const pageDescription = DESCRIPTIONS[cat.id];
 const canonicalUrl = `https://itsaydrian.com/atticus-list/${cat.id}/`;
 
@@ -61,10 +64,10 @@ const itemListJsonLd = {
 <Layout
   title={pageTitle}
   description={pageDescription}
-  ogImage="/assets/atticus-hero.jpg"
-  ogImageAlt="Atticus the corgi smiling."
-  ogImageWidth={1800}
-  ogImageHeight={1200}
+  ogImage={`/assets/og/atticus-list-${cat.id}.jpg`}
+  ogImageAlt={OG_ALTS[cat.id]}
+  ogImageWidth={1200}
+  ogImageHeight={630}
   ogImageType="image/jpeg"
 >
   <div class="container section">

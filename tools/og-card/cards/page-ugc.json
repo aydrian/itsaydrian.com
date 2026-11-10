@@ -1,0 +1,40 @@
+{
+  "out": "public/assets/og/ugc.jpg",
+  "photo": "public/assets/ugc-hero-selfie.jpg",
+  "focusY": 0.28,
+  "eyebrow": "UGC for brands",
+  "headline": "Sounds like a customer. Not a commercial.",
+  "subline": "Scripted, shot and edited by one person.",
+  "chips": [
+    {
+      "src": "public/assets/ugc/graniph-collab.jpg",
+      "x": 270,
+      "y": 300,
+      "r": 170
+    },
+    {
+      "src": "public/assets/ugc/oddfresh-haul.jpg",
+      "x": 300,
+      "y": 420,
+      "r": 200
+    },
+    {
+      "src": "public/assets/ugc/kusatsu-yakiimo.jpg",
+      "x": 270,
+      "y": 560,
+      "r": 200
+    },
+    {
+      "src": "public/assets/ugc/osaka-ramen.jpg",
+      "x": 330,
+      "y": 800,
+      "r": 150
+    },
+    {
+      "src": "public/assets/ugc/fukusaki-yokai.jpg",
+      "x": 200,
+      "y": 420,
+      "r": 180
+    }
+  ]
+}

@@ -5,15 +5,15 @@ import SubscriberForm from '../components/SubscriberForm.astro';
 const pageTitle = "Aydrian Howard — ItsAydrian LLC";
 const pageDescription = "A small studio for the things I'm into — curated travel (with a Japan habit) and software I want to exist. Run by Aydrian Howard.";
 ---
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","name":"Aydrian Howard","jobTitle":"Software Developer / Travel Advisor / Technical Consultant","description":"One-person studio for technical consulting, travel advising, and indie software","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"worksFor":{"@type":"Organization","name":"ItsAydrian LLC"}},{"@type":"Organization","name":"ItsAydrian LLC","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","founder":{"@type":"Person","name":"Aydrian Howard"},"sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"areaServed":["New York, NY","Tokyo, Japan"],"knowsAbout":["Travel","Japan","iOS development","Technical consulting","React","React Native","Astro","Cloudflare Workers"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Technical Consulting","url":"https://itsaydrian.com/consulting"}}]}},{"@type":"WebSite","name":"ItsAydrian","url":"https://itsaydrian.com","description":"A small studio for technical consulting, travel advising, and indie software","publisher":{"@type":"Organization","name":"ItsAydrian LLC"}}]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Person","@id":"https://itsaydrian.com/#person","name":"Aydrian Howard","jobTitle":"Software Developer / Travel Advisor / Technical Consultant / UGC Creator","description":"One-person studio for technical consulting, travel advising, UGC video, and indie software","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://www.tiktok.com/@itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"address":{"@type":"PostalAddress","addressLocality":"New York","addressRegion":"NY","addressCountry":"US"},"worksFor":{"@id":"https://itsaydrian.com/#organization"}},{"@type":"Organization","@id":"https://itsaydrian.com/#organization","name":"ItsAydrian LLC","url":"https://itsaydrian.com","email":"howdy@itsaydrian.com","founder":{"@id":"https://itsaydrian.com/#person"},"sameAs":["https://x.com/itsaydrian","https://instagram.com/itsaydrian","https://www.tiktok.com/@itsaydrian","https://github.com/aydrian","https://linkedin.com/in/aydrian","https://youtube.com/@itsaydrian","https://twitch.tv/itsaydrian"],"areaServed":["New York, NY","Tokyo, Japan"],"knowsAbout":["Travel","Japan","UGC video","iOS development","Technical consulting","React","React Native","Astro","Cloudflare Workers"],"hasOfferCatalog":{"@type":"OfferCatalog","name":"Services","itemListElement":[{"@type":"Offer","itemOffered":{"@type":"Service","name":"Technical Consulting","url":"https://itsaydrian.com/consulting"}},{"@type":"Offer","itemOffered":{"@id":"https://itsaydrian.com/ugc/#service","@type":"Service","name":"UGC video for brands","url":"https://itsaydrian.com/ugc/"}}]}},{"@type":"WebSite","name":"ItsAydrian","url":"https://itsaydrian.com","description":"A small studio for technical consulting, travel advising, and indie software","publisher":{"@id":"https://itsaydrian.com/#organization"}}]}</script>
 
 <Layout
   title="Aydrian Howard"
   description={pageDescription}
-  ogImage="/assets/aydrian-tokyo-hero-1600.jpg"
-  ogImageAlt="Aydrian standing on a neon-lit Tokyo street at night."
-  ogImageWidth={1600}
-  ogImageHeight={1066}
+  ogImage="/assets/og/home.jpg"
+  ogImageAlt="Share card: A small studio for the work worth doing. Curated travel with a Japan habit, and software I want to exist."
+  ogImageWidth={1200}
+  ogImageHeight={630}
   ogImageType="image/jpeg"
   overlayHeader={true}
   preloadImage="/assets/aydrian-tokyo-hero-1600.jpg"
@@ -74,7 +74,7 @@ const pageDescription = "A small studio for the things I'm into — curated trav
             <span class="eyebrow">Right now</span>
             <ul>
               <li><strong>Planning</strong> a honeymoon in Japan.</li>
-              <li><strong>Filming</strong> short videos in Osaka, Tokyo, Fukuoka, Seoul, Taipei, Bangkok, and Shanghai.</li>
+              <li><strong>Filming</strong> <span>short videos in Osaka, Tokyo, Fukuoka, Seoul, Taipei, Bangkok, and Shanghai, and making <a href="/ugc/">UGC for brands</a> along the way.</span></li>
               <li><strong>Just shipped</strong> Tiny Maintenance v1.4 — a searchable maintenance log and saved views.</li>
             </ul>
           </div>
@@ -251,6 +251,10 @@ const pageDescription = "A small studio for the things I'm into — curated trav
       <div class="contact-cta rise" data-delay="2">
         <a class="btn btn-primary" href="/travel/">
           Plan a trip
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="/ugc/#brief">
+          Send a UGC brief
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a class="btn btn-ghost" href="mailto:howdy@itsaydrian.com">
