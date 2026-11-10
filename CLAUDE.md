@@ -100,6 +100,7 @@ Personal site for ItsAydrian LLC. Astro 7 site with Cloudflare Workers adapter. 
 - Each card has a config in `tools/og-card/cards/<slug>.json` (see the script's docstring for fields). Render with `bun run og tools/og-card/cards/<slug>.json`
 - Point the post's `ogImage` at the output, set `ogImageWidth: 1200` / `ogImageHeight: 630`, and write an `ogImageAlt` that includes the card's text
 - When replacing the card on a live post, save it under a new filename so social platforms don't keep showing a cached copy
+- Pages get cards too: configs are `tools/og-card/cards/page-<name>.json` and render to `public/assets/og/<name>.jpg`. Every page passes its card to Layout (`ogImage`, `ogImageAlt`, `ogImageWidth={1200}`, `ogImageHeight={630}`), and Layout falls back to `/assets/og/home.jpg`. A new page should get its own card. Re-render all cards with `bun run og tools/og-card/cards/*.json`
 
 ### Images
 - Hero/preload images passed via `preloadImage` prop to Layout
