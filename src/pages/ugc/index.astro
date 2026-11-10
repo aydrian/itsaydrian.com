@@ -3,7 +3,10 @@ import Layout from '../../layouts/Layout.astro';
 import ShortEmbed from '../../components/ShortEmbed.astro';
 import { UGC_CLIPS, UGC_ON_LOCATION, UGC_TESTIMONIALS } from '../../data/ugc-portfolio';
 
-const pageDescription = "UGC video for brands: unboxings, reviews, try-ons and voiceover ads that sound like a customer, not a commercial. Scripted, shot and edited by one person, on location in Asia.";
+const pageTitle = 'UGC Creator for Travel, Food & Lifestyle Brands';
+const pageDescription = "UGC creator for TikTok, Reels and Shorts: unboxings, reviews, try-ons and voiceover ads that sound like a customer. Shooting on location in Asia now.";
+const SITE = 'https://itsaydrian.com';
+const PERSON_REF = { '@type': 'Person', '@id': `${SITE}/#person`, name: 'Aydrian Howard', url: `${SITE}/` };
 
 const places = UGC_ON_LOCATION.places;
 const placesText = places.length > 1 ? `${places.slice(0, -1).join(', ')} and ${places[places.length - 1]}` : places[0];
@@ -20,10 +23,38 @@ const FORMATS = [
 
 const DELIVERABLE_OPTIONS = ['Talking head', 'Unboxing or haul', 'Voiceover over b-roll', 'Shop-along or try-on', 'Hook variations', 'Raw footage', 'Captions and post copy'];
 const USAGE_OPTIONS = ['Organic only', 'Paid ads', 'Whitelisting or Spark Ads', 'Not sure yet'];
+// Answers here are rendered on the page and as FAQPage structured data, so keep them in sync by editing only this list.
+const FAQS = [
+  {
+    q: 'What is a UGC creator?',
+    a: 'A UGC creator makes videos that look and sound like they came from a real customer, then hands them to the brand to post or run as ads. The brand gets content that feels native to TikTok, Reels and Shorts without booking a production crew.',
+  },
+  {
+    q: 'How much does a UGC video cost?',
+    a: 'It depends on the format, how many videos you need and where they will run. Every quote is a fixed price that spells out the usage rights up front, so the number you approve is the number you pay.',
+  },
+  {
+    q: 'What usage rights are included?',
+    a: 'Organic use on your own social accounts and website comes with every video. Paid ads on Meta, TikTok or YouTube are licensed for 30 or 90 days, or longer if you need it. Whitelisting, Spark Ads and raw footage are quoted as add-ons.',
+  },
+  {
+    q: 'How long does it take to get the first cut?',
+    a: 'It depends on shipping and where I am shooting. Your quote includes a date for the first cut, and one round of revisions is included after that.',
+  },
+  {
+    q: `How does shipping work while you're in ${places.length > 1 ? 'Asia' : placesText}?`,
+    a: `I'm on location in ${placesText} through ${UGC_ON_LOCATION.through}. Tell me where the product ships from in your brief, and I'll send an address that lines up with the shoot dates.`,
+  },
+  {
+    q: 'Will you post the video on your own accounts?',
+    a: 'UGC is made for your channels, so posting on mine is not included by default. If you want it on my accounts too, or run as a Spark Ad from my account, say so in the brief and I will quote it.',
+  },
+];
+
 const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+', 'Not sure yet'];
 ---
 <Layout
-  title="UGC for Brands"
+  title={pageTitle}
   description={pageDescription}
   ogImage="/assets/og/ugc.jpg"
   ogImageAlt="Share card: Sounds like a customer. Not a commercial. Scripted, shot and edited by one person."
@@ -35,12 +66,48 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
-    '@type': 'Service',
-    name: 'ItsAydrian UGC',
-    serviceType: 'User-generated content video production',
-    url: 'https://itsaydrian.com/ugc/',
-    provider: { '@type': 'Person', name: 'Aydrian Howard', url: 'https://itsaydrian.com/' },
-    areaServed: 'Worldwide',
+    '@graph': [
+      {
+        '@type': 'Service',
+        '@id': `${SITE}/ugc/#service`,
+        name: 'UGC video for brands',
+        serviceType: 'UGC video production',
+        description: pageDescription,
+        url: `${SITE}/ugc/`,
+        image: `${SITE}/assets/og/ugc.jpg`,
+        provider: PERSON_REF,
+        areaServed: 'Worldwide',
+        availableChannel: { '@type': 'ServiceChannel', serviceUrl: `${SITE}/ugc/#brief` },
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: 'UGC formats',
+          itemListElement: FORMATS.map((f) => ({
+            '@type': 'Offer',
+            itemOffered: { '@type': 'Service', name: f.title, description: f.body },
+          })),
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${SITE}/ugc/#faq`,
+        mainEntity: FAQS.map((f) => ({
+          '@type': 'Question',
+          name: f.q,
+          acceptedAnswer: { '@type': 'Answer', text: f.a },
+        })),
+      },
+      ...UGC_CLIPS.map((clip) => ({
+        '@type': 'VideoObject',
+        name: clip.title,
+        description: clip.note,
+        thumbnailUrl: `${SITE}/assets/ugc/${clip.slug}.jpg`,
+        uploadDate: clip.uploadDate,
+        duration: clip.duration,
+        embedUrl: `https://www.youtube.com/embed/${clip.youtubeId}`,
+        url: `https://www.youtube.com/shorts/${clip.youtubeId}`,
+        creator: PERSON_REF,
+      })),
+    ],
   })} />
 
   <!-- ============================== HERO ============================== -->
@@ -53,7 +120,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     </div>
 
     <div class="container hero-inner">
-      <span class="eyebrow rise" data-delay="1" style="color:var(--ink-on-image);">UGC for brands</span>
+      <span class="eyebrow rise" data-delay="1" style="color:var(--ink-on-image);">UGC creator · Travel, food and lifestyle</span>
       <h1 id="ugc-hero-title" class="hero-title rise" data-delay="2">
         Sounds like a customer.<br><em>Not a commercial.</em>
       </h1>
@@ -82,7 +149,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     <div class="container">
       <header class="section-head rise">
         <span class="eyebrow">The work</span>
-        <h2 id="work-heading" class="h2">Recent videos, <em>shot and cut by me.</em></h2>
+        <h2 id="work-heading" class="h2">Recent UGC videos, <em>shot and cut by me.</em></h2>
         <p class="lede">Each one is a format you can brief. Press play to watch it here.</p>
       </header>
 
@@ -97,6 +164,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
               </div>
               <h3>{clip.title}</h3>
               <p>{clip.note}</p>
+              {clip.link && <a class="btn-link ugc-clip-link" href={clip.link.href}>{clip.link.label}</a>}
             </div>
           </li>
         ))}
@@ -110,7 +178,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
       <header class="section-head rise">
         <span class="eyebrow">What I make</span>
         <h2 id="formats-heading" class="h2">Formats your team <em>already knows how to use.</em></h2>
-        <p class="lede">Vertical, captioned, and ready for TikTok, Reels, Shorts or your ad account.</p>
+        <p class="lede">Vertical, captioned, and ready for TikTok, Instagram Reels, YouTube Shorts or your ad account.</p>
       </header>
 
       <ul class="ugc-formats" role="list">
@@ -138,8 +206,9 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
           that talk down to them, I sound like them because I am one.
         </p>
         <p class="rise" data-delay="2">
-          Before this I spent twenty years in tech explaining complicated products in plain language. That habit
-          is why the benefit lands in the first three seconds and the claim holds up to a skeptical viewer.
+          Before this I spent twenty years in <a href="/consulting/">tech</a> explaining complicated products in plain
+          language, and these days I also plan trips as a <a href="/travel/">travel advisor</a>. That habit is why the
+          benefit lands in the first three seconds and the claim holds up to a skeptical viewer.
         </p>
         <ul class="card-meta rise" data-delay="3" role="list" aria-label="Content areas">
           <li class="pill">Travel and hotels</li>
@@ -322,6 +391,24 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
           <p class="brief-status" role="status" aria-live="polite" hidden></p>
         </div>
       </form>
+    </div>
+  </section>
+
+  <!-- ============================== FAQ ============================== -->
+  <section class="section section-soft" id="faq" aria-labelledby="faq-heading">
+    <div class="container ugc-faq">
+      <header class="section-head rise">
+        <span class="eyebrow">Questions brands ask</span>
+        <h2 id="faq-heading" class="h2">Hiring a UGC creator, <em>answered.</em></h2>
+      </header>
+      <div class="ugc-faq-list">
+        {FAQS.map((f, i) => (
+          <details class="ugc-faq-item rise" data-delay={String((i % 3) + 1)} open={i === 0}>
+            <summary>{f.q}</summary>
+            <p>{f.a}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 </Layout>
@@ -549,6 +636,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 
   .ugc-why-body .card-meta { margin-top: var(--space-2); }
 
+  .ugc-clip-link { margin-top: var(--space-1); }
+
   @media (max-width: 860px) {
     .ugc-why { grid-template-columns: 1fr; gap: var(--space-6); }
   }
@@ -640,6 +729,58 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     font-size: var(--fs-14);
     line-height: 1.65;
     color: var(--ink-soft);
+  }
+
+  /* ---------- FAQ ---------- */
+  .ugc-faq { max-width: 880px; }
+
+  .ugc-faq-list { border-top: 1px solid var(--rule-strong); }
+
+  .ugc-faq-item { border-bottom: 1px solid var(--rule); }
+
+  .ugc-faq-item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+    padding-block: var(--space-6);
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  .ugc-faq-item summary::-webkit-details-marker { display: none; }
+
+  .ugc-faq-item summary::after {
+    content: '+';
+    flex: none;
+    font-family: var(--font-body);
+    font-size: var(--fs-24);
+    color: var(--accent);
+    transition: transform var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .ugc-faq-item[open] summary::after { transform: rotate(45deg); }
+
+  .ugc-faq-item summary:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: var(--r-sm);
+  }
+
+  .ugc-faq-item p {
+    margin: 0;
+    padding-bottom: var(--space-6);
+    max-width: 65ch;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 640px) {
+    .ugc-faq-item summary { font-size: var(--fs-20); padding-block: var(--space-4); }
   }
 
   /* ---------- Brief form ---------- */
