@@ -1,10 +1,9 @@
 {
-  "out": "public/assets/og/ugc.jpg",
+  "out": "public/assets/og/ugc-2.jpg",
   "photo": "public/assets/ugc-hero-selfie.jpg",
   "focusY": 0.28,
-  "eyebrow": "UGC for brands",
-  "headline": "Sounds like a customer. Not a commercial.",
-  "subline": "Scripted, shot and edited by one person.",
+  "headline": "I make UGC videos for travel, food and lifestyle brands.",
+  "subline": "I write, shoot and edit every video myself.",
   "chips": [
     {
       "src": "public/assets/ugc/graniph-collab.jpg",
