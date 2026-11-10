@@ -2,6 +2,8 @@ interface Env {
   TRAVEL_INQUIRIES: KVNamespace;
   WEBHOOK_URL?: string;
   WEBHOOK_AUTH_TOKEN?: string;
+  UGC_WEBHOOK_URL?: string;
+  UGC_WEBHOOK_AUTH_TOKEN?: string;
 }
 
 declare const __PREVIEW_BUILD__: boolean;

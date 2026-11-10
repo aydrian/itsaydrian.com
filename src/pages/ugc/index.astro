@@ -1,0 +1,815 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ShortEmbed from '../../components/ShortEmbed.astro';
+import { UGC_CLIPS, UGC_ON_LOCATION, UGC_TESTIMONIALS } from '../../data/ugc-portfolio';
+
+const pageDescription = "UGC video for brands: unboxings, reviews, try-ons and voiceover ads that sound like a customer, not a commercial. Scripted, shot and edited by one person, on location in Asia.";
+
+const places = UGC_ON_LOCATION.places;
+const placesText = places.length > 1 ? `${places.slice(0, -1).join(', ')} and ${places[places.length - 1]}` : places[0];
+const heroPosters = UGC_CLIPS.slice(0, 3);
+
+const FORMATS = [
+  { title: 'Talking head', body: 'Reviews and testimonials straight to camera, the way a customer would tell a friend.' },
+  { title: 'Unboxing and hauls', body: 'First impressions on camera, with the product in frame and the details legible.' },
+  { title: 'Voiceover over b-roll', body: 'Shot on location, cut to a script, with captions that match the edit.' },
+  { title: 'Shop-along and try-on', body: 'In the store, in the hotel, in the product. The walk-through format for retail and travel.' },
+  { title: 'Hook variations', body: 'Three openers on the same body, so your ads team can test the first three seconds.' },
+  { title: 'Captions and post copy', body: 'On-screen captions and a post caption written to match the cut, ready to publish.' },
+];
+
+const DELIVERABLE_OPTIONS = ['Talking head', 'Unboxing or haul', 'Voiceover over b-roll', 'Shop-along or try-on', 'Hook variations', 'Raw footage', 'Captions and post copy'];
+const USAGE_OPTIONS = ['Organic only', 'Paid ads', 'Whitelisting or Spark Ads', 'Not sure yet'];
+const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+', 'Not sure yet'];
+---
+<Layout
+  title="UGC for Brands"
+  description={pageDescription}
+  preloadImage={heroPosters[0] ? `/assets/ugc/${heroPosters[0].slug}.jpg` : undefined}
+>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'ItsAydrian UGC',
+    serviceType: 'User-generated content video production',
+    url: 'https://itsaydrian.com/ugc/',
+    provider: { '@type': 'Person', name: 'Aydrian Howard', url: 'https://itsaydrian.com/' },
+    areaServed: 'Worldwide',
+  })} />
+
+  <!-- ============================== HERO ============================== -->
+  <section class="ugc-hero" aria-labelledby="ugc-hero-title">
+    <div class="container ugc-hero-grid">
+      <div class="ugc-hero-copy">
+        <span class="eyebrow rise" data-delay="1">UGC for brands</span>
+        <h1 id="ugc-hero-title" class="display ugc-hero-title rise" data-delay="2">
+          Sounds like a customer. <em>Not a commercial.</em>
+        </h1>
+        <p class="lede rise" data-delay="3">
+          I'm Aydrian, a one-person content studio. I write, shoot and edit every video myself, so you deal with one
+          accountable person from the brief to the final export.
+        </p>
+        <div class="ugc-hero-cta rise" data-delay="4">
+          <a class="btn btn-primary btn-lg" href="#brief">
+            Send a brief
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-ghost btn-lg" href="#work">See the work</a>
+        </div>
+        <p class="ugc-location rise" data-delay="5">
+          <span class="ugc-location-dot" aria-hidden="true"></span>
+          On location in {placesText} through {UGC_ON_LOCATION.through}
+        </p>
+      </div>
+
+      <div class="ugc-hero-stack" aria-hidden="true">
+        {heroPosters.map((clip, i) => (
+          <img
+            src={`/assets/ugc/${clip.slug}.jpg`}
+            alt=""
+            width="540"
+            height="960"
+            class={`ugc-hero-card ugc-hero-card-${i + 1}`}
+            fetchpriority={i === 0 ? 'high' : undefined}
+            loading={i === 0 ? 'eager' : 'lazy'}
+          />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== WORK ============================== -->
+  <section class="section section-soft" id="work" aria-labelledby="work-heading">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">The work</span>
+        <h2 id="work-heading" class="h2">Recent videos, <em>shot and cut by me.</em></h2>
+        <p class="lede">Each one is a format you can brief. Press play to watch it here.</p>
+      </header>
+
+      <ul class="ugc-grid" role="list">
+        {UGC_CLIPS.map((clip, i) => (
+          <li class="ugc-clip rise" data-delay={String((i % 3) + 1)}>
+            <ShortEmbed id={clip.youtubeId} title={clip.title} poster={`/assets/ugc/${clip.slug}.jpg`} posterAlt={clip.posterAlt} />
+            <div class="ugc-clip-body">
+              <div class="ugc-clip-meta">
+                <span class="pill pill-cool">{clip.category}</span>
+                <span class="eyebrow">{clip.format}</span>
+              </div>
+              <h3>{clip.title}</h3>
+              <p>{clip.note}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================== FORMATS ============================== -->
+  <section class="section" id="formats" aria-labelledby="formats-heading">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">What I make</span>
+        <h2 id="formats-heading" class="h2">Formats your team <em>already knows how to use.</em></h2>
+        <p class="lede">Vertical, captioned, and ready for TikTok, Reels, Shorts or your ad account.</p>
+      </header>
+
+      <ul class="ugc-formats" role="list">
+        {FORMATS.map((f, i) => (
+          <li class="ugc-format rise" data-delay={String((i % 3) + 1)}>
+            <h3>{f.title}</h3>
+            <p>{f.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================== WHY ME ============================== -->
+  <section class="section section-soft" id="why" aria-labelledby="why-heading">
+    <div class="container ugc-why">
+      <header class="section-head rise">
+        <span class="eyebrow">Who you're getting</span>
+        <h2 id="why-heading" class="h2">The customer <em>most rosters skip.</em></h2>
+      </header>
+      <div class="ugc-why-body">
+        <p class="rise" data-delay="1">
+          I'm an elder millennial, over 40, late-diagnosed neurodivergent, and traveling solo across Asia with a
+          camera in my pocket. If your buyer is a Gen X or millennial adult with money and no patience for ads
+          that talk down to them, I sound like them because I am one.
+        </p>
+        <p class="rise" data-delay="2">
+          Before this I spent twenty years in tech explaining complicated products in plain language. That habit
+          is why the benefit lands in the first three seconds and the claim holds up to a skeptical viewer.
+        </p>
+        <ul class="card-meta rise" data-delay="3" role="list" aria-label="Content areas">
+          <li class="pill">Travel and hotels</li>
+          <li class="pill">Japan and Korea</li>
+          <li class="pill">Tech and gadgets</li>
+          <li class="pill">Food and snacks</li>
+          <li class="pill">Pop culture merch</li>
+          <li class="pill">Pet products with Atticus, my corgi</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== USAGE ============================== -->
+  <section class="section" id="usage" aria-labelledby="usage-heading">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">Usage and add-ons</span>
+        <h2 id="usage-heading" class="h2">Clear rights, <em>priced up front.</em></h2>
+        <p class="lede">Every quote spells out where the video can run and for how long, so nobody gets surprised later.</p>
+      </header>
+
+      <dl class="ugc-usage">
+        <div class="ugc-usage-row rise" data-delay="1">
+          <dt>Organic</dt>
+          <dd>Post it on your own social accounts and website. Included with every video.</dd>
+        </div>
+        <div class="ugc-usage-row rise" data-delay="2">
+          <dt>Paid ads</dt>
+          <dd>Run it as an ad on Meta, TikTok or YouTube. Licensed for 30 or 90 days, or longer if you need it.</dd>
+        </div>
+        <div class="ugc-usage-row rise" data-delay="3">
+          <dt>Whitelisting and Spark Ads</dt>
+          <dd>Run the ad from my account so it reads as a creator post, not a brand post.</dd>
+        </div>
+        <div class="ugc-usage-row rise" data-delay="4">
+          <dt>Raw footage</dt>
+          <dd>Every usable clip from the shoot, so your editors can cut their own versions.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  {UGC_TESTIMONIALS.length > 0 && (
+    <section class="section section-soft" id="testimonials" aria-labelledby="testimonials-heading">
+      <div class="container">
+        <header class="section-head rise">
+          <span class="eyebrow">From brands</span>
+          <h2 id="testimonials-heading" class="h2">What it's like <em>to work together.</em></h2>
+        </header>
+        <ul class="ugc-quotes" role="list">
+          {UGC_TESTIMONIALS.map((t) => (
+            <li class="rise">
+              <blockquote>
+                <p>{t.quote}</p>
+                <footer>{t.name}, <cite>{t.brand}</cite></footer>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ============================== PROCESS ============================== -->
+  <section class={`section ${UGC_TESTIMONIALS.length > 0 ? '' : 'section-soft'}`} id="process" aria-labelledby="process-heading">
+    <div class="container">
+      <header class="section-head rise">
+        <span class="eyebrow">How it works</span>
+        <h2 id="process-heading" class="h2">Brief in. <em>First cut back.</em></h2>
+      </header>
+
+      <ol class="ugc-steps" role="list">
+        <li class="rise" data-delay="1">
+          <span class="eyebrow">01</span>
+          <h3>Brief</h3>
+          <p>Tell me the product, the promise and where the video will run. The form below covers it.</p>
+        </li>
+        <li class="rise" data-delay="2">
+          <span class="eyebrow">02</span>
+          <h3>Quote and plan</h3>
+          <p>I reply with a price, the usage terms, and a short script or shot list for you to approve.</p>
+        </li>
+        <li class="rise" data-delay="3">
+          <span class="eyebrow">03</span>
+          <h3>Shoot and first cut</h3>
+          <p>You ship the product, I shoot it on location and send back a first cut with captions.</p>
+        </li>
+        <li class="rise" data-delay="4">
+          <span class="eyebrow">04</span>
+          <h3>Revise and deliver</h3>
+          <p>One round of revisions is included. Final files come in the formats you asked for.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============================== BRIEF FORM ============================== -->
+  <section class="section" id="brief" aria-labelledby="brief-heading">
+    <div class="container ugc-brief">
+      <header class="section-head rise">
+        <span class="eyebrow">Send a brief</span>
+        <h2 id="brief-heading" class="h2">Tell me the product <em>and the promise.</em></h2>
+        <p class="lede">
+          Rough is fine. I'll come back with a quote and a plan. Prefer email? Write to{' '}
+          <a href="mailto:howdy@itsaydrian.com?subject=UGC%20brief">howdy@itsaydrian.com</a>.
+        </p>
+      </header>
+
+      <form class="brief-form rise" id="brief-form" novalidate>
+        <div class="brief-row">
+          <div class="brief-field">
+            <label for="brief-name">Your name</label>
+            <input id="brief-name" name="name" type="text" autocomplete="name" required maxlength="120" />
+          </div>
+          <div class="brief-field">
+            <label for="brief-email">Email</label>
+            <input id="brief-email" name="email" type="email" autocomplete="email" required maxlength="200" />
+          </div>
+        </div>
+
+        <div class="brief-row">
+          <div class="brief-field">
+            <label for="brief-brand">Brand or company</label>
+            <input id="brief-brand" name="brand" type="text" autocomplete="organization" required maxlength="120" />
+          </div>
+          <div class="brief-field">
+            <label for="brief-product">Product link <span class="brief-optional">(optional)</span></label>
+            <input id="brief-product" name="product" type="url" inputmode="url" placeholder="https://" maxlength="500" />
+          </div>
+        </div>
+
+        <fieldset class="brief-field brief-checks">
+          <legend>What do you need? <span class="brief-optional">(pick any)</span></legend>
+          <div class="brief-check-grid">
+            {DELIVERABLE_OPTIONS.map((opt, i) => (
+              <label class="brief-check" for={`brief-deliv-${i}`}>
+                <input id={`brief-deliv-${i}`} type="checkbox" name="deliverables" value={opt} />
+                <span>{opt}</span>
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="brief-row brief-row-3">
+          <div class="brief-field">
+            <label for="brief-usage">Where will it run?</label>
+            <select id="brief-usage" name="usage">
+              {USAGE_OPTIONS.map((opt) => <option value={opt}>{opt}</option>)}
+            </select>
+          </div>
+          <div class="brief-field">
+            <label for="brief-budget">Budget</label>
+            <select id="brief-budget" name="budget">
+              {BUDGET_OPTIONS.map((opt) => <option value={opt} selected={opt === 'Not sure yet'}>{opt}</option>)}
+            </select>
+          </div>
+          <div class="brief-field">
+            <label for="brief-timeline">Timeline <span class="brief-optional">(optional)</span></label>
+            <input id="brief-timeline" name="timeline" type="text" placeholder="e.g. live by Dec 15" maxlength="120" />
+          </div>
+        </div>
+
+        <div class="brief-field">
+          <label for="brief-message">The brief</label>
+          <textarea id="brief-message" name="message" rows="6" required maxlength="5000" placeholder="What's the product, who's it for, and what should a viewer feel or do after watching?"></textarea>
+        </div>
+
+        <div class="brief-hp" aria-hidden="true">
+          <label for="brief-website">Website</label>
+          <input id="brief-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="brief-actions">
+          <button type="submit" class="btn btn-primary btn-lg brief-submit">
+            <span class="brief-submit-text">Send the brief</span>
+            <span class="brief-submit-loading" hidden>Sending…</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <p class="brief-status" role="status" aria-live="polite" hidden></p>
+        </div>
+      </form>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  const form = document.getElementById('brief-form') as HTMLFormElement | null;
+  if (form) {
+    const status = form.querySelector<HTMLElement>('.brief-status')!;
+    const submit = form.querySelector<HTMLButtonElement>('.brief-submit')!;
+    const submitText = form.querySelector<HTMLElement>('.brief-submit-text')!;
+    const submitLoading = form.querySelector<HTMLElement>('.brief-submit-loading')!;
+
+    const show = (type: 'success' | 'error', message: string) => {
+      status.hidden = false;
+      status.dataset.type = type;
+      status.textContent = message;
+    };
+
+    const setLoading = (loading: boolean) => {
+      submit.disabled = loading;
+      submitText.hidden = loading;
+      submitLoading.hidden = !loading;
+    };
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.hidden = true;
+
+      if (!form.checkValidity()) {
+        const firstInvalid = form.querySelector<HTMLElement>(':invalid');
+        firstInvalid?.focus();
+        show('error', 'Please fill in your name, email, brand and the brief.');
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const res = await fetch('/api/brief/', { method: 'POST', body: new FormData(form) });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && data.success) {
+          form.reset();
+          show('success', "Got it. I'll reply by email with a quote and a plan.");
+        } else {
+          show('error', data.error || 'Something went wrong. Please try again, or email howdy@itsaydrian.com.');
+        }
+      } catch {
+        show('error', 'Something went wrong. Please try again, or email howdy@itsaydrian.com.');
+      } finally {
+        setLoading(false);
+      }
+    });
+  }
+</script>
+
+<style>
+  /* ---------- Hero ---------- */
+  .ugc-hero {
+    padding-block: calc(var(--space-24) + var(--space-8)) var(--space-24);
+    overflow: hidden;
+  }
+
+  .ugc-hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: var(--space-16);
+    align-items: center;
+  }
+
+  .ugc-hero-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .ugc-hero-title {
+    font-size: clamp(2.75rem, 6vw, 5rem);
+    line-height: 0.98;
+    max-width: 13ch;
+  }
+
+  .ugc-hero-title em { font-style: italic; color: var(--accent); }
+
+  .ugc-hero-copy .lede { max-width: 46ch; }
+
+  .ugc-hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .ugc-location {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--fs-14);
+    color: var(--ink-soft);
+  }
+
+  .ugc-location-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent-hot);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-hot) 20%, transparent);
+    flex-shrink: 0;
+  }
+
+  .ugc-hero-stack {
+    position: relative;
+    height: clamp(420px, 46vw, 560px);
+  }
+
+  .ugc-hero-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(170px, 18vw, 240px);
+    height: auto;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    border-radius: var(--r-lg);
+    box-shadow: var(--shadow-lg);
+    border: 4px solid var(--bg-card);
+  }
+
+  .ugc-hero-card-1 { transform: translate(-50%, -50%); z-index: 3; }
+  .ugc-hero-card-2 { transform: translate(-112%, -44%) rotate(-7deg); z-index: 2; }
+  .ugc-hero-card-3 { transform: translate(12%, -44%) rotate(7deg); z-index: 1; }
+
+  @media (max-width: 860px) {
+    .ugc-hero { padding-top: var(--space-24); }
+    .ugc-hero-grid { grid-template-columns: 1fr; gap: var(--space-10); }
+    .ugc-hero-stack { height: 360px; }
+    .ugc-hero-card { width: 160px; }
+  }
+
+  @media (max-width: 420px) {
+    .ugc-hero-card-2 { transform: translate(-100%, -44%) rotate(-7deg); }
+    .ugc-hero-card-3 { transform: translate(0%, -44%) rotate(7deg); }
+  }
+
+  /* ---------- Work grid ---------- */
+  .ugc-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-10) var(--space-8);
+  }
+
+  @media (max-width: 960px) {
+    .ugc-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 520px) {
+    .ugc-grid { grid-template-columns: 1fr; max-width: 340px; margin-inline: auto; }
+  }
+
+  .ugc-clip {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ugc-clip-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ugc-clip-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+  }
+
+  .ugc-clip-meta .eyebrow { color: var(--ink-faint); }
+
+  .ugc-clip h3 {
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  .ugc-clip p {
+    font-size: var(--fs-14);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Formats ---------- */
+  .ugc-formats {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-6);
+  }
+
+  .ugc-format {
+    padding: var(--space-6);
+    border: 1px solid var(--rule);
+    background: var(--bg-card);
+    border-radius: var(--r-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .ugc-format h3 {
+    font-size: var(--fs-18, 1.125rem);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .ugc-format p {
+    font-size: var(--fs-14);
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Why ---------- */
+  .ugc-why {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: var(--space-12);
+    align-items: start;
+  }
+
+  .ugc-why .section-head { margin-bottom: 0; }
+
+  .ugc-why-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    font-size: var(--fs-18, 1.125rem);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  .ugc-why-body .card-meta { margin-top: var(--space-2); }
+
+  @media (max-width: 860px) {
+    .ugc-why { grid-template-columns: 1fr; gap: var(--space-6); }
+  }
+
+  /* ---------- Usage ---------- */
+  .ugc-usage {
+    margin: 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .ugc-usage-row {
+    display: grid;
+    grid-template-columns: minmax(180px, 280px) 1fr;
+    gap: var(--space-6);
+    padding-block: var(--space-6);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .ugc-usage dt {
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .ugc-usage dd {
+    margin: 0;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    max-width: 60ch;
+    align-self: center;
+  }
+
+  @media (max-width: 640px) {
+    .ugc-usage-row { grid-template-columns: 1fr; gap: var(--space-2); }
+  }
+
+  /* ---------- Testimonials ---------- */
+  .ugc-quotes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .ugc-quotes blockquote {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .ugc-quotes p {
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    line-height: 1.25;
+    color: var(--ink);
+  }
+
+  .ugc-quotes footer { font-size: var(--fs-14); color: var(--ink-soft); }
+
+  /* ---------- Process ---------- */
+  .ugc-steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-8);
+  }
+
+  .ugc-steps li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .ugc-steps .eyebrow { color: var(--accent); }
+
+  .ugc-steps h3 {
+    font-size: var(--fs-20);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .ugc-steps p {
+    font-size: var(--fs-14);
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- Brief form ---------- */
+  .ugc-brief { max-width: 880px; }
+
+  .ugc-brief .lede a { color: var(--accent); }
+
+  .brief-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    padding: var(--space-8);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-xl);
+    background: var(--bg-card);
+    box-shadow: var(--shadow-sm);
+  }
+
+  @media (max-width: 640px) {
+    .brief-form { padding: var(--space-5); }
+  }
+
+  .brief-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-5);
+  }
+
+  .brief-row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  @media (max-width: 720px) {
+    .brief-row, .brief-row-3 { grid-template-columns: 1fr; }
+  }
+
+  .brief-field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .brief-field label,
+  .brief-field legend {
+    font-size: var(--fs-14);
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .brief-optional { color: var(--ink-faint); font-weight: 400; }
+
+  .brief-field input[type="text"],
+  .brief-field input[type="email"],
+  .brief-field input[type="url"],
+  .brief-field select,
+  .brief-field textarea {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
+    font-size: var(--fs-16);
+    line-height: 1.5;
+    transition: border-color var(--dur-fast) var(--ease-out-quart), box-shadow var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .brief-field textarea { resize: vertical; min-height: 140px; }
+
+  .brief-field input:focus-visible,
+  .brief-field select:focus-visible,
+  .brief-field textarea:focus-visible {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 22%, transparent);
+  }
+
+  .brief-checks {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .brief-checks legend { margin-bottom: var(--space-2); padding: 0; }
+
+  .brief-check-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .brief-check {
+    position: relative;
+    display: inline-flex;
+    cursor: pointer;
+  }
+
+  .brief-check input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  .brief-check span {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--r-pill);
+    font-size: var(--fs-14);
+    color: var(--ink-soft);
+    background: var(--bg);
+    transition: background var(--dur-fast) var(--ease-out-quart), color var(--dur-fast) var(--ease-out-quart), border-color var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .brief-check input:checked + span {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg);
+  }
+
+  .brief-check input:focus-visible + span {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .brief-hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .brief-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .brief-submit:disabled { opacity: 0.7; cursor: progress; }
+
+  .brief-status {
+    font-size: var(--fs-14);
+    margin: 0;
+  }
+
+  .brief-status[data-type="success"] { color: var(--accent); }
+  .brief-status[data-type="error"] { color: var(--accent-hot); }
+</style>

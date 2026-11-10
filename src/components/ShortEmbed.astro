@@ -1,0 +1,102 @@
+---
+// Click-to-play YouTube Short. Renders a local poster as a link to the Short,
+// and swaps in the youtube-nocookie player only when someone presses play,
+// so the page makes no YouTube requests until then. Without JS the link opens
+// the Short on YouTube.
+interface Props {
+  id: string;
+  title: string;
+  poster: string;
+  posterAlt: string;
+}
+
+const { id, title, poster, posterAlt } = Astro.props;
+---
+
+<div class="short-embed" data-short-id={id} data-short-title={title}>
+  <a class="short-embed-poster" href={`https://www.youtube.com/shorts/${id}`} target="_blank" rel="noopener noreferrer" aria-label={`Play "${title}"`}>
+    <img src={poster} alt={posterAlt} width="540" height="960" loading="lazy" decoding="async" />
+    <span class="short-embed-play" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>
+    </span>
+  </a>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.short-embed[data-short-id]').forEach((wrap) => {
+    const link = wrap.querySelector<HTMLAnchorElement>('.short-embed-poster');
+    if (!link) return;
+    link.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      event.preventDefault();
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${wrap.dataset.shortId}?autoplay=1&playsinline=1&rel=0`;
+      iframe.title = wrap.dataset.shortTitle ?? 'YouTube Short';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allowFullscreen = true;
+      wrap.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>
+
+<style>
+  .short-embed {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--bg-soft);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .short-embed-poster {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .short-embed img,
+  .short-embed :global(iframe) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    object-fit: cover;
+  }
+
+  .short-embed img {
+    transition: transform var(--dur-slow) var(--ease-out-quart);
+  }
+
+  .short-embed-poster:hover img { transform: scale(1.03); }
+
+  .short-embed-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 56px;
+    height: 56px;
+    margin: -28px 0 0 -28px;
+    display: grid;
+    place-items: center;
+    padding-left: 3px;
+    border-radius: 50%;
+    background: color-mix(in oklab, #14110e 62%, transparent);
+    color: #f8f5f1;
+    backdrop-filter: blur(6px);
+    transition: transform var(--dur-fast) var(--ease-out-quart), background var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .short-embed-poster:hover .short-embed-play,
+  .short-embed-poster:focus-visible .short-embed-play {
+    transform: scale(1.08);
+    background: var(--accent-hot);
+  }
+
+  .short-embed-poster:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: -2px;
+  }
+</style>
