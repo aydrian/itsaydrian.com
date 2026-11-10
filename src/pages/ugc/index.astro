@@ -4,7 +4,7 @@ import ShortEmbed from '../../components/ShortEmbed.astro';
 import { UGC_CLIPS, UGC_ON_LOCATION, UGC_TESTIMONIALS } from '../../data/ugc-portfolio';
 
 const pageTitle = 'UGC Creator for Travel, Food & Lifestyle Brands';
-const pageDescription = "UGC creator for TikTok, Reels and Shorts: unboxings, reviews, try-ons and voiceover ads that sound like a customer. Shooting on location in Asia now.";
+const pageDescription = "I make UGC for TikTok, Reels and Shorts: unboxings, reviews, try-ons and voiceover ads that sound like a real customer. I'm shooting on location in Asia now.";
 const SITE = 'https://itsaydrian.com';
 const PERSON_REF = { '@type': 'Person', '@id': `${SITE}/#person`, name: 'Aydrian Howard', url: `${SITE}/` };
 
@@ -15,9 +15,9 @@ const heroAlt = 'Aydrian taking a selfie with a cocktail at a marble table in a 
 const FORMATS = [
   { title: 'Talking head', body: 'Reviews and testimonials straight to camera, the way a customer would tell a friend.' },
   { title: 'Unboxing and hauls', body: 'First impressions on camera, with the product in frame and the details legible.' },
-  { title: 'Voiceover over b-roll', body: 'Shot on location, cut to a script, with captions that match the edit.' },
-  { title: 'Shop-along and try-on', body: 'In the store, in the hotel, in the product. The walk-through format for retail and travel.' },
-  { title: 'Hook variations', body: 'Three openers on the same body, so your ads team can test the first three seconds.' },
+  { title: 'Voiceover over b-roll', body: 'I shoot on location, cut the footage to your script and caption it to match.' },
+  { title: 'Shop-along and try-on', body: 'I walk viewers through a store or a hotel, or try the product on. It works well for retail and travel.' },
+  { title: 'Hook variations', body: 'Three different openings on the same video, so your ads team can test the first three seconds.' },
   { title: 'Captions and post copy', body: 'On-screen captions and a post caption written to match the cut, ready to publish.' },
 ];
 
@@ -56,8 +56,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 <Layout
   title={pageTitle}
   description={pageDescription}
-  ogImage="/assets/og/ugc.jpg"
-  ogImageAlt="Share card: Sounds like a customer. Not a commercial. Scripted, shot and edited by one person."
+  ogImage="/assets/og/ugc-2.jpg"
+  ogImageAlt="Share card: I make UGC videos for travel, food and lifestyle brands. I write, shoot and edit every video myself."
   ogImageWidth={1200}
   ogImageHeight={630}
   ogImageType="image/jpeg"
@@ -74,7 +74,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
         serviceType: 'UGC video production',
         description: pageDescription,
         url: `${SITE}/ugc/`,
-        image: `${SITE}/assets/og/ugc.jpg`,
+        image: `${SITE}/assets/og/ugc-2.jpg`,
         provider: PERSON_REF,
         areaServed: 'Worldwide',
         availableChannel: { '@type': 'ServiceChannel', serviceUrl: `${SITE}/ugc/#brief` },
@@ -120,37 +120,35 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     </div>
 
     <div class="container hero-inner">
-      <span class="eyebrow rise" data-delay="1" style="color:var(--ink-on-image);">UGC creator · Travel, food and lifestyle</span>
-      <h1 id="ugc-hero-title" class="hero-title rise" data-delay="2">
-        Sounds like a customer.<br><em>Not a commercial.</em>
+      <h1 id="ugc-hero-title" class="hero-title rise" data-delay="1">
+        I make UGC videos for <em>travel, food and lifestyle brands.</em>
       </h1>
-      <p class="hero-tagline rise" data-delay="3">
-        I'm Aydrian, a one-person content studio. I write, shoot and edit every video myself, so you deal with one
-        accountable person from the brief to the final export.
+      <p class="hero-tagline rise" data-delay="2">
+        I'm Aydrian. I write, shoot and edit every video myself, and they sound like a customer telling a friend about
+        your product. You work with me from the brief to the final file.
       </p>
-      <div class="hero-cta rise" data-delay="4">
+      <div class="hero-cta rise" data-delay="3">
         <a class="btn btn-primary btn-lg" href="#brief">
           Send a brief
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
         <a class="btn btn-ghost btn-lg" href="#work">See the work</a>
       </div>
-      <p class="ugc-location rise" data-delay="4">
+      <p class="ugc-location rise" data-delay="3">
         <span class="ugc-location-dot" aria-hidden="true"></span>
         On location in {placesText} through {UGC_ON_LOCATION.through}
       </p>
     </div>
 
-    <a href="#work" class="hero-scroll" aria-label="Read on — scroll to the work">Read on</a>
+    <a href="#work" class="hero-scroll" aria-label="Scroll to the work">Read on</a>
   </section>
 
   <!-- ============================== WORK ============================== -->
   <section class="section section-soft" id="work" aria-labelledby="work-heading">
     <div class="container">
       <header class="section-head rise">
-        <span class="eyebrow">The work</span>
-        <h2 id="work-heading" class="h2">Recent UGC videos, <em>shot and cut by me.</em></h2>
-        <p class="lede">Each one is a format you can brief. Press play to watch it here.</p>
+        <h2 id="work-heading" class="h2">Recent videos <em>I shot and edited.</em></h2>
+        <p class="lede">Each one shows a format you can book. Press play to watch it here.</p>
       </header>
 
       <ul class="ugc-grid" role="list">
@@ -160,7 +158,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
             <div class="ugc-clip-body">
               <div class="ugc-clip-meta">
                 <span class="pill pill-cool">{clip.category}</span>
-                <span class="eyebrow">{clip.format}</span>
+                <span class="ugc-clip-format">{clip.format}</span>
               </div>
               <h3>{clip.title}</h3>
               <p>{clip.note}</p>
@@ -176,9 +174,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class="section" id="formats" aria-labelledby="formats-heading">
     <div class="container">
       <header class="section-head rise">
-        <span class="eyebrow">What I make</span>
-        <h2 id="formats-heading" class="h2">Formats your team <em>already knows how to use.</em></h2>
-        <p class="lede">Vertical, captioned, and ready for TikTok, Instagram Reels, YouTube Shorts or your ad account.</p>
+        <h2 id="formats-heading" class="h2">What I <em>make for brands.</em></h2>
+        <p class="lede">Every video is vertical and captioned, ready for TikTok, Instagram Reels, YouTube Shorts or your ad account.</p>
       </header>
 
       <ul class="ugc-formats" role="list">
@@ -196,19 +193,19 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class="section section-soft" id="why" aria-labelledby="why-heading">
     <div class="container ugc-why">
       <header class="section-head rise">
-        <span class="eyebrow">Who you're getting</span>
-        <h2 id="why-heading" class="h2">The customer <em>most rosters skip.</em></h2>
+        <h2 id="why-heading" class="h2">Who you'll be <em>working with.</em></h2>
       </header>
       <div class="ugc-why-body">
         <p class="rise" data-delay="1">
-          I'm an elder millennial, over 40, late-diagnosed neurodivergent, and traveling solo across Asia with a
-          camera in my pocket. If your buyer is a Gen X or millennial adult with money and no patience for ads
-          that talk down to them, I sound like them because I am one.
+          I'm an elder millennial: over 40, diagnosed neurodivergent late in life, and traveling solo across Asia
+          with a camera in my pocket. Most UGC rosters don't have anyone like me. If your buyer is a Gen X or
+          millennial adult with money and no patience for ads that talk down to them, I sound like them because I
+          am one.
         </p>
         <p class="rise" data-delay="2">
           Before this I spent twenty years in <a href="/consulting/">tech</a> explaining complicated products in plain
-          language, and these days I also plan trips as a <a href="/travel/">travel advisor</a>. That habit is why the
-          benefit lands in the first three seconds and the claim holds up to a skeptical viewer.
+          language, and I also plan trips as a <a href="/travel/">travel advisor</a>. So I know how to get the main
+          benefit into the first three seconds, and how to make a claim a skeptical viewer will believe.
         </p>
         <ul class="card-meta rise" data-delay="3" role="list" aria-label="Content areas">
           <li class="pill">Travel and hotels</li>
@@ -226,9 +223,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class="section" id="usage" aria-labelledby="usage-heading">
     <div class="container">
       <header class="section-head rise">
-        <span class="eyebrow">Usage and add-ons</span>
-        <h2 id="usage-heading" class="h2">Clear rights, <em>priced up front.</em></h2>
-        <p class="lede">Every quote spells out where the video can run and for how long, so nobody gets surprised later.</p>
+        <h2 id="usage-heading" class="h2">Usage rights <em>and add-ons.</em></h2>
+        <p class="lede">Every quote spells out where the video can run and for how long, and what each option costs.</p>
       </header>
 
       <dl class="ugc-usage">
@@ -242,7 +238,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
         </div>
         <div class="ugc-usage-row rise" data-delay="3">
           <dt>Whitelisting and Spark Ads</dt>
-          <dd>Run the ad from my account so it reads as a creator post, not a brand post.</dd>
+          <dd>Run the ad from my account, so it shows up in feeds as my post.</dd>
         </div>
         <div class="ugc-usage-row rise" data-delay="4">
           <dt>Raw footage</dt>
@@ -256,8 +252,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     <section class="section section-soft" id="testimonials" aria-labelledby="testimonials-heading">
       <div class="container">
         <header class="section-head rise">
-          <span class="eyebrow">From brands</span>
-          <h2 id="testimonials-heading" class="h2">What it's like <em>to work together.</em></h2>
+          <h2 id="testimonials-heading" class="h2">What brands <em>have said.</em></h2>
         </header>
         <ul class="ugc-quotes" role="list">
           {UGC_TESTIMONIALS.map((t) => (
@@ -277,28 +272,27 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class={`section ${UGC_TESTIMONIALS.length > 0 ? '' : 'section-soft'}`} id="process" aria-labelledby="process-heading">
     <div class="container">
       <header class="section-head rise">
-        <span class="eyebrow">How it works</span>
-        <h2 id="process-heading" class="h2">Brief in. <em>First cut back.</em></h2>
+        <h2 id="process-heading" class="h2">How a project <em>works.</em></h2>
       </header>
 
       <ol class="ugc-steps" role="list">
         <li class="rise" data-delay="1">
-          <span class="eyebrow">01</span>
+          <span class="ugc-step-num" aria-hidden="true">01</span>
           <h3>Brief</h3>
-          <p>Tell me the product, the promise and where the video will run. The form below covers it.</p>
+          <p>Tell me about the product, what you want viewers to take away and where the video will run. The form below asks for all of it.</p>
         </li>
         <li class="rise" data-delay="2">
-          <span class="eyebrow">02</span>
+          <span class="ugc-step-num" aria-hidden="true">02</span>
           <h3>Quote and plan</h3>
           <p>I reply with a price, the usage terms, and a short script or shot list for you to approve.</p>
         </li>
         <li class="rise" data-delay="3">
-          <span class="eyebrow">03</span>
+          <span class="ugc-step-num" aria-hidden="true">03</span>
           <h3>Shoot and first cut</h3>
           <p>You ship the product, I shoot it on location and send back a first cut with captions.</p>
         </li>
         <li class="rise" data-delay="4">
-          <span class="eyebrow">04</span>
+          <span class="ugc-step-num" aria-hidden="true">04</span>
           <h3>Revise and deliver</h3>
           <p>One round of revisions is included. Final files come in the formats you asked for.</p>
         </li>
@@ -310,8 +304,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class="section" id="brief" aria-labelledby="brief-heading">
     <div class="container ugc-brief">
       <header class="section-head rise">
-        <span class="eyebrow">Send a brief</span>
-        <h2 id="brief-heading" class="h2">Tell me the product <em>and the promise.</em></h2>
+        <h2 id="brief-heading" class="h2">Send me <em>a brief.</em></h2>
         <p class="lede">
           Rough is fine. I'll come back with a quote and a plan. Prefer email? Write to{' '}
           <a href="mailto:howdy@itsaydrian.com?subject=UGC%20brief">howdy@itsaydrian.com</a>.
@@ -398,8 +391,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   <section class="section section-soft" id="faq" aria-labelledby="faq-heading">
     <div class="container ugc-faq">
       <header class="section-head rise">
-        <span class="eyebrow">Questions brands ask</span>
-        <h2 id="faq-heading" class="h2">Hiring a UGC creator, <em>answered.</em></h2>
+        <h2 id="faq-heading" class="h2">Questions brands <em>ask me.</em></h2>
       </header>
       <div class="ugc-faq-list">
         {FAQS.map((f, i) => (
@@ -567,7 +559,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     flex-wrap: wrap;
   }
 
-  .ugc-clip-meta .eyebrow { color: var(--ink-faint); }
+  .ugc-clip-format { font-size: var(--fs-14); color: var(--ink-faint); }
 
   .ugc-clip h3 {
     font-family: var(--font-display);
@@ -717,7 +709,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     gap: var(--space-3);
   }
 
-  .ugc-steps .eyebrow { color: var(--accent); }
+  .ugc-step-num { font-size: var(--fs-14); font-weight: 600; color: var(--accent); }
 
   .ugc-steps h3 {
     font-size: var(--fs-20);

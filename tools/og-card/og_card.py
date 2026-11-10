@@ -18,7 +18,7 @@ Card config (paths are relative to the repo root):
       "photo": "public/images/<post>/<photo>.jpg",
       "focusX": 0.5,            # optional, 0 = left edge, 1 = right edge of the crop
       "focusY": 0.5,            # optional, 0 = top, 1 = bottom
-      "eyebrow": "Japan · Day trip from Osaka",
+      "eyebrow": "Japan · Day trip from Osaka",  # optional
       "headline": "Post title, ideally under ~45 characters",
       "subline": "One sentence that says what the reader gets.",
       "chips": [                # optional, up to ~6
@@ -154,18 +154,21 @@ def render(card):
 
     # Largest headline (max 3 lines) whose whole text block still fits between
     # the domain line and the chip row, so text never runs into the chips.
+    eyebrow = card.get("eyebrow", "").strip()
+    eyebrow_h = 48 if eyebrow else 0
     start = 88
     while True:
         headline_font, headline_lines = fit_headline(draw, card["headline"], COL_W, start=start)
         headline_lh = int(headline_font.size * 1.02)
-        block = 48 + headline_lh * len(headline_lines) + 22 + sub_lh * len(sub_lines)
+        block = eyebrow_h + headline_lh * len(headline_lines) + 22 + sub_lh * len(sub_lines)
         if block <= bottom - top or headline_font.size <= 56:
             break
         start = headline_font.size - 2
     y = top + max(0, (bottom - top - block) // 2)
 
-    tracked(draw, (PAD, y), card["eyebrow"].upper(), eyebrow_font, HOT, 2.2)
-    y += 48
+    if eyebrow:
+        tracked(draw, (PAD, y), eyebrow.upper(), eyebrow_font, HOT, 2.2)
+    y += eyebrow_h
     for line in headline_lines:
         draw.text((PAD - 2, y - int(headline_font.size * 0.18)), line, font=headline_font, fill=INK)
         y += headline_lh
