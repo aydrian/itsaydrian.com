@@ -538,7 +538,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   }
 
   .ugc-format h3 {
-    font-size: var(--fs-18, 1.125rem);
+    font-size: var(--fs-18);
     font-weight: 600;
     color: var(--ink);
   }
@@ -562,8 +562,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   .ugc-why-body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-5);
-    font-size: var(--fs-18, 1.125rem);
+    gap: var(--space-4);
+    font-size: var(--fs-18);
     line-height: 1.65;
     color: var(--ink-soft);
   }
@@ -680,13 +680,13 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   }
 
   @media (max-width: 640px) {
-    .brief-form { padding: var(--space-5); }
+    .brief-form { padding: var(--space-4); }
   }
 
   .brief-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
 
   .brief-row-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -726,6 +726,11 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     line-height: 1.5;
     transition: border-color var(--dur-fast) var(--ease-out-quart), box-shadow var(--dur-fast) var(--ease-out-quart);
   }
+
+  .brief-field input[type="text"],
+  .brief-field input[type="email"],
+  .brief-field input[type="url"],
+  .brief-field select { height: 50px; }
 
   .brief-field textarea { resize: vertical; min-height: 140px; }
 
