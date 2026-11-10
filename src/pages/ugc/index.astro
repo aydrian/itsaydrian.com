@@ -7,7 +7,7 @@ const pageDescription = "UGC video for brands: unboxings, reviews, try-ons and v
 
 const places = UGC_ON_LOCATION.places;
 const placesText = places.length > 1 ? `${places.slice(0, -1).join(', ')} and ${places[places.length - 1]}` : places[0];
-const heroPosters = UGC_CLIPS.slice(0, 3);
+const heroAlt = 'Aydrian sitting on a hotel bed against a lime-green wall, opening a small packet from a pop-up haul on camera.';
 
 const FORMATS = [
   { title: 'Talking head', body: 'Reviews and testimonials straight to camera, the way a customer would tell a friend.' },
@@ -25,7 +25,13 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 <Layout
   title="UGC for Brands"
   description={pageDescription}
-  preloadImage={heroPosters[0] ? `/assets/ugc/${heroPosters[0].slug}.jpg` : undefined}
+  ogImage="/assets/ugc-card.jpg"
+  ogImageAlt={heroAlt}
+  ogImageWidth={1200}
+  ogImageHeight={630}
+  ogImageType="image/jpeg"
+  overlayHeader={true}
+  preloadImage="/assets/ugc-hero.jpg"
 >
   <script slot="head" type="application/ld+json" set:html={JSON.stringify({
     '@context': 'https://schema.org',
@@ -38,44 +44,37 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
   })} />
 
   <!-- ============================== HERO ============================== -->
-  <section class="ugc-hero" aria-labelledby="ugc-hero-title">
-    <div class="container ugc-hero-grid">
-      <div class="ugc-hero-copy">
-        <span class="eyebrow rise" data-delay="1">UGC for brands</span>
-        <h1 id="ugc-hero-title" class="display ugc-hero-title rise" data-delay="2">
-          Sounds like a customer. <em>Not a commercial.</em>
-        </h1>
-        <p class="lede rise" data-delay="3">
-          I'm Aydrian, a one-person content studio. I write, shoot and edit every video myself, so you deal with one
-          accountable person from the brief to the final export.
-        </p>
-        <div class="ugc-hero-cta rise" data-delay="4">
-          <a class="btn btn-primary btn-lg" href="#brief">
-            Send a brief
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </a>
-          <a class="btn btn-ghost btn-lg" href="#work">See the work</a>
-        </div>
-        <p class="ugc-location rise" data-delay="5">
-          <span class="ugc-location-dot" aria-hidden="true"></span>
-          On location in {placesText} through {UGC_ON_LOCATION.through}
-        </p>
-      </div>
-
-      <div class="ugc-hero-stack" aria-hidden="true">
-        {heroPosters.map((clip, i) => (
-          <img
-            src={`/assets/ugc/${clip.slug}.jpg`}
-            alt=""
-            width="540"
-            height="960"
-            class={`ugc-hero-card ugc-hero-card-${i + 1}`}
-            fetchpriority={i === 0 ? 'high' : undefined}
-            loading={i === 0 ? 'eager' : 'lazy'}
-          />
-        ))}
-      </div>
+  <section class="hero ugc-hero" aria-labelledby="ugc-hero-title">
+    <div class="hero-image">
+      <picture>
+        <source media="(max-width: 800px)" srcset="/assets/ugc-hero-900.jpg">
+        <img src="/assets/ugc-hero.jpg" alt={heroAlt} width="1920" height="1080" fetchpriority="high">
+      </picture>
     </div>
+
+    <div class="container hero-inner">
+      <span class="eyebrow rise" data-delay="1" style="color:var(--ink-on-image);">UGC for brands</span>
+      <h1 id="ugc-hero-title" class="hero-title rise" data-delay="2">
+        Sounds like a customer.<br><em>Not a commercial.</em>
+      </h1>
+      <p class="hero-tagline rise" data-delay="3">
+        I'm Aydrian, a one-person content studio. I write, shoot and edit every video myself, so you deal with one
+        accountable person from the brief to the final export.
+      </p>
+      <div class="hero-cta rise" data-delay="4">
+        <a class="btn btn-primary btn-lg" href="#brief">
+          Send a brief
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </a>
+        <a class="btn btn-ghost btn-lg" href="#work">See the work</a>
+      </div>
+      <p class="ugc-location rise" data-delay="4">
+        <span class="ugc-location-dot" aria-hidden="true"></span>
+        On location in {placesText} through {UGC_ON_LOCATION.through}
+      </p>
+    </div>
+
+    <a href="#work" class="hero-scroll" aria-label="Read on — scroll to the work">Read on</a>
   </section>
 
   <!-- ============================== WORK ============================== -->
@@ -379,46 +378,59 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 
 <style>
   /* ---------- Hero ---------- */
-  .ugc-hero {
-    padding-block: calc(var(--space-24) + var(--space-8)) var(--space-24);
-    overflow: hidden;
+  /* The source shot is a centered tripod frame, so on wide screens the photo
+     takes the right side of the hero and fades into the dark background behind
+     the type, instead of running full-bleed under it. */
+  .ugc-hero .hero-image { overflow: hidden; }
+  .ugc-hero .hero-image picture { display: block; height: 100%; }
+  .ugc-hero .hero-image img { object-position: 50% 35%; }
+
+  @media (min-width: 900px) {
+    .ugc-hero .hero-image {
+      left: 40%;
+      /* Fade the photo itself into the hero background, so there is no edge to show. */
+      -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 20%, #000 48%);
+      mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.55) 20%, #000 48%);
+    }
+    .ugc-hero .hero-image::after {
+      background:
+        linear-gradient(90deg, rgba(10, 12, 16, 0.6) 0%, rgba(10, 12, 16, 0) 45%),
+        linear-gradient(180deg, rgba(8, 10, 15, 0.55) 0%, rgba(8, 10, 15, 0) 22%),
+        linear-gradient(180deg, rgba(8, 10, 15, 0) 62%, rgba(8, 10, 15, 0.6) 88%, rgba(8, 10, 15, 0.9) 100%);
+    }
   }
 
-  .ugc-hero-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-    gap: var(--space-16);
-    align-items: center;
+  @media (min-width: 900px) and (max-width: 1199px) {
+    .ugc-hero .hero-image { left: 46%; }
   }
 
-  .ugc-hero-copy {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-6);
-  }
-
-  .ugc-hero-title {
-    font-size: clamp(2.75rem, 6vw, 5rem);
-    line-height: 0.98;
-    max-width: 13ch;
-  }
-
-  .ugc-hero-title em { font-style: italic; color: var(--accent); }
-
-  .ugc-hero-copy .lede { max-width: 46ch; }
-
-  .ugc-hero-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
+  @media (max-width: 899px) {
+    /* Photo stacked above the type: it fills the top of the hero and fades
+       out where the headline starts, so the text never sits on the face. */
+    .ugc-hero { min-height: auto; }
+    .ugc-hero .hero-image {
+      bottom: auto;
+      height: 58vh;
+      height: 58svh;
+      -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
+    }
+    .ugc-hero .hero-image img { object-position: 50% 30%; }
+    .ugc-hero .hero-inner { padding-top: calc(48vh - 88px); padding-top: calc(48svh - 88px); }
+    .ugc-hero .hero-image::after {
+      background:
+        linear-gradient(180deg, rgba(8, 10, 15, 0.5) 0%, rgba(8, 10, 15, 0) 24%, rgba(10, 12, 16, 0.4) 60%, #0a0c10 100%);
+    }
   }
 
   .ugc-location {
+    margin-top: var(--space-8);
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
     font-size: var(--fs-14);
-    color: var(--ink-soft);
+    color: rgba(244, 239, 238, 0.85);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   }
 
   .ugc-location-dot {
@@ -426,42 +438,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     height: 8px;
     border-radius: 50%;
     background: var(--accent-hot);
-    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-hot) 20%, transparent);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-hot) 30%, transparent);
     flex-shrink: 0;
-  }
-
-  .ugc-hero-stack {
-    position: relative;
-    height: clamp(420px, 46vw, 560px);
-  }
-
-  .ugc-hero-card {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: clamp(170px, 18vw, 240px);
-    height: auto;
-    aspect-ratio: 9 / 16;
-    object-fit: cover;
-    border-radius: var(--r-lg);
-    box-shadow: var(--shadow-lg);
-    border: 4px solid var(--bg-card);
-  }
-
-  .ugc-hero-card-1 { transform: translate(-50%, -50%); z-index: 3; }
-  .ugc-hero-card-2 { transform: translate(-112%, -44%) rotate(-7deg); z-index: 2; }
-  .ugc-hero-card-3 { transform: translate(12%, -44%) rotate(7deg); z-index: 1; }
-
-  @media (max-width: 860px) {
-    .ugc-hero { padding-top: var(--space-24); }
-    .ugc-hero-grid { grid-template-columns: 1fr; gap: var(--space-10); }
-    .ugc-hero-stack { height: 360px; }
-    .ugc-hero-card { width: 160px; }
-  }
-
-  @media (max-width: 420px) {
-    .ugc-hero-card-2 { transform: translate(-100%, -44%) rotate(-7deg); }
-    .ugc-hero-card-3 { transform: translate(0%, -44%) rotate(7deg); }
   }
 
   /* ---------- Work grid ---------- */
