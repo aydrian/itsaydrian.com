@@ -1,0 +1,16 @@
+{
+  "out": "public/images/kaiyukan/kaiyukan-og.jpg",
+  "photo": "public/images/kaiyukan/kaiyukan-ray-selfie.jpg",
+  "focusX": 0.5,
+  "focusY": 0.35,
+  "eyebrow": "Japan · Osaka Aquarium Kaiyukan",
+  "headline": "The Kaiyukan Collection Log",
+  "subline": "14 catches, a whale shark, and the route through Osaka Aquarium.",
+  "chips": [
+    { "src": "public/images/kaiyukan/kaiyukan-whale-shark-1200.webp", "x": 432, "y": 262, "r": 175 },
+    { "src": "public/images/kaiyukan/kaiyukan-garden-eels-1200.webp", "x": 620, "y": 880, "r": 280 },
+    { "src": "public/images/kaiyukan/kaiyukan-falkland-penguins-1200.webp", "x": 240, "y": 800, "r": 230 },
+    { "src": "public/images/kaiyukan/kaiyukan-jellyfish-1200.webp", "x": 470, "y": 1000, "r": 280 },
+    { "src": "public/images/kaiyukan/kaiyukan-jinbei-ice-cream-1200.webp", "x": 990, "y": 1030, "r": 185 }
+  ]
+}
