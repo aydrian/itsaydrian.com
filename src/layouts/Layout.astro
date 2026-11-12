@@ -85,6 +85,24 @@ import '../styles/global.css';
       <script is:inline set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}');`}></script>
     </>
   )}
+  <script>
+    function trackOutbound(event: MouseEvent) {
+      const target = event.target as Element | null;
+      const anchor = target && target.closest ? target.closest("a[data-outbound]") : null;
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (typeof (window as any).gtag !== "function") return;
+      (window as any).gtag("event", "outbound_click", {
+        link_url: anchor.href,
+        link_label: anchor.dataset.label ?? "",
+        link_section: anchor.dataset.outbound ?? "",
+        product_slug: anchor.dataset.product ?? "",
+        page_path: location.pathname,
+        transport_type: "beacon",
+      });
+    }
+    document.addEventListener("click", trackOutbound, true);
+    document.addEventListener("auxclick", trackOutbound, true);
+  </script>
   <script is:inline>
     (function () {
       try {

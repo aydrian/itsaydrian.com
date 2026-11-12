@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PickCard from "../../components/PickCard.astro";
-import PickTracking from "../../components/PickTracking.astro";
 import { CATEGORIES, PICKS, type PickCategory, AFFILIATE_DISCLOSURE } from "../../data/atticus-picks";
 
 export function getStaticPaths() {
@@ -88,8 +87,6 @@ const itemListJsonLd = {
 
     <p class="pick-back"><a class="btn-link" href="/atticus-list/">See all {PICKS.length} picks</a></p>
   </div>
-
-  <PickTracking />
 </Layout>
 
 <style>

@@ -154,19 +154,3 @@ const RENDER_ORDER: LinkSection[] = [
     margin-top: var(--space-6);
   }
 </style>
-
-<script>
-  document.addEventListener("click", (event) => {
-    const target = event.target;
-    const a = target && target.closest ? target.closest("a[data-outbound]") : null;
-    if (!a) return;
-    if (typeof gtag === "function") {
-      gtag("event", "outbound_click", {
-        link_url: a.href,
-        link_label: a.dataset.label,
-        link_section: a.dataset.outbound,
-        transport_type: "beacon"
-      });
-    }
-  });
-</script>
