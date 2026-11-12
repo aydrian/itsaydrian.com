@@ -1,7 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import PickCard from "../../components/PickCard.astro";
-import PickTracking from "../../components/PickTracking.astro";
 import { CATEGORIES, PICKS, REVIEWED, AFFILIATE_DISCLOSURE } from "../../data/atticus-picks";
 
 const pageTitle = "Atticus's Favorite Things";
@@ -122,8 +121,6 @@ const itemListJsonLd = {
 
     <p class="body-sm pick-freshness">{PICKS.length} picks · reviewed {REVIEWED}</p>
   </div>
-
-  <PickTracking />
 </Layout>
 
 <style>
