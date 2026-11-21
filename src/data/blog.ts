@@ -3,7 +3,12 @@ export interface BlogVideo {
   id: string;
   title: string;
   description?: string;
-  /** ISO 8601 date the video was published */
+  /**
+   * When the video was published, ISO 8601. Best as a full datetime with an
+   * offset (e.g. "2026-11-11T09:30:00-08:00", from the YouTube watch page).
+   * A bare date ("2026-11-11") still works: toSchemaDateTime() turns it into
+   * midnight UTC so Google's VideoObject check gets a time and a timezone.
+   */
   uploadDate: string;
   /** ISO 8601 duration, e.g. PT8M29S */
   duration?: string;
@@ -33,6 +38,20 @@ export interface BlogPost {
   video?: BlogVideo;
   draft?: boolean;
   linksPage?: { label?: string; description?: string } | boolean;
+}
+
+/**
+ * Format a frontmatter date for schema.org DateTime fields such as
+ * VideoObject.uploadDate. Google flags a bare date there ("Invalid datetime
+ * value" and "missing a timezone"), so a date-only value becomes midnight UTC.
+ * Values that already carry a time are passed through unchanged. YAML turns an
+ * unquoted date into a Date object, so that case is handled too.
+ */
+export function toSchemaDateTime(value: string | Date): string {
+  if (value instanceof Date) return value.toISOString().replace(/\.\d{3}Z$/, 'Z');
+  const trimmed = String(value).trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return `${trimmed}T00:00:00Z`;
+  return trimmed;
 }
 
 export interface GetAllPostsOptions {

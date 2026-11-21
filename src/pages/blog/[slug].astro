@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { getAllPosts, getPostBySlug } from '../../data/blog';
+import { getAllPosts, getPostBySlug, toSchemaDateTime } from '../../data/blog';
 import type { BlogPost } from '../../data/blog';
 
 export async function getStaticPaths() {
@@ -60,7 +60,7 @@ const videoSchema = post.video && {
   name: post.video.title,
   description: post.video.description ?? metaDescription,
   thumbnailUrl: [`https://i.ytimg.com/vi/${post.video.id}/maxresdefault.jpg`],
-  uploadDate: post.video.uploadDate,
+  uploadDate: toSchemaDateTime(post.video.uploadDate),
   ...(post.video.duration ? { duration: post.video.duration } : {}),
   contentUrl: `https://www.youtube.com/watch?v=${post.video.id}`,
   embedUrl: `https://www.youtube.com/embed/${post.video.id}`,
