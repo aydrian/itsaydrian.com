@@ -87,18 +87,44 @@ import '../styles/global.css';
   )}
   <script>
     function trackOutbound(event: MouseEvent) {
-      const target = event.target as Element | null;
-      const anchor = target && target.closest ? target.closest("a[data-outbound]") : null;
-      if (!(anchor instanceof HTMLAnchorElement)) return;
-      if (typeof (window as any).gtag !== "function") return;
-      (window as any).gtag("event", "outbound_click", {
-        link_url: anchor.href,
-        link_label: anchor.dataset.label ?? "",
-        link_section: anchor.dataset.outbound ?? "",
-        product_slug: anchor.dataset.product ?? "",
-        page_path: location.pathname,
-        transport_type: "beacon",
-      });
+      try {
+        const target = event.target as Element | null;
+        const anchor = target && target.closest ? target.closest("a[href]") : null;
+        if (!(anchor instanceof HTMLAnchorElement)) return;
+
+        const href = anchor.getAttribute("href") ?? "";
+        if (!href || href.startsWith("#")) return;
+        if (/^(mailto|tel|javascript):/i.test(href)) return;
+
+        if (typeof (window as any).gtag !== "function") return;
+
+        const textLabel = anchor.textContent?.trim().replace(/\s+/g, " ").slice(0, 60) ?? "";
+        const label = anchor.dataset.label || textLabel || anchor.getAttribute("aria-label") || "";
+
+        if (anchor.dataset.cta) {
+          (window as any).gtag("event", "cta_click", {
+            cta_id: anchor.dataset.cta,
+            cta_label: label,
+            link_url: anchor.href,
+            cta_location: location.pathname,
+            transport_type: "beacon",
+          });
+        }
+
+        const url = new URL(anchor.href, location.href);
+        if (url.hostname === location.hostname) return;
+
+        (window as any).gtag("event", "outbound_click", {
+          link_url: anchor.href,
+          link_label: label,
+          link_section: anchor.dataset.outbound ?? "auto",
+          product_slug: anchor.dataset.product ?? "",
+          page_path: location.pathname,
+          transport_type: "beacon",
+        });
+      } catch {
+        // never let tracking break a click
+      }
     }
     document.addEventListener("click", trackOutbound, true);
     document.addEventListener("auxclick", trackOutbound, true);

@@ -38,6 +38,7 @@ export interface BlogPost {
   video?: BlogVideo;
   draft?: boolean;
   linksPage?: { label?: string; description?: string } | boolean;
+  cta?: boolean;
 }
 
 /**
@@ -85,6 +86,7 @@ interface MdxModule {
     slug?: string;
     draft?: boolean;
     linksPage?: { label?: string; description?: string } | boolean;
+    cta?: boolean;
     [key: string]: any;
   };
   Content: any;
@@ -137,6 +139,7 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       video: fm.video,
       draft: !!fm.draft,
       linksPage: fm.linksPage,
+      cta: fm.cta,
     });
   }
 

@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PostCta from '../../components/PostCta.astro';
 import { getAllPosts, getPostBySlug, toSchemaDateTime } from '../../data/blog';
 import type { BlogPost } from '../../data/blog';
 
@@ -98,6 +99,8 @@ const videoSchema = post.video && {
     <div class="prose">
       {Content ? <Content /> : <Fragment set:html={post.fullContent} />}
     </div>
+
+    {!isDraft && post.cta !== false && <PostCta />}
   </article>
 </Layout>
 
