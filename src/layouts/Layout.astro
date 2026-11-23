@@ -96,13 +96,23 @@ import '../styles/global.css';
         if (!href || href.startsWith("#")) return;
         if (/^(mailto|tel|javascript):/i.test(href)) return;
 
-        const url = new URL(anchor.href, location.href);
-        if (url.hostname === location.hostname) return;
-
         if (typeof (window as any).gtag !== "function") return;
 
         const textLabel = anchor.textContent?.trim().replace(/\s+/g, " ").slice(0, 60) ?? "";
         const label = anchor.dataset.label || textLabel || anchor.getAttribute("aria-label") || "";
+
+        if (anchor.dataset.cta) {
+          (window as any).gtag("event", "cta_click", {
+            cta_id: anchor.dataset.cta,
+            cta_label: label,
+            link_url: anchor.href,
+            cta_location: location.pathname,
+            transport_type: "beacon",
+          });
+        }
+
+        const url = new URL(anchor.href, location.href);
+        if (url.hostname === location.hostname) return;
 
         (window as any).gtag("event", "outbound_click", {
           link_url: anchor.href,
