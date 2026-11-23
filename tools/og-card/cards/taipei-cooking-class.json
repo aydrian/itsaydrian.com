@@ -1,0 +1,35 @@
+{
+  "out": "public/images/taipei-cooking-class/taipei-cooking-class-og.jpg",
+  "photo": "public/images/taipei-cooking-class/taipei-cooking-class-cookinn-steamer-hero.jpg",
+  "focusX": 0.5,
+  "focusY": 0.4,
+  "eyebrow": "Travel \u00b7 Taipei, Taiwan",
+  "headline": "A Taipei Cooking Class",
+  "subline": "Beef noodle soup, bubble tea and xiao long bao in three hours.",
+  "chips": [
+    {
+      "src": "public/images/taipei-cooking-class/taipei-cooking-class-beef-noodle-soup.jpg",
+      "x": 810,
+      "y": 1020,
+      "r": 300
+    },
+    {
+      "src": "public/images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea.jpg",
+      "x": 700,
+      "y": 780,
+      "r": 340
+    },
+    {
+      "src": "public/images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao.jpg",
+      "x": 620,
+      "y": 720,
+      "r": 450
+    },
+    {
+      "src": "public/images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls.jpg",
+      "x": 640,
+      "y": 780,
+      "r": 330
+    }
+  ]
+}
