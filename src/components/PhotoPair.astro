@@ -1,0 +1,55 @@
+---
+/**
+ * Two photos side by side in a blog post. Wrap two <picture> blocks of the
+ * same orientation:
+ *
+ *   <PhotoPair caption="Optional one-line caption">
+ *     <picture>…</picture>
+ *     <picture>…</picture>
+ *   </PhotoPair>
+ *
+ * Inside a pair, use sizes="(max-width: 720px) 46vw, 340px" so the browser
+ * picks the 680w file.
+ */
+interface Props {
+  caption?: string;
+}
+
+const { caption } = Astro.props;
+---
+
+<figure class="photo-pair">
+  <div class="photo-pair-grid">
+    <slot />
+  </div>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+  .photo-pair {
+    margin-block: var(--space-8);
+  }
+
+  .photo-pair-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    align-items: start;
+  }
+
+  /* Each photo fills its column. */
+  .photo-pair-grid > :global(*) {
+    max-width: none;
+    margin: 0;
+  }
+  .photo-pair-grid :global(img) {
+    width: 100%;
+    margin: 0;
+  }
+
+  @media (max-width: 480px) {
+    .photo-pair-grid {
+      gap: var(--space-2);
+    }
+  }
+</style>

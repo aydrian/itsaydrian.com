@@ -1,0 +1,69 @@
+---
+/**
+ * Category links for the blog index and category pages. Each category has its
+ * own page (/blog/category/<slug>/), so these are plain links, not a JS filter.
+ */
+import { categoryUrl, type BlogCategory } from '../data/blog';
+
+interface Props {
+  categories: BlogCategory[];
+  /** Current category, or undefined on /blog/ itself. */
+  current?: BlogCategory;
+}
+
+const { categories, current } = Astro.props;
+---
+
+<nav class="blog-cats" aria-label="Blog categories">
+  <a href="/blog/" class:list={['blog-cat', { 'is-active': !current }]} aria-current={!current ? 'page' : undefined}>All</a>
+  {categories.map((c) => (
+    <a href={categoryUrl(c)} class:list={['blog-cat', { 'is-active': current === c }]} aria-current={current === c ? 'page' : undefined}>
+      {c}
+    </a>
+  ))}
+</nav>
+
+<style>
+  .blog-cats {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2);
+    margin-bottom: var(--space-12);
+  }
+
+  .blog-cat {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0.55rem 1rem;
+    border-radius: var(--r-pill);
+    font-size: var(--fs-14);
+    font-weight: 500;
+    letter-spacing: 0.005em;
+    color: var(--ink-soft);
+    background: var(--bg-card);
+    border: 1px solid var(--rule);
+    text-decoration: none;
+    transition: background var(--dur-fast) var(--ease-out-quart),
+                color var(--dur-fast) var(--ease-out-quart),
+                border-color var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .blog-cat:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+
+  .blog-cat.is-active {
+    color: var(--bg);
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .blog-cat:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+</style>

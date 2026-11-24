@@ -93,6 +93,15 @@ Personal site for ItsAydrian LLC. Astro 7 site with Cloudflare Workers adapter. 
 - Frontmatter: `title`, `excerpt`, `date`, `category`, `slug` (optional), `draft` (optional)
 - Categories: Travel, Japan, Apps, Pet care, Life in NYC
 - Drafts excluded from production; pass `includeDrafts: true` to see drafts
+- `coverImage` is the card photo on `/blog/`, category pages and "Keep reading". Ship `-680.webp` and `-1200.webp` siblings next to it (same basename); cards fall back to the original file if they're missing
+- `coverImage` is also the post's hero, beside the title on desktop and under the intro on phones. Set `coverImageAlt` for it, and don't repeat the cover photo in the post body
+- In-post photos: portraits exported at 680x907 show at 440px wide, centered (add `class="portrait"` to other tall images). For two related photos of the same orientation, wrap both `<picture>` blocks in `<PhotoPair caption="...">` (caption optional) and use `sizes="(max-width: 720px) 46vw, 340px"`
+- Astro 7 compiles MDX with its default (non-unified) processor, so `rehypePlugins` on `mdx()` are ignored
+- Optional frontmatter: `updated` (shows "Updated …" on the post and feeds sitemap/RSS/schema), `cta: false` (hides the trip-planning box)
+- Each used category gets a page at `/blog/category/<slug>/` (intro text in `categoryDescriptions` in `src/data/blog.ts`)
+- Posts with 4+ `##` headings get an automatic "In this post" table of contents; reading time is estimated from the MDX source
+- Post pages end with: trip CTA → share buttons (`ShareButtons.astro`) → author box (`AuthorBox.astro`, profiles in `src/data/author.ts`) → related posts (same category first) → subscribe form
+- RSS feed: `/rss.xml` (`src/pages/rss.xml.ts`), linked from every page's `<head>`
 
 ### Share images (OG cards)
 - Blog posts get a 1200x630 share card in the site style: domain, category eyebrow, Instrument Serif headline, Inter subline, full-bleed photo on the right, optional row of round image chips

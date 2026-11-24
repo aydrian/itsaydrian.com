@@ -11,6 +11,7 @@ linksPage:
   label: "Seoul Forest vs. Central Park"
   description: "Sika deer, a footbridge over the expressway to the Han River, and the final score."
 coverImage: "/images/seoul-forest/seoul-forest-sika-deer-fence.jpg"
+coverImageAlt: "A spotted sika deer standing on sandy ground behind a wire fence in Seoul Forest, lowering its head toward the camera."
 ogImage: "/images/seoul-forest/seoul-forest-og.jpg"
 ogImageAlt: "Share card reading Seoul Forest vs. Central Park: sika deer, a footbridge to the Han River, and one (1) turtle, with a photo of a sika deer at the fence in Seoul Forest."
 ogImageWidth: 1200
@@ -28,15 +29,11 @@ video:
 import GearCard from '../components/GearCard.astro';
 import YouTubeEmbed from '../components/YouTubeEmbed.astro';
 import { GEAR, GEAR_DISCLOSURE } from '../data/seoul-forest-gear';
+import PhotoPair from '../components/PhotoPair.astro';
 
 Seoul Forest (서울숲) gets called Seoul's answer to Central Park. I live in New York, so I had to check. Five days into Seoul, I needed something green, so I spent a Monday morning walking it: past a waterfall, up to the sika deer, over a footbridge through the treetops and straight across an expressway, down to the Han River, and back through the wetlands. Central Park has squirrels. Seoul Forest has deer.
 
 Here is how to get there, the route I walked, what to know before you go, and how it scored against Central Park.
-
-<picture>
-  <source type="image/webp" srcset="/images/seoul-forest/seoul-forest-sika-deer-fence-680.webp 680w, /images/seoul-forest/seoul-forest-sika-deer-fence-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/seoul-forest/seoul-forest-sika-deer-fence.jpg" alt="A spotted sika deer standing on sandy ground behind a wire fence in Seoul Forest, lowering its head toward the camera." width="680" height="907" fetchpriority="high" decoding="async" />
-</picture>
 
 ## Seoul Forest at a glance
 
@@ -133,17 +130,18 @@ Back in the park, a boardwalk crosses a wetland pond with reeds and red maples, 
 
 And then the trees started looking at me. Somebody stuck googly eyes on them. I have no explanation, and I don't want one.
 
-<picture>
-  <source type="image/webp" srcset="/images/seoul-forest/seoul-forest-googly-eye-trees-680.webp 680w, /images/seoul-forest/seoul-forest-googly-eye-trees-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/seoul-forest/seoul-forest-googly-eye-trees.jpg" alt="A selfie of Aydrian looking sideways with a suspicious face, standing in front of pine trees that have large googly eyes stuck on their trunks." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
-
 Near the end, I found a sign that summed up the whole morning: "Welcome to my happy place. Don't ruin it." A little escape from the city, inside the city.
 
-<picture>
-  <source type="image/webp" srcset="/images/seoul-forest/seoul-forest-happy-place-sign-680.webp 680w, /images/seoul-forest/seoul-forest-happy-place-sign-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/seoul-forest/seoul-forest-happy-place-sign.jpg" alt="Aydrian crouching and pointing up at a wooden sign on a cabinet door that reads Welcome to my happy place, don't ruin it." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
+<PhotoPair>
+  <picture>
+    <source type="image/webp" srcset="/images/seoul-forest/seoul-forest-googly-eye-trees-680.webp 680w, /images/seoul-forest/seoul-forest-googly-eye-trees-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/seoul-forest/seoul-forest-googly-eye-trees.jpg" alt="A selfie of Aydrian looking sideways with a suspicious face, standing in front of pine trees that have large googly eyes stuck on their trunks." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+  <picture>
+    <source type="image/webp" srcset="/images/seoul-forest/seoul-forest-happy-place-sign-680.webp 680w, /images/seoul-forest/seoul-forest-happy-place-sign-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/seoul-forest/seoul-forest-happy-place-sign.jpg" alt="Aydrian crouching and pointing up at a wooden sign on a cabinet door that reads Welcome to my happy place, don't ruin it." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+</PhotoPair>
 
 ## Seoul Forest vs. Central Park: the final score
 

@@ -1,0 +1,196 @@
+---
+/**
+ * Blog post card with cover photo. Used on /blog/, the category pages and the
+ * "Keep reading" row on posts. The whole card is clickable through the title
+ * link's ::after overlay, so there's only one link per card for screen readers.
+ */
+import { coverVariants, categoryUrl, type BlogPost } from '../data/blog';
+
+interface Props {
+  post: BlogPost;
+  variant?: 'default' | 'featured';
+  /** Heading level for the title, so cards fit the page outline. */
+  level?: 2 | 3;
+  delay?: string;
+}
+
+const { post, variant = 'default', level = 3, delay } = Astro.props;
+const Heading = `h${level}` as 'h2' | 'h3';
+const cover = coverVariants(post);
+const sizes =
+  variant === 'featured'
+    ? '(min-width: 1080px) 620px, (min-width: 720px) 50vw, 100vw'
+    : '(min-width: 1080px) 400px, (min-width: 720px) 50vw, 100vw';
+
+const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<article
+  class:list={['card', 'post-card', `post-card-${variant}`, 'rise']}
+  data-delay={delay}
+  data-category={post.category}
+  aria-labelledby={`post-card-${variant}-${post.slug}`}
+>
+  {cover && (
+    <div class="card-media post-card-media">
+      <img
+        src={cover.src}
+        srcset={cover.srcset}
+        sizes={cover.srcset ? sizes : undefined}
+        alt=""
+        width="1200"
+        height="1600"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+  )}
+  <div class="card-body post-card-body">
+    <div class="post-card-meta">
+      <a class="pill pill-cool post-card-pill" href={categoryUrl(post.category)}>{post.category}</a>
+      {post.draft && <span class="pill pill-draft">Draft</span>}
+      <span class="post-card-date">
+        <time datetime={post.date}>{formattedDate}</time>
+        <span aria-hidden="true"> · </span>
+        {post.readingTime} min read
+      </span>
+    </div>
+    <Heading id={`post-card-${variant}-${post.slug}`} class="post-card-title">
+      <a href={`/blog/${post.slug}/`} class="post-card-link">{post.title}</a>
+    </Heading>
+    <p class="body-sm post-card-excerpt">{post.excerpt}</p>
+    <span class="btn-link post-card-more" aria-hidden="true">
+      Read more
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+    </span>
+  </div>
+</article>
+
+<style>
+  .post-card {
+    position: relative;
+    height: 100%;
+  }
+
+  /* Covers are 3:4 portraits (mostly selfies), so crop a little taller than
+     the default 4:3 and bias upward to keep faces in frame. */
+  .post-card-media {
+    aspect-ratio: 5 / 4;
+  }
+  .post-card-media img {
+    object-position: 50% 35%;
+  }
+
+  .post-card-body {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+
+  .post-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  /* Sits above the card's click overlay so the category stays its own link. */
+  .post-card-pill {
+    position: relative;
+    z-index: 2;
+    text-decoration: none;
+  }
+  .post-card-pill:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .pill-draft {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  .post-card-date {
+    font-size: var(--fs-12);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--ink-faint);
+  }
+
+  .post-card-title {
+    font-family: var(--font-display);
+    font-size: var(--fs-24);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .post-card-link {
+    color: inherit;
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .post-card-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .post-card:hover .post-card-link {
+    color: var(--accent);
+  }
+
+  .post-card-link:focus-visible {
+    outline: none;
+  }
+  .post-card:has(.post-card-link:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .post-card-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card-more {
+    margin-top: auto;
+    padding-top: var(--space-2);
+  }
+
+  /* Featured: photo and text side by side on wider screens. */
+  @media (min-width: 720px) {
+    .post-card-featured {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+    }
+    .post-card-featured .post-card-media {
+      aspect-ratio: auto;
+      min-height: 440px;
+    }
+    .post-card-featured .post-card-body {
+      padding: var(--space-12) var(--space-10);
+      justify-content: center;
+      gap: var(--space-4);
+    }
+    .post-card-featured .post-card-title {
+      font-size: var(--fs-44);
+      line-height: 1.04;
+    }
+    .post-card-featured .post-card-excerpt {
+      font-size: var(--fs-18);
+      -webkit-line-clamp: 5;
+    }
+    .post-card-featured .post-card-more {
+      margin-top: var(--space-2);
+    }
+  }
+</style>
