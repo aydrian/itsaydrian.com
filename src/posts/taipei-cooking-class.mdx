@@ -11,6 +11,7 @@ linksPage:
   label: "Taipei cooking class at CookInn"
   description: "Beef noodle soup, bubble tea and xiao long bao in three hours, plus the instructor's tips."
 coverImage: "/images/taipei-cooking-class/taipei-cooking-class-cookinn-steamer-hero.jpg"
+coverImageAlt: "Aydrian in a CookInn apron holding a bamboo steamer of xiao long bao in front of the CookInn Taiwan sign on a woven wood wall."
 ogImage: "/images/taipei-cooking-class/taipei-cooking-class-og.jpg"
 ogImageAlt: "Share card reading A Taipei Cooking Class: beef noodle soup, bubble tea and xiao long bao in three hours, with a photo of Aydrian holding a steamer of xiao long bao at CookInn Taiwan."
 ogImageWidth: 1200
@@ -26,15 +27,11 @@ video:
 ---
 
 import YouTubeEmbed from '../components/YouTubeEmbed.astro';
+import PhotoPair from '../components/PhotoPair.astro';
 
 I spent three hours in a Taipei kitchen learning to make Taiwan's three most famous foods: beef noodle soup, bubble tea and xiao long bao. The class was at CookInn Taiwan, there were about ten of us and one instructor, and we had three dishes to get through before lunch. My brother's family takes a cooking class on every trip, so I booked this one for my week in Taipei.
 
 Here is what the class is like, the tips the instructor gave us for each dish, and how to book it. The full recipes are in the cookbook they hand you at the end, so I'll leave those to CookInn.
-
-<picture>
-  <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-cookinn-steamer-hero-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-cookinn-steamer-hero-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/taipei-cooking-class/taipei-cooking-class-cookinn-steamer-hero.jpg" alt="Aydrian in a CookInn apron holding a bamboo steamer of xiao long bao in front of the CookInn Taiwan sign on a woven wood wall." width="680" height="907" fetchpriority="high" decoding="async" />
-</picture>
 
 ## CookInn Taiwan cooking class at a glance
 
@@ -76,19 +73,20 @@ Next was bubble tea, with a fun fact I didn't see coming. In Chinese, the word f
 
 She told us about the tea houses of the '70s and '80s, where people would sit for hours with friends over glasses of tea the size of a fish tank, instead of typing on their phones.
 
-<picture>
-  <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls.jpg" alt="A hand holding a steel bowl of raw brown tapioca pearls over a workstation set up with tea pitchers and cups." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
-
 Then came the pearls. Tapioca won out over every other topping, she said, because of its "QQness." QQ means chewy and bouncy, and it was my first Taiwanese word of the day. Raw pearls are just starch, and they're fragile. She tricked one of the students into squeezing one, and it crumbled. "She ruined it," she joked, then admitted she'd set it up on purpose so we'd all see it.
 
 The shaking is the fun part. You shake the tea hard with lots of ice, and that is what makes the foam. She says it also brings out the tea's own sweetness, even without syrup.
 
-<picture>
-  <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea.jpg" alt="A tall glass of milk tea with a thick cap of white foam and dark pearls at the bottom, next to a steel cocktail shaker." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
+<PhotoPair>
+  <picture>
+    <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/taipei-cooking-class/taipei-cooking-class-raw-tapioca-pearls.jpg" alt="A hand holding a steel bowl of raw brown tapioca pearls over a workstation set up with tea pitchers and cups." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+  <picture>
+    <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/taipei-cooking-class/taipei-cooking-class-foamy-bubble-tea.jpg" alt="A tall glass of milk tea with a thick cap of white foam and dark pearls at the bottom, next to a steel cocktail shaker." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+</PhotoPair>
 
 ## Bonus: smashed cucumber salad
 
@@ -112,17 +110,18 @@ Then came the wrappers, which is where it gets technical. The instructor only le
 3. Thin out the edges like a sunny-side-up egg, and leave the center thicker. The center becomes the bottom of the dumpling, so it has to be thick enough to hold the soup.
 4. Keep going until the wrapper is about 9 centimeters (3.5 inches) across.
 
-<picture>
-  <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers.jpg" alt="The instructor's hand pressing a thin wooden rolling pin across a small round of dough on a white counter." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
-
 Mine were not pretty, but they held their soup.
 
-<picture>
-  <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao-1200.webp 1200w" sizes="(max-width: 720px) 92vw, 680px" />
-  <img src="/images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao.jpg" alt="Seven slightly lopsided handmade xiao long bao on perforated paper in a bamboo steamer, sitting on an induction burner." width="680" height="907" loading="lazy" decoding="async" />
-</picture>
+<PhotoPair>
+  <picture>
+    <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/taipei-cooking-class/taipei-cooking-class-rolling-wrappers.jpg" alt="The instructor's hand pressing a thin wooden rolling pin across a small round of dough on a white counter." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+  <picture>
+    <source type="image/webp" srcset="/images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao-680.webp 680w, /images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao-1200.webp 1200w" sizes="(max-width: 720px) 46vw, 340px" />
+    <img src="/images/taipei-cooking-class/taipei-cooking-class-my-xiao-long-bao.jpg" alt="Seven slightly lopsided handmade xiao long bao on perforated paper in a bamboo steamer, sitting on an induction burner." width="680" height="907" loading="lazy" decoding="async" />
+  </picture>
+</PhotoPair>
 
 ## Was the Taipei cooking class worth it?
 

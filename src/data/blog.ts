@@ -29,6 +29,8 @@ export interface BlogPost {
   updated?: string;
   category: BlogCategory;
   coverImage?: string;
+  /** Alt text for the cover when it's shown as the post hero. */
+  coverImageAlt?: string;
   ogImage?: string;
   ogImageAlt?: string;
   ogImageWidth?: number;
@@ -206,6 +208,7 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       updated: fm.updated,
       category,
       coverImage: fm.coverImage,
+      coverImageAlt: fm.coverImageAlt,
       ogImage: fm.ogImage,
       ogImageAlt: fm.ogImageAlt,
       ogImageWidth: fm.ogImageWidth,

@@ -7,7 +7,7 @@ import TableOfContents from '../../components/TableOfContents.astro';
 import AuthorBox from '../../components/AuthorBox.astro';
 import PostCard from '../../components/PostCard.astro';
 import SubscriberForm from '../../components/SubscriberForm.astro';
-import { getAllPosts, getPostBySlug, getRelatedPosts, toSchemaDateTime, categoryUrl } from '../../data/blog';
+import { getAllPosts, getPostBySlug, getRelatedPosts, toSchemaDateTime, categoryUrl, coverVariants } from '../../data/blog';
 import { AUTHOR_SCHEMA } from '../../data/author';
 import type { BlogPost } from '../../data/blog';
 
@@ -34,6 +34,7 @@ const formattedDate = formatDate(post.date);
 const showUpdated = !!post.updated && new Date(post.updated) > new Date(post.date);
 const related = await getRelatedPosts(post, 3, { includeDrafts });
 const showToc = post.headings.length >= 4;
+const hero = coverVariants(post);
 
 const Content = post.Content;
 
@@ -100,6 +101,8 @@ const videoSchema = post.video && {
   )}
 
   <article class="container-narrow post">
+    <header class:list={['post-header', hero && 'has-hero']}>
+      <div class="post-header-text">
     <Breadcrumbs
       schema={!isDraft}
       items={[
@@ -110,7 +113,6 @@ const videoSchema = post.video && {
       ]}
     />
 
-    <header class="post-header">
       <div class="post-meta">
         <a class="pill post-pill" href={categoryUrl(post.category)}>{post.category}</a>
         <span class="post-date">
@@ -127,7 +129,26 @@ const videoSchema = post.video && {
       </div>
       <h1 class="h1 post-title">{post.title}</h1>
       <p class="lede">{post.excerpt}</p>
-      {!isDraft && <ShareButtons url={canonicalUrl} title={post.title} image={post.coverImage ?? post.ogImage} variant="compact" />}
+      {!isDraft && (
+        <div class="post-header-share">
+          <ShareButtons url={canonicalUrl} title={post.title} image={post.coverImage ?? post.ogImage} variant="compact" />
+        </div>
+      )}
+      </div>
+      {hero && (
+        <div class="post-hero">
+          <img
+            src={hero.src}
+            srcset={hero.srcset}
+            sizes={hero.srcset ? '(min-width: 1080px) 500px, (min-width: 900px) 42vw, 92vw' : undefined}
+            alt={post.coverImageAlt ?? ''}
+            width="1200"
+            height="1600"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      )}
     </header>
 
     {showToc && <TableOfContents headings={post.headings} />}
@@ -246,6 +267,10 @@ const videoSchema = post.video && {
     border-bottom: 1px solid var(--rule);
   }
 
+  .post-header :global(.breadcrumbs) {
+    margin-bottom: var(--space-8);
+  }
+
   .post-meta {
     display: flex;
     flex-wrap: wrap;
@@ -262,6 +287,59 @@ const videoSchema = post.video && {
   .post-title {
     margin-bottom: var(--space-4);
     text-wrap: balance;
+  }
+
+  /* Hero: cover photo beside the title on desktop, under the lede on phones.
+     Covers are 3:4 portraits (often selfies), so a 4:5 crop biased upward
+     keeps faces in frame. */
+  .post-header.has-hero {
+    display: flex;
+    flex-direction: column;
+  }
+  .post-header.has-hero .post-header-text {
+    display: contents;
+  }
+  .post-header.has-hero .post-hero {
+    order: 1;
+    margin-top: var(--space-8);
+  }
+  .post-header.has-hero .post-header-share {
+    order: 2;
+  }
+
+  .post-hero img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    max-height: 62svh;
+    object-fit: cover;
+    object-position: 50% 35%;
+    border-radius: var(--r-lg);
+    background: var(--bg-soft);
+  }
+
+  @media (min-width: 900px) {
+    /* Break out of the 880px reading column so the title has room. */
+    .post-header.has-hero {
+      --hero-w: min(1140px, calc(100vw - 2 * var(--gutter)));
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      gap: var(--space-12);
+      align-items: center;
+      width: var(--hero-w);
+      margin-inline: calc((100% - var(--hero-w)) / 2);
+    }
+    .post-header.has-hero .post-header-text {
+      display: block;
+    }
+    .post-header.has-hero .post-title {
+      font-size: clamp(2.5rem, 4.2vw, 3.5rem);
+    }
+    .post-header.has-hero .post-hero {
+      margin-top: 0;
+    }
+    .post-hero img {
+      max-height: 640px;
+    }
   }
 
   .prose :global(p) {
@@ -323,6 +401,22 @@ const videoSchema = post.video && {
     height: auto;
     border-radius: var(--r-lg);
     margin-block: var(--space-8);
+  }
+
+  /* Portrait photos show narrower and centered so one photo doesn't fill
+     the screen. Post photos are exported at 680x907 (3:4), so match that;
+     add class="portrait" to any other tall image. A fixed width (not
+     width:auto) keeps lazy images sized before they load. */
+  .prose :global(img:is([width="680"][height="907"], .portrait)) {
+    width: min(100%, 440px);
+    margin-inline: auto;
+  }
+
+  /* Inside a PhotoPair each photo fills its column. */
+  .prose :global(.photo-pair img) {
+    width: 100%;
+    max-height: none;
+    margin: 0;
   }
 
   .prose :global(figure) {
