@@ -1,0 +1,116 @@
+---
+/**
+ * "Written by" card at the end of blog posts: photo, short bio, and the
+ * profiles that also appear in the Person structured data (AUTHOR_SAME_AS).
+ */
+import { AUTHOR_PROFILES } from '../data/author';
+---
+
+<aside class="author" aria-labelledby="author-name">
+  <img
+    class="author-photo"
+    src="/assets/aydrian-avatar-96.webp"
+    srcset="/assets/aydrian-avatar-96.webp 1x, /assets/aydrian-avatar-192.webp 2x"
+    alt="Aydrian Howard, smiling, in glasses and a yellow T-shirt"
+    width="96"
+    height="96"
+    loading="lazy"
+    decoding="async"
+  />
+  <div class="author-text">
+    <p class="author-eyebrow">Written by</p>
+    <p class="author-name" id="author-name">Aydrian Howard</p>
+    <p class="author-bio">
+      I'm a Fora-certified travel advisor in New York with a Japan habit. I write up the trips,
+      day trips and odd detours I actually take, plus whatever Atticus the corgi is up to.
+    </p>
+    <ul class="author-links" role="list">
+      {AUTHOR_PROFILES.map((p) => (
+        <li>
+          <a href={p.href} target="_blank" rel="noopener noreferrer me" data-outbound="author" data-label={p.label}>
+            {p.label}
+          </a>
+        </li>
+      ))}
+      <li><a href="/">About me</a></li>
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .author {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-6);
+    align-items: start;
+    margin-top: var(--space-12);
+    padding-top: var(--space-10);
+    border-top: 1px solid var(--rule);
+  }
+
+  .author-photo {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-soft);
+  }
+
+  .author-eyebrow {
+    font-size: var(--fs-12);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .author-name {
+    font-family: var(--font-display);
+    font-size: var(--fs-32);
+    line-height: 1.1;
+    color: var(--ink);
+    margin-top: var(--space-1);
+  }
+
+  .author-bio {
+    margin-top: var(--space-3);
+    font-size: var(--fs-16);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 58ch;
+  }
+
+  .author-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    list-style: none;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    font-size: var(--fs-14);
+    font-weight: 500;
+  }
+
+  .author-links a {
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-underline-offset: 3px;
+    transition: color var(--dur-fast) var(--ease-out-quart);
+  }
+  .author-links a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+  }
+
+  @media (max-width: 520px) {
+    .author {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    .author-photo {
+      width: 72px;
+      height: 72px;
+    }
+  }
+</style>

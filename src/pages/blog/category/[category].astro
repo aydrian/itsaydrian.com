@@ -1,0 +1,116 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import PostCard from '../../../components/PostCard.astro';
+import CategoryNav from '../../../components/CategoryNav.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
+import SubscriberForm from '../../../components/SubscriberForm.astro';
+import {
+  getAllCategoriesAsync,
+  getPostsByCategory,
+  categoryFromSlug,
+  categorySlug,
+  categoryUrl,
+  categoryDescriptions,
+} from '../../../data/blog';
+
+export async function getStaticPaths() {
+  const includeDrafts = import.meta.env.DEV || __PREVIEW_BUILD__;
+  const used = await getAllCategoriesAsync({ includeDrafts });
+  return used.map((c) => ({ params: { category: categorySlug(c) } }));
+}
+
+const includeDrafts = import.meta.env.DEV || __PREVIEW_BUILD__;
+const category = categoryFromSlug(Astro.params.category as string);
+if (!category) return Astro.redirect('/blog/');
+
+const categories = await getAllCategoriesAsync({ includeDrafts });
+const posts = await getPostsByCategory(category, { includeDrafts });
+const description = categoryDescriptions[category];
+
+const site = Astro.site ?? new URL('https://itsaydrian.com');
+const pageUrl = new URL(categoryUrl(category), site).href;
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: `${category} posts`,
+  description,
+  url: pageUrl,
+  isPartOf: { '@type': 'Blog', name: 'ItsAydrian Blog', url: new URL('/blog/', site).href },
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: posts
+      .filter((p) => !p.draft)
+      .map((p, i) => ({ '@type': 'ListItem', position: i + 1, url: new URL(`/blog/${p.slug}/`, site).href, name: p.title })),
+  },
+};
+---
+
+<Layout
+  title={`${category} posts`}
+  description={`${description} ${posts.length} ${posts.length === 1 ? 'post' : 'posts'} from Aydrian Howard.`}
+  ogImage="/assets/og/blog.jpg"
+  ogImageAlt="Share card: Notes on travel, making things, and New York. Travel guides, Japan finds, apps, and life in the city."
+  ogImageWidth={1200}
+  ogImageHeight={630}
+>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(collectionSchema)} />
+
+  <section class="section section-soft cat-page">
+    <div class="container">
+      <header class="cat-header">
+        <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Blog', href: '/blog/' }, { label: category, href: categoryUrl(category) }]} />
+        <h1 class="display cat-title">{category}</h1>
+        <p class="lede cat-lede">{description}</p>
+      </header>
+
+      <CategoryNav categories={categories} current={category} />
+
+      <div class="blog-grid">
+        {posts.map((post, index) => (
+          <PostCard post={post} level={2} delay={index % 3 === 0 ? undefined : String(index % 3)} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container" style="text-align: center; max-width: 640px;">
+      <span class="eyebrow">Stay in the loop</span>
+      <h2 class="h2">Get new posts by email.</h2>
+      <p class="lede">No spam. Just travel notes, app updates, and occasional Atticus content.</p>
+      <div style="margin-top: var(--space-8);">
+        <SubscriberForm tag="blog" />
+      </div>
+      <p class="body-sm rss-note">Prefer a feed reader? <a href="/rss.xml">Follow the RSS feed</a>.</p>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .cat-page {
+    padding-top: var(--space-16);
+  }
+
+  .cat-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+
+  .cat-title {
+    margin-top: var(--space-4);
+  }
+
+  .cat-lede {
+    max-width: 52ch;
+    color: var(--ink-soft);
+  }
+
+  .rss-note {
+    margin-top: var(--space-6);
+    color: var(--ink-faint);
+  }
+</style>

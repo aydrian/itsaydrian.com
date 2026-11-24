@@ -36,6 +36,10 @@ export interface BlogPost {
   /** Extra images for structured data, e.g. other aspect ratios. */
   schemaImages?: string[];
   video?: BlogVideo;
+  /** Estimated minutes to read, from the MDX source. */
+  readingTime: number;
+  /** h2 headings, for the table of contents. */
+  headings: { depth: number; slug: string; text: string }[];
   draft?: boolean;
   linksPage?: { label?: string; description?: string } | boolean;
   cta?: boolean;
@@ -66,6 +70,15 @@ export type BlogCategory =
   | "Pet care"
   | "Life in NYC";
 
+/** One-line intro for each category page. */
+export const categoryDescriptions: Record<BlogCategory, string> = {
+  Travel: "Trip guides and day trips: how to get there, what it costs, and what I'd do again.",
+  Japan: "Small towns, odd detours and the bigger sights, with the trains and pins to find them.",
+  Apps: "Notes from the apps I build and the tools I use to build them.",
+  "Pet care": "Atticus the corgi, the gear he likes, and what I've learned looking after other people's dogs.",
+  "Life in NYC": "Neighborhood finds and seasonal outings around New York City.",
+};
+
 export const categories: BlogCategory[] = [
   "Travel",
   "Japan",
@@ -90,10 +103,72 @@ interface MdxModule {
     [key: string]: any;
   };
   Content: any;
+  getHeadings?: () => { depth: number; slug: string; text: string }[];
   file: string;
 }
 
 let mdxCache: BlogPost[] | null = null;
+
+const WORDS_PER_MINUTE = 230;
+
+/**
+ * Rough reading time from MDX source: drops frontmatter, import/export lines,
+ * JSX tags and markdown syntax, then counts words. Content rendered by
+ * components (gear lists, maps) isn't counted, which is fine for an estimate.
+ */
+export function estimateReadingTime(raw: string): number {
+  const text = raw
+    .replace(/^---\n[\s\S]*?\n---/, '')
+    .replace(/^(import|export)\s.*$/gm, '')
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\{[^}]*\}/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#>*_`|-]/g, ' ');
+  const words = text.split(/\s+/).filter((w) => /[\p{L}\p{N}]/u.test(w)).length;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+}
+
+/** URL-safe slug for a category: "Pet care" -> "pet-care", "Life in NYC" -> "life-in-nyc". */
+export function categorySlug(category: BlogCategory): string {
+  return category.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+}
+
+export function categoryFromSlug(slug: string): BlogCategory | undefined {
+  return categories.find((c) => categorySlug(c) === slug);
+}
+
+export function categoryUrl(category: BlogCategory): string {
+  return `/blog/category/${categorySlug(category)}/`;
+}
+
+/**
+ * Card image for a post. Cover images ship with -680.webp and -1200.webp
+ * siblings (see the post image convention); fall back to the original file
+ * when a variant is missing.
+ */
+export function coverVariants(post: BlogPost): { src: string; srcset?: string } | undefined {
+  const cover = post.coverImage;
+  if (!cover) return undefined;
+  const base = cover.replace(/\.(jpe?g|png|webp)$/i, '');
+  const has = (path: string) => publicFiles.has(path);
+  const small = `${base}-680.webp`;
+  const large = `${base}-1200.webp`;
+  if (has(small) && has(large)) return { src: small, srcset: `${small} 680w, ${large} 1200w` };
+  if (has(small)) return { src: small };
+  return { src: cover };
+}
+
+// Paths of files under public/images, so coverVariants() can check for webp
+// variants without touching the filesystem at runtime.
+const publicFiles = new Set(
+  Object.keys(import.meta.glob('/public/images/**/*.webp', { query: '?url', eager: false })).map((p) =>
+    p.replace(/^\/public/, '')
+  )
+);
+
+const rawPosts = import.meta.glob<string>('../posts/*.mdx', { query: '?raw', import: 'default', eager: true });
 
 function isValidCategory(category: string): category is BlogCategory {
   return categories.includes(category as BlogCategory);
@@ -137,6 +212,8 @@ async function loadMdxPosts(): Promise<BlogPost[]> {
       ogImageHeight: fm.ogImageHeight,
       schemaImages: fm.schemaImages,
       video: fm.video,
+      readingTime: estimateReadingTime(rawPosts[file] ?? ''),
+      headings: (mod.getHeadings?.() ?? []).filter((h) => h.depth === 2),
       draft: !!fm.draft,
       linksPage: fm.linksPage,
       cta: fm.cta,
@@ -194,4 +271,19 @@ export async function getLinksPagePosts(): Promise<BlogPost[]> {
   return all
     .filter((post) => !!post.linksPage)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/**
+ * Up to `limit` other posts to read next: same category first (newest first),
+ * then the newest posts from other categories.
+ */
+export async function getRelatedPosts(
+  post: BlogPost,
+  limit = 3,
+  options?: GetAllPostsOptions
+): Promise<BlogPost[]> {
+  const others = (await getAllPosts(options)).filter((p) => p.slug !== post.slug);
+  const same = others.filter((p) => p.category === post.category);
+  const rest = others.filter((p) => p.category !== post.category);
+  return [...same, ...rest].slice(0, limit);
 }

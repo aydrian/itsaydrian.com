@@ -1272,3 +1272,20 @@ hr { border: none; height: 1px; background: var(--rule); margin: var(--space-12)
 
 .divider { display: flex; align-items: center; gap: var(--space-4); margin-block: var(--space-12); color: var(--ink-faint); }
 .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--rule); }
+
+/* ============================== BLOG GRID ============================== */
+/* Shared by /blog/, the category pages and "Keep reading" on posts. */
+.blog-grid {
+  display: grid;
+  gap: var(--space-6);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 720px) {
+  .blog-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1080px) {
+  .blog-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.blog-featured {
+  margin-bottom: var(--space-6);
+}
