@@ -87,11 +87,11 @@ export const UGC_CLIPS: UgcClip[] = [
   },
   {
     slug: 'travel-problems',
-    title: 'A canceled flight, told in Mandarin',
+    title: 'A canceled flight, told to camera',
     youtubeId: 'aK6VPJNXxa8',
     category: 'Travel',
     format: 'Walk-and-talk to camera',
-    note: 'I talk straight to camera on a street at night, in Mandarin. Brands use the same format for testimonial ads.',
+    note: 'I talk straight to camera on a street at night about a canceled flight. Brands use the same format for testimonial ads.',
     posterAlt: 'Aydrian on a city street at night under the caption "Travel advisor. Flight canceled."',
     uploadDate: '2026-11-08T21:16:37-08:00',
     duration: 'PT41S',
