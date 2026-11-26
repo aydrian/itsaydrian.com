@@ -108,8 +108,11 @@ export interface UgcTestimonial {
 
 export const UGC_TESTIMONIALS: UgcTestimonial[] = [];
 
+// The three clips shown in the hero, by slug. Pressing one scrolls to it in the grid and plays it.
+export const UGC_HERO_CLIPS = ['graniph-collab', 'oddfresh-haul', 'osaka-ramen'];
+
 // Shown in the hero and the location band. Update when the itinerary changes.
 export const UGC_ON_LOCATION = {
-  places: ['Korea', 'Japan', 'Taiwan', 'Thailand'],
+  places: ['Thailand', 'China', 'Japan', 'Korea'],
   through: 'January 2027',
 };

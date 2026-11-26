@@ -29,6 +29,14 @@ const { id, title, poster, posterAlt } = Astro.props;
     link.addEventListener('click', (event) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
       event.preventDefault();
+      const gtag = (window as any).gtag;
+      if (typeof gtag === 'function') {
+        gtag('event', 'video_play', {
+          video_id: wrap.dataset.shortId ?? '',
+          video_title: wrap.dataset.shortTitle ?? '',
+          page_path: location.pathname,
+        });
+      }
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${wrap.dataset.shortId}?autoplay=1&playsinline=1&rel=0`;
       iframe.title = wrap.dataset.shortTitle ?? 'YouTube Short';
