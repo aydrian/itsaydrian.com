@@ -47,11 +47,11 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
           I'm collecting Stray Kids merch across Japan, Korea, Thailand and Taiwan. Comment your bias on my giveaway video by {DEADLINE} to enter.
         </p>
         <div class="gw-cta rise" data-delay="4">
-          <a class="btn btn-hot btn-lg" href={ENTRY_VIDEO} rel="noopener" target="_blank">
+          <a class="btn btn-hot btn-lg" href={ENTRY_VIDEO} rel="noopener" target="_blank" data-cta="giveaway_enter_hero" data-outbound="giveaway" data-label="Enter on TikTok">
             Enter on TikTok
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
-          <a class="btn btn-link" href="#rules">Read the rules</a>
+          <a class="btn btn-link" href="#rules" data-giveaway-cta="giveaway_read_rules">Read the rules</a>
         </div>
       </div>
       <figure class="gw-hero-photo rise" data-delay="2">
@@ -97,7 +97,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
     <section class="gw-steps" aria-labelledby="gw-steps-label">
       <h2 id="gw-steps-label" class="h2">How to <em>enter</em></h2>
       <ol class="gw-step-list">
-        <li>Open the giveaway video on <a href={ENTRY_VIDEO} rel="noopener" target="_blank">TikTok</a>.</li>
+        <li>Open the giveaway video on <a href={ENTRY_VIDEO} rel="noopener" target="_blank" data-cta="giveaway_enter_steps" data-outbound="giveaway" data-label="TikTok (how to enter)">TikTok</a>.</li>
         <li>Comment your bias. It's one entry per person, so extra comments won't add more.</li>
         <li>Watch my TikTok for the draw. I'll announce the winner by Jan 31, 2027 and DM you if it's you.</li>
       </ol>
@@ -108,7 +108,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
       <h2 id="gw-rules-label" class="h3">Official rules</h2>
       <ul class="body-sm">
         <li><strong>No purchase necessary.</strong> Following is not required to enter. Void where prohibited.</li>
-        <li><strong>How to enter:</strong> comment on the giveaway video on <a href="https://www.tiktok.com/@itsaydrian" rel="noopener" target="_blank">@itsaydrian</a> by {DEADLINE}. One entry per person. Comments on the original giveaway video count too.</li>
+        <li><strong>How to enter:</strong> comment on the giveaway video on <a href="https://www.tiktok.com/@itsaydrian" rel="noopener" target="_blank" data-outbound="giveaway_rules">@itsaydrian</a> by {DEADLINE}. One entry per person. Comments on the original giveaway video count too.</li>
         <li><strong>Tiers:</strong> the giveaway happens only if @itsaydrian reaches 1,000 followers on TikTok by the deadline. Each tier reached by the deadline adds to the same prize. There is one winner.</li>
         <li><strong>Who can enter:</strong> US residents, 18+ or with a parent's or guardian's permission. If @itsaydrian reaches 20,000 followers by the deadline, entry opens worldwide.</li>
         <li><strong>Prize:</strong> one care package. At 1K it holds a gashapon prize pack. At 2.5K, blind items are added. At 5K, Stray Kids merch is added, including a copy of SUIATSU. Contents are chosen by me. I cover shipping.</li>
@@ -117,11 +117,28 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
         <li><strong>Scams:</strong> I'll never ask for payment, card details or a shipping fee. Anyone who does is not me.</li>
         <li><strong>Not affiliated:</strong> this giveaway is not sponsored, endorsed or run by TikTok, Stray Kids or JYP Entertainment. By entering, you release TikTok from any responsibility for it.</li>
       </ul>
-      <p class="body-sm">Questions? <a href="mailto:howdy@itsaydrian.com?subject=Giveaway question">howdy@itsaydrian.com</a></p>
+      <p class="body-sm">Questions? <a href="mailto:howdy@itsaydrian.com?subject=Giveaway question" data-giveaway-cta="giveaway_email">howdy@itsaydrian.com</a></p>
     </section>
 
   </div>
 </Layout>
+
+<script>
+  // The site-wide click tracker covers the TikTok links (cta_click + outbound_click via
+  // data-cta / data-outbound) but skips in-page and mailto links, so those are sent here.
+  document.querySelectorAll<HTMLAnchorElement>('[data-giveaway-cta]').forEach((link) => {
+    link.addEventListener('click', () => {
+      const gtag = (window as any).gtag;
+      if (typeof gtag !== 'function') return;
+      gtag('event', 'cta_click', {
+        cta_id: link.dataset.giveawayCta ?? '',
+        cta_label: link.textContent?.trim().replace(/\s+/g, ' ') ?? '',
+        cta_location: location.pathname,
+        transport_type: 'beacon',
+      });
+    });
+  });
+</script>
 
 <style>
   .giveaway {
