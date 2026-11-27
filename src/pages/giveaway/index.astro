@@ -11,10 +11,10 @@ const DEADLINE = "Jan 15, 2027, 11:59 PM ET";
 
 type Tier = { goal: number; label: string; prize: string; note: string };
 const TIERS: Tier[] = [
-  { goal: 1000, label: "1K", prize: "Gashapon prize pack", note: "A small pack of capsule-toy pulls from my trip." },
-  { goal: 2500, label: "2.5K", prize: "Blind-item bundle", note: "Bath bombs, candies and more blind items. I don't know what's inside either." },
-  { goal: 5000, label: "5K", prize: "The full STAY care package", note: "Stray Kids merch from every country on the trip. And yes, a copy of SUIATSU is going in the box." },
-  { goal: 20000, label: "20K", prize: "Every tier opens worldwide", note: "Hit 20K and STAYs outside the US can enter too." },
+  { goal: 1000, label: "1K", prize: "The box starts", note: "A pack of gashapon capsule toys from my trip. Below 1K there's no giveaway, so this is the one to hit first." },
+  { goal: 2500, label: "2.5K", prize: "Blind items go in", note: "Bath bombs, candies and more blind items. I don't know what's inside either." },
+  { goal: 5000, label: "5K", prize: "The full STAY care package", note: "Stray Kids merch from every country on the trip gets added. And yes, a copy of SUIATSU is going in the box." },
+  { goal: 20000, label: "20K", prize: "The box ships worldwide", note: "Hit 20K and STAYs outside the US can enter too." },
 ];
 // =====================
 
@@ -25,13 +25,13 @@ const barGoal = FOLLOWERS < 5000 ? 5000 : 20000;
 const barPct = Math.min(100, Math.round((FOLLOWERS / barGoal) * 1000) / 10);
 
 const title = "STAY Care Package Giveaway";
-const description = "Comment your bias on my TikTok giveaway video by Jan 15, 2027 to enter. Every follower milestone unlocks another winner: 1K, 2.5K and 5K, and worldwide at 20K.";
+const description = "Comment your bias on my TikTok giveaway video by Jan 15, 2027 to enter. One winner gets a care package that grows at every follower milestone: 1K, 2.5K and 5K, and worldwide at 20K.";
 ---
 <Layout
   title={title}
   description={description}
   ogImage="/assets/og/giveaway.jpg"
-  ogImageAlt="Share card: STAY care package giveaway. Every milestone unlocks another winner. 1K, 2.5K and 5K, worldwide at 20K."
+  ogImageAlt="Share card: STAY care package giveaway. Every milestone makes the box bigger. 1K, 2.5K and 5K, worldwide at 20K."
   ogImageWidth={1200}
   ogImageHeight={630}
   ogImageType="image/jpeg"
@@ -42,7 +42,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
     <section class="gw-hero" aria-labelledby="gw-title">
       <div class="gw-hero-text">
         <span class="eyebrow rise" data-delay="1">STAY care package giveaway</span>
-        <h1 id="gw-title" class="h1 rise" data-delay="2">Every milestone unlocks <em>another winner.</em></h1>
+        <h1 id="gw-title" class="h1 rise" data-delay="2">Every milestone makes <em>the box bigger.</em></h1>
         <p class="lede rise" data-delay="3">
           I'm collecting Stray Kids merch across Japan, Korea, Thailand and Taiwan. Comment your bias on my giveaway video by {DEADLINE} to enter.
         </p>
@@ -91,7 +91,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
           </li>
         ))}
       </ol>
-      <p class="body-sm gw-fine">One winner per unlocked tier, and no one wins twice. All tiers are drawn after the deadline.</p>
+      <p class="body-sm gw-fine">There's one winner, and they get everything the tiers have unlocked by the deadline. The draw happens after I'm back in the US.</p>
     </section>
 
     <section class="gw-steps" aria-labelledby="gw-steps-label">
@@ -99,7 +99,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
       <ol class="gw-step-list">
         <li>Open the giveaway video on <a href={ENTRY_VIDEO} rel="noopener" target="_blank">TikTok</a>.</li>
         <li>Comment your bias. It's one entry per person, so extra comments won't add more.</li>
-        <li>Watch my TikTok for the draw. I'll announce winners by Jan 31, 2027 and DM you if you win.</li>
+        <li>Watch my TikTok for the draw. I'll announce the winner by Jan 31, 2027 and DM you if it's you.</li>
       </ol>
       <p class="body-sm">Following isn't required to enter, but it's how the tiers unlock.</p>
     </section>
@@ -109,11 +109,11 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
       <ul class="body-sm">
         <li><strong>No purchase necessary.</strong> Following is not required to enter. Void where prohibited.</li>
         <li><strong>How to enter:</strong> comment on the giveaway video on <a href="https://www.tiktok.com/@itsaydrian" rel="noopener" target="_blank">@itsaydrian</a> by {DEADLINE}. One entry per person. Comments on the original giveaway video count too.</li>
-        <li><strong>Tiers:</strong> a tier unlocks if @itsaydrian reaches that follower count on TikTok by the deadline. One winner is drawn for each unlocked tier. No one can win more than one prize.</li>
-        <li><strong>Who can enter:</strong> US residents, 18+ or with a parent's or guardian's permission. If @itsaydrian reaches 20,000 followers by the deadline, every tier opens worldwide.</li>
-        <li><strong>Prizes:</strong> 1K, a gashapon prize pack. 2.5K, a blind-item bundle. 5K, a Stray Kids merch care package that includes a copy of SUIATSU. Contents of each prize are chosen by me. I cover shipping.</li>
-        <li><strong>Winners:</strong> picked at random from eligible comments after the deadline and announced on @itsaydrian by Jan 31, 2027. I'll DM each winner, who has 7 days to reply or I'll pick someone else.</li>
-        <li><strong>Your info:</strong> I only ask winners for a name and mailing address, and only use them to ship the prize.</li>
+        <li><strong>Tiers:</strong> the giveaway happens only if @itsaydrian reaches 1,000 followers on TikTok by the deadline. Each tier reached by the deadline adds to the same prize. There is one winner.</li>
+        <li><strong>Who can enter:</strong> US residents, 18+ or with a parent's or guardian's permission. If @itsaydrian reaches 20,000 followers by the deadline, entry opens worldwide.</li>
+        <li><strong>Prize:</strong> one care package. At 1K it holds a gashapon prize pack. At 2.5K, blind items are added. At 5K, Stray Kids merch is added, including a copy of SUIATSU. Contents are chosen by me. I cover shipping.</li>
+        <li><strong>Winner:</strong> picked at random from eligible comments after the deadline and announced on @itsaydrian by Jan 31, 2027. I'll DM the winner, who has 7 days to reply or I'll pick someone else.</li>
+        <li><strong>Your info:</strong> I only ask the winner for a name and mailing address, and only use them to ship the prize.</li>
         <li><strong>Scams:</strong> I'll never ask for payment, card details or a shipping fee. Anyone who does is not me.</li>
         <li><strong>Not affiliated:</strong> this giveaway is not sponsored, endorsed or run by TikTok, Stray Kids or JYP Entertainment. By entering, you release TikTok from any responsibility for it.</li>
       </ul>
