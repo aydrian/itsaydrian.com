@@ -87,11 +87,11 @@ export const UGC_CLIPS: UgcClip[] = [
   },
   {
     slug: 'travel-problems',
-    title: 'A canceled flight, told in Mandarin',
+    title: 'A canceled flight, told to camera',
     youtubeId: 'aK6VPJNXxa8',
     category: 'Travel',
     format: 'Walk-and-talk to camera',
-    note: 'I talk straight to camera on a street at night, in Mandarin. Brands use the same format for testimonial ads.',
+    note: 'I talk straight to camera on a street at night about a canceled flight. Brands use the same format for testimonial ads.',
     posterAlt: 'Aydrian on a city street at night under the caption "Travel advisor. Flight canceled."',
     uploadDate: '2026-11-08T21:16:37-08:00',
     duration: 'PT41S',
@@ -108,8 +108,11 @@ export interface UgcTestimonial {
 
 export const UGC_TESTIMONIALS: UgcTestimonial[] = [];
 
+// The three clips shown in the hero, by slug. Pressing one scrolls to it in the grid and plays it.
+export const UGC_HERO_CLIPS = ['graniph-collab', 'oddfresh-haul', 'osaka-ramen'];
+
 // Shown in the hero and the location band. Update when the itinerary changes.
 export const UGC_ON_LOCATION = {
-  places: ['Korea', 'Japan', 'Taiwan', 'Thailand'],
+  places: ['Thailand', 'China', 'Japan', 'Korea'],
   through: 'January 2027',
 };

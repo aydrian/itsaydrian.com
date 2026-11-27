@@ -1,15 +1,16 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ShortEmbed from '../../components/ShortEmbed.astro';
-import { UGC_CLIPS, UGC_ON_LOCATION, UGC_TESTIMONIALS } from '../../data/ugc-portfolio';
+import { UGC_CLIPS, UGC_HERO_CLIPS, UGC_ON_LOCATION, UGC_TESTIMONIALS } from '../../data/ugc-portfolio';
 
-const pageTitle = 'UGC Creator for Travel, Food & Lifestyle Brands';
+const pageTitle = 'UGC Creator for Product, Food & Travel Brands';
 const pageDescription = "I make UGC for TikTok, Reels and Shorts: unboxings, reviews, try-ons and voiceover ads that sound like a real customer. I'm shooting on location in Asia now.";
 const SITE = 'https://itsaydrian.com';
 const PERSON_REF = { '@type': 'Person', '@id': `${SITE}/#person`, name: 'Aydrian Howard', url: `${SITE}/` };
 
 const places = UGC_ON_LOCATION.places;
 const placesText = places.length > 1 ? `${places.slice(0, -1).join(', ')} and ${places[places.length - 1]}` : places[0];
+const heroClips = UGC_HERO_CLIPS.flatMap((slug) => UGC_CLIPS.filter((c) => c.slug === slug));
 const heroAlt = 'Aydrian taking a selfie with a cocktail at a marble table in a pink restaurant, under a pink pendant lamp and tropical leaf wallpaper.';
 
 const FORMATS = [
@@ -56,8 +57,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 <Layout
   title={pageTitle}
   description={pageDescription}
-  ogImage="/assets/og/ugc-2.jpg"
-  ogImageAlt="Share card: I make UGC videos for travel, food and lifestyle brands. I write, shoot and edit every video myself."
+  ogImage="/assets/og/ugc-3.jpg"
+  ogImageAlt="Share card: I make UGC videos for product, food and travel brands. I write, shoot and edit every video myself."
   ogImageWidth={1200}
   ogImageHeight={630}
   ogImageType="image/jpeg"
@@ -74,7 +75,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
         serviceType: 'UGC video production',
         description: pageDescription,
         url: `${SITE}/ugc/`,
-        image: `${SITE}/assets/og/ugc-2.jpg`,
+        image: `${SITE}/assets/og/ugc-3.jpg`,
         provider: PERSON_REF,
         areaServed: 'Worldwide',
         availableChannel: { '@type': 'ServiceChannel', serviceUrl: `${SITE}/ugc/#brief` },
@@ -121,21 +122,33 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 
     <div class="container hero-inner">
       <h1 id="ugc-hero-title" class="hero-title rise" data-delay="1">
-        I make UGC videos for <em>travel, food and lifestyle brands.</em>
+        I make UGC videos for <em>product, food and travel brands.</em>
       </h1>
+      <ul class="ugc-hero-clips rise" data-delay="2" role="list" aria-label="Three recent videos">
+        {heroClips.map((clip) => (
+          <li>
+            <a href={`#clip-${clip.slug}`} data-hero-clip={clip.slug} aria-label={`Watch "${clip.title}"`}>
+              <img src={`/assets/ugc/${clip.slug}.jpg`} alt="" width="540" height="960" decoding="async" fetchpriority="low" />
+              <span class="ugc-hero-clip-play" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M6.5 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L8.02 4.29A1 1 0 0 0 6.5 5.14Z"/></svg>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
       <p class="hero-tagline rise" data-delay="2">
-        I'm Aydrian. I write, shoot and edit every video myself, and they sound like a customer telling a friend about
-        your product. You work with me from the brief to the final file.
+        I write, shoot and edit every video myself, and I spent 20 years explaining tech products before this.
+        If your buyers are Gen X or millennial adults, I'm one of them.
       </p>
       <div class="hero-cta rise" data-delay="3">
-        <a class="btn btn-primary btn-lg" href="#brief">
+        <a class="btn btn-primary btn-lg" href="#brief" data-ugc-cta="hero_send_brief">
           Send a brief
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </a>
-        <a class="btn btn-ghost btn-lg" href="#work">See the work</a>
+        <a class="btn btn-ghost btn-lg" href="mailto:howdy@itsaydrian.com?subject=UGC%20rates" data-ugc-cta="hero_ask_rates">Ask for rates</a>
       </div>
       <p class="ugc-location rise" data-delay="3">
-        <span class="ugc-location-dot" aria-hidden="true"></span>
+        <svg class="ugc-location-pin" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
         On location in {placesText} through {UGC_ON_LOCATION.through}
       </p>
     </div>
@@ -153,7 +166,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 
       <ul class="ugc-grid" role="list">
         {UGC_CLIPS.map((clip, i) => (
-          <li class="ugc-clip rise" data-delay={String((i % 3) + 1)}>
+          <li class="ugc-clip rise" id={`clip-${clip.slug}`} data-delay={String((i % 3) + 1)}>
             <ShortEmbed id={clip.youtubeId} title={clip.title} poster={`/assets/ugc/${clip.slug}.jpg`} posterAlt={clip.posterAlt} />
             <div class="ugc-clip-body">
               <div class="ugc-clip-meta">
@@ -208,11 +221,11 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
           benefit into the first three seconds, and how to make a claim a skeptical viewer will believe.
         </p>
         <ul class="card-meta rise" data-delay="3" role="list" aria-label="Content areas">
-          <li class="pill">Travel and hotels</li>
-          <li class="pill">Japan and Korea</li>
+          <li class="pill">Pop culture merch</li>
           <li class="pill">Tech and gadgets</li>
           <li class="pill">Food and snacks</li>
-          <li class="pill">Pop culture merch</li>
+          <li class="pill">Travel and hotels</li>
+          <li class="pill">Japan and Korea</li>
           <li class="pill">Pet products with Atticus, my corgi</li>
         </ul>
       </div>
@@ -406,6 +419,36 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
 </Layout>
 
 <script>
+  // Analytics for the actions a brand takes on this page. The site-wide click
+  // tracker skips in-page and mailto links, so these are sent here.
+  const track = (name: string, params: Record<string, string>) => {
+    const gtag = (window as any).gtag;
+    if (typeof gtag === 'function') gtag('event', name, { page_path: location.pathname, ...params });
+  };
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-ugc-cta]').forEach((link) => {
+    link.addEventListener('click', () => {
+      track('cta_click', {
+        cta_id: link.dataset.ugcCta ?? '',
+        cta_label: link.textContent?.trim().replace(/\s+/g, ' ') ?? '',
+        transport_type: 'beacon',
+      });
+    });
+  });
+
+  // A hero poster scrolls to that clip in the grid and starts it playing.
+  document.querySelectorAll<HTMLAnchorElement>('[data-hero-clip]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+      const item = document.getElementById(`clip-${link.dataset.heroClip}`);
+      if (!item) return;
+      event.preventDefault();
+      track('cta_click', { cta_id: `hero_clip_${link.dataset.heroClip}`, cta_label: link.getAttribute('aria-label') ?? '' });
+      item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      item.querySelector<HTMLAnchorElement>('.short-embed-poster')?.click();
+    });
+  });
+
   const form = document.getElementById('brief-form') as HTMLFormElement | null;
   if (form) {
     const status = form.querySelector<HTMLElement>('.brief-status')!;
@@ -441,6 +484,7 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
         const res = await fetch('/api/brief/', { method: 'POST', body: new FormData(form) });
         const data = await res.json().catch(() => ({}));
         if (res.ok && data.success) {
+          track('generate_lead', { form_id: 'ugc_brief' });
           form.reset();
           show('success', "Got it. I'll reply by email with a quote and a plan.");
         } else {
@@ -490,17 +534,93 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     .ugc-hero { min-height: auto; }
     .ugc-hero .hero-image {
       bottom: auto;
-      height: 58vh;
-      height: 58svh;
+      height: 38vh;
+      height: 38svh;
       -webkit-mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
       mask-image: linear-gradient(180deg, #000 55%, transparent 100%);
     }
     .ugc-hero .hero-image img { object-position: 50% 28%; }
-    .ugc-hero .hero-inner { padding-top: calc(48vh - 88px); padding-top: calc(48svh - 88px); }
+    .ugc-hero .hero-inner { padding-top: calc(30vh - 88px); padding-top: calc(30svh - 88px); }
     .ugc-hero .hero-image::after {
       background:
         linear-gradient(180deg, rgba(8, 10, 15, 0.5) 0%, rgba(8, 10, 15, 0) 24%, rgba(10, 12, 16, 0.4) 60%, #0a0c10 100%);
     }
+  }
+
+  /* Three clip posters in the hero, so a brand sees work before scrolling.
+     Phones: a row under the headline. Wide screens: the right column, over
+     the bottom of the photo, below the face. */
+  .ugc-hero-clips {
+    list-style: none;
+    padding: 0;
+    margin: var(--space-6) 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 104px));
+    gap: var(--space-3);
+  }
+
+  .ugc-hero-clips a {
+    position: relative;
+    display: block;
+    aspect-ratio: 9 / 16;
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    outline: 1px solid rgba(244, 239, 238, 0.18);
+    transition: transform var(--dur-fast) var(--ease-out-quart);
+  }
+
+  .ugc-hero-clips a:hover,
+  .ugc-hero-clips a:focus-visible { transform: translateY(-3px); }
+
+  .ugc-hero-clips img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ugc-hero-clip-play {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 36px;
+    height: 36px;
+    margin: -18px 0 0 -18px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(10, 12, 16, 0.6);
+    color: #fff;
+    backdrop-filter: blur(4px);
+  }
+
+  @media (min-width: 900px) {
+    .ugc-hero .hero-inner > .ugc-hero-clips {
+      grid-column: 2;
+      grid-row: 1 / span 4;
+      align-self: end;
+      justify-self: end;
+      margin: 0;
+      grid-template-columns: repeat(3, 132px);
+      gap: var(--space-4);
+    }
+    /* Keep the title, tagline and buttons in the left column's natural order. */
+    .ugc-hero .hero-inner > .hero-title { grid-row: 1; }
+    .ugc-hero .hero-inner > .hero-tagline { grid-row: 2; }
+    .ugc-hero .hero-inner > .hero-cta { grid-row: 3; }
+    .ugc-hero .hero-inner > .ugc-location { grid-row: 4; }
+  }
+
+  @media (min-width: 900px) and (max-width: 1199px) {
+    .ugc-hero .hero-inner > .ugc-hero-clips { grid-template-columns: repeat(3, 104px); gap: var(--space-3); }
+  }
+
+  @media (max-width: 899px) {
+    /* On phones the buttons come right after the clips, so the main action is on the first screen. */
+    .ugc-hero .hero-inner > .hero-cta { order: 1; margin-top: var(--space-6); }
+    .ugc-hero .hero-inner > .hero-tagline { order: 2; }
+    .ugc-hero .hero-inner > .ugc-location { order: 3; }
+    .ugc-hero .hero-title { font-size: clamp(2.5rem, 10vw, 3.25rem); }
   }
 
   .ugc-location {
@@ -513,12 +633,8 @@ const BUDGET_OPTIONS = ['Under $250', '$250 to $750', '$750 to $2,000', '$2,000+
     text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
   }
 
-  .ugc-location-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--accent-hot);
-    box-shadow: 0 0 0 4px color-mix(in oklab, var(--accent-hot) 30%, transparent);
+  .ugc-location-pin {
+    color: var(--accent-hot);
     flex-shrink: 0;
   }
 

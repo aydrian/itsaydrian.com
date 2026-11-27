@@ -17,7 +17,7 @@ const { id, title, poster, posterAlt } = Astro.props;
   <a class="short-embed-poster" href={`https://www.youtube.com/shorts/${id}`} target="_blank" rel="noopener noreferrer" aria-label={`Play "${title}"`}>
     <img src={poster} alt={posterAlt} width="540" height="960" loading="lazy" decoding="async" />
     <span class="short-embed-play" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L9.52 4.29A1 1 0 0 0 8 5.14Z"/></svg>
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M6.5 5.14v13.72a1 1 0 0 0 1.52.85l10.6-6.86a1 1 0 0 0 0-1.7L8.02 4.29A1 1 0 0 0 6.5 5.14Z"/></svg>
     </span>
   </a>
 </div>
@@ -29,6 +29,14 @@ const { id, title, poster, posterAlt } = Astro.props;
     link.addEventListener('click', (event) => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
       event.preventDefault();
+      const gtag = (window as any).gtag;
+      if (typeof gtag === 'function') {
+        gtag('event', 'video_play', {
+          video_id: wrap.dataset.shortId ?? '',
+          video_title: wrap.dataset.shortTitle ?? '',
+          page_path: location.pathname,
+        });
+      }
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${wrap.dataset.shortId}?autoplay=1&playsinline=1&rel=0`;
       iframe.title = wrap.dataset.shortTitle ?? 'YouTube Short';
@@ -81,7 +89,6 @@ const { id, title, poster, posterAlt } = Astro.props;
     margin: -28px 0 0 -28px;
     display: grid;
     place-items: center;
-    padding-left: 3px;
     border-radius: 50%;
     background: color-mix(in oklab, #14110e 62%, transparent);
     color: #f8f5f1;
