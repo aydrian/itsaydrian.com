@@ -17,7 +17,8 @@ const TIERS: Tier[] = [
   { goal: 20000, label: "20K", prize: "The box ships worldwide", note: "Hit 20K and STAYs outside the US can enter too." },
 ];
 // What's in the box so far. Photos live in public/images/giveaway/ as <slug>.jpg plus -680/-1200 .webp.
-type BoxItem = { slug: string; name: string; note: string; alt: string };
+// Leave slug off for an item with no photo yet; it gets a text card instead.
+type BoxItem = { slug?: string; name: string; note: string; alt?: string };
 type BoxGroup = { tier: string; heading: string; items: BoxItem[]; footnote?: string };
 const BOX: BoxGroup[] = [
   { tier: "1K", heading: "Gashapon", footnote: "More gashapon to come as I find them.", items: [
@@ -28,6 +29,10 @@ const BOX: BoxGroup[] = [
     { slug: "blind-skzoo-bubble-fever-bath-bomb", name: "SKZOO Bubble Fever bath bomb", note: "A Bandai bath bomb with a SKZOO figure hidden inside.", alt: "Shelf of SKZOO Bubble Fever bath bomb packs, each showing SKZOO characters in bathtubs." },
     { slug: "blind-skzoo-shaka-charm-gummy", name: "SKZOO Shaka Shaka Charm & Gummy", note: "A blind shaker charm that comes with gummy candy.", alt: "Store display of SKZOO Shaka Shaka Charm and Gummy blind packs above their Stray Kids box." },
     { slug: "blind-stray-kids-cans", name: "A Stray Kids soda can", note: "Only one of these goes in the box.", alt: "Three Stray Kids soda cans with member photos, lined up on a brick step." },
+  ]},
+  { tier: "5K", heading: "Stray Kids merch", footnote: "Still collecting across Japan, Korea, Thailand and Taiwan.", items: [
+    { slug: "full-lotte-stray-kids-pepero", name: "Lotte × Stray Kids Pepero", note: "Pepero from Korea in the Stray Kids boxes.", alt: "Hand holding a green almond Lotte Pepero box with a Stray Kids group photo, next to a white cookie box with member photos." },
+    { name: "SUIATSU", note: "A copy of the new Stray Kids release." },
   ]},
 ];
 // =====================
@@ -119,6 +124,7 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
           <ul role="list" class="gw-box-grid">
             {group.items.map((item) => (
               <li class="card gw-box-item">
+                {item.slug ? (
                 <div class="gw-box-photo">
                 <picture>
                   <source type="image/webp" srcset={`/images/giveaway/${item.slug}-680.webp 680w, /images/giveaway/${item.slug}-1200.webp 1200w`} sizes="(max-width: 520px) 90vw, (max-width: 960px) 45vw, 360px">
@@ -126,6 +132,12 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
                 </picture>
                 <span class="gw-stamp" aria-hidden="true">Example</span>
                 </div>
+                ) : (
+                <div class="gw-box-photo gw-box-nophoto" aria-hidden="true">
+                  <span class="gw-nophoto-name">{item.name}</span>
+                  <span class="gw-nophoto-note">Photo coming once it's in hand</span>
+                </div>
+                )}
                 <div class="gw-box-text">
                   <strong>{item.name}</strong>
                   <span class="body-sm">{item.note}</span>
@@ -136,10 +148,6 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
           {group.footnote && <p class="body-sm gw-fine">{group.footnote}</p>}
         </div>
       ))}
-      <div class="gw-box-group">
-        <h3 class="eyebrow">5K · Stray Kids merch</h3>
-        <p class="body-sm">Still collecting across Japan, Korea, Thailand and Taiwan. SUIATSU is already on the list.</p>
-      </div>
     </section>
 
     <section class="gw-steps" aria-labelledby="gw-steps-label">
@@ -337,6 +345,33 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
 
   .gw-box-photo {
     position: relative;
+  }
+
+  .gw-box-nophoto {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6);
+    background: var(--bg-soft);
+    border-bottom: 1px solid var(--rule);
+    text-align: center;
+  }
+
+  .gw-nophoto-name {
+    font-family: var(--font-display);
+    font-size: var(--fs-44);
+    line-height: 1;
+    color: var(--accent-hot);
+  }
+
+  .gw-nophoto-note {
+    font-size: var(--fs-12);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
   }
 
   .gw-stamp {
