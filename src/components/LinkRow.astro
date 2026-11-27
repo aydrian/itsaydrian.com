@@ -7,9 +7,11 @@ interface Props {
   href: string;
   kind: Kind;
   section: string;
+  /** Optional cta_id: sends a cta_click event (used for internal rows, which outbound_click skips). */
+  cta?: string;
 }
 
-const { label, description, href, kind, section } = Astro.props;
+const { label, description, href, kind, section, cta } = Astro.props;
 
 function linkAttrs(kind: Kind) {
   if (kind === "affiliate") return { target: "_blank", rel: "sponsored noopener noreferrer" };
@@ -23,6 +25,7 @@ function linkAttrs(kind: Kind) {
     class="link-row"
     data-outbound={section}
     data-label={label}
+    data-cta={cta}
     {...linkAttrs(kind)}
   >
     <span class="link-row-text">

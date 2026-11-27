@@ -1,0 +1,14 @@
+{
+  "out": "public/assets/og/giveaway.jpg",
+  "photo": "public/images/giveaway/blind-skzoo-bubble-fever-bath-bomb.jpg",
+  "focusY": 0.45,
+  "eyebrow": "STAY care package giveaway",
+  "headline": "Every milestone makes the box bigger.",
+  "subline": "1K, 2.5K and 5K tiers, worldwide at 20K. Comment your bias on TikTok by Jan 15.",
+  "chips": [
+    {"src": "public/images/giveaway/gashapon-skzoo-bakery-charm.jpg", "x": 600, "y": 860, "r": 420},
+    {"src": "public/images/giveaway/gashapon-skzoo-solo-camp-keychain.jpg", "x": 560, "y": 560, "r": 380},
+    {"src": "public/images/giveaway/blind-skzoo-shaka-charm-gummy.jpg", "x": 600, "y": 560, "r": 380},
+    {"src": "public/images/giveaway/blind-stray-kids-cans.jpg", "x": 600, "y": 700, "r": 420}
+  ]
+}
