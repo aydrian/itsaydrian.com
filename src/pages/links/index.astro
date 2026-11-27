@@ -3,6 +3,9 @@
 type LinkItem = { label: string; description: string; href: string; kind: "affiliate" | "external" | "internal" };
 type LinkSection = { id: string; heading: string; links: LinkItem[] };
 const SECTIONS: LinkSection[] = [
+  { id: "giveaway", heading: "Giveaway", links: [
+    { label: "STAY care package giveaway", description: "Comment your bias on TikTok by Jan 15 to enter. Every follower milestone unlocks another winner.", href: "/giveaway/", kind: "internal" }
+  ]},
   { id: "book", heading: "Book tours & experiences", links: [
     { label: "Taipei cooking class: xiao long bao, beef noodles & boba", description: "The CookInn class from my Taiwan videos. You make soup dumplings from scratch, braise beef noodles and shake your own bubble tea.", href: "https://www.viator.com/tours/Taipei/Taiwanese-XiaoLongBao-Cooking-Class-with-Market-Tour/d5262-90665P1?pid=P00058688&uid=U00655990&mcid=58086&currency=USD&campaign=bio-taipei-cooking-class", kind: "affiliate" },
     { label: "Taipei day tour: Yehliu, Jiufen & Shifen", description: "The day trip from my Taiwan videos. The Yehliu admission and a sky lantern in Shifen were included.", href: "https://www.viator.com/tours/Taipei/Full-Day-Tour-of-Jiufen-Yehliu-Geopark-and-Shifen-from-Taipei/d5262-9649P7?pid=P00058688&uid=U00655990&mcid=58086&currency=USD&campaign=bio-taipei-tour", kind: "affiliate" },
@@ -70,9 +73,11 @@ const postLinks: LinkItem[] = linksPagePosts.map((post) => {
 });
 
 const hero = SECTIONS.find((section) => section.id === "book");
-const rest = SECTIONS.filter((section) => section.id !== "book");
+const giveaway = SECTIONS.find((section) => section.id === "giveaway");
+const rest = SECTIONS.filter((section) => section.id !== "book" && section.id !== "giveaway");
 // Render order in one place. Empty lists drop out, so `posts` and `shop` appear only when populated.
 const RENDER_ORDER: LinkSection[] = [
+  ...(giveaway ? [giveaway] : []),
   ...(hero ? [hero] : []),
   { id: "posts", heading: "From the blog", links: postLinks },
   { id: "creator", heading: "Creator gear", links: CREATOR_LINKS },

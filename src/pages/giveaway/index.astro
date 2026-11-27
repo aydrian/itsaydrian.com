@@ -1,0 +1,335 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+// ===== EDIT HERE =====
+// Follower count shown on the progress bar. Update it from TikTok Studio along with the date.
+const FOLLOWERS = 373;
+const FOLLOWERS_AS_OF = "Nov 27, 2026";
+// The TikTok video people comment on to enter. Swap in the new tiered-rules video once it's posted.
+const ENTRY_VIDEO = "https://www.tiktok.com/@itsaydrian/video/7704857873993583902";
+const DEADLINE = "Jan 15, 2027, 11:59 PM ET";
+
+type Tier = { goal: number; label: string; prize: string; note: string };
+const TIERS: Tier[] = [
+  { goal: 1000, label: "1K", prize: "Gashapon prize pack", note: "A small pack of capsule-toy pulls from my trip." },
+  { goal: 2500, label: "2.5K", prize: "Blind-item bundle", note: "Bath bombs, candies and more blind items. I don't know what's inside either." },
+  { goal: 5000, label: "5K", prize: "The full STAY care package", note: "Stray Kids merch from every country on the trip. And yes, a copy of SUIATSU is going in the box." },
+  { goal: 20000, label: "20K", prize: "Every tier opens worldwide", note: "Hit 20K and entry opens to STAYs everywhere, not just the US." },
+];
+// =====================
+
+const nf = new Intl.NumberFormat("en-US");
+const nextTier = TIERS.find((t) => FOLLOWERS < t.goal);
+// The bar measures progress toward 5K, the main goal. Past 5K it measures toward 20K.
+const barGoal = FOLLOWERS < 5000 ? 5000 : 20000;
+const barPct = Math.min(100, Math.round((FOLLOWERS / barGoal) * 1000) / 10);
+
+const title = "STAY Care Package Giveaway";
+const description = "Comment your bias on my TikTok giveaway video by Jan 15, 2027 to enter. Every follower milestone unlocks another winner: 1K, 2.5K and 5K, and worldwide at 20K.";
+---
+<Layout
+  title={title}
+  description={description}
+  ogImage="/assets/og/giveaway.jpg"
+  ogImageAlt="Share card: STAY care package giveaway. Every milestone unlocks another winner. 1K, 2.5K and 5K, worldwide at 20K."
+  ogImageWidth={1200}
+  ogImageHeight={630}
+  ogImageType="image/jpeg"
+  preloadImage="/images/giveaway/wolf-chan-taipei-680.webp"
+>
+  <div class="container giveaway">
+
+    <section class="gw-hero" aria-labelledby="gw-title">
+      <div class="gw-hero-text">
+        <span class="eyebrow rise" data-delay="1">STAY care package giveaway</span>
+        <h1 id="gw-title" class="h1 rise" data-delay="2">Every milestone unlocks <em>another winner.</em></h1>
+        <p class="lede rise" data-delay="3">
+          I'm collecting Stray Kids merch across Japan, Korea, Thailand and Taiwan. Comment your bias on my giveaway video by {DEADLINE} to enter.
+        </p>
+        <div class="gw-cta rise" data-delay="4">
+          <a class="btn btn-hot btn-lg" href={ENTRY_VIDEO} rel="noopener" target="_blank">
+            Enter on TikTok
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+          <a class="btn btn-link" href="#rules">Read the rules</a>
+        </div>
+      </div>
+      <figure class="gw-hero-photo rise" data-delay="2">
+        <picture>
+          <source type="image/webp" srcset="/images/giveaway/wolf-chan-taipei-680.webp 680w, /images/giveaway/wolf-chan-taipei-1200.webp 1200w" sizes="(max-width: 860px) 90vw, 440px">
+          <img src="/images/giveaway/wolf-chan-taipei.jpg" alt="Aydrian outside Syntrend in Taipei, holding up a bagged SKZOO Wolf Chan plush with a Zootopia 2 × SKZOO header." width="1200" height="1600" fetchpriority="high">
+        </picture>
+        <figcaption class="body-sm">Wolf Chan stays with me. He's not one of the prizes.</figcaption>
+      </figure>
+    </section>
+
+    <section class="gw-progress" aria-labelledby="gw-progress-label">
+      <div class="gw-progress-head">
+        <h2 id="gw-progress-label" class="eyebrow">Where we are</h2>
+        <p class="body-sm"><strong>{nf.format(FOLLOWERS)}</strong> followers on TikTok as of {FOLLOWERS_AS_OF}</p>
+      </div>
+      <div class="gw-bar" role="progressbar" aria-valuemin={0} aria-valuemax={barGoal} aria-valuenow={FOLLOWERS} aria-label={`${nf.format(FOLLOWERS)} of ${nf.format(barGoal)} followers`}>
+        <span class="gw-bar-fill" style={`width:${barPct}%`}></span>
+        {TIERS.filter((t) => t.goal <= barGoal && t.goal < barGoal).map((t) => (
+          <span class="gw-bar-tick" style={`left:${(t.goal / barGoal) * 100}%`} aria-hidden="true"><span>{t.label}</span></span>
+        ))}
+      </div>
+      {nextTier && (
+        <p class="body-sm gw-next">{nf.format(nextTier.goal - FOLLOWERS)} to go until the {nextTier.label} tier unlocks.</p>
+      )}
+    </section>
+
+    <section class="gw-tiers" aria-labelledby="gw-tiers-label">
+      <h2 id="gw-tiers-label" class="h2">The <em>tiers</em></h2>
+      <ol role="list" class="gw-tier-list">
+        {TIERS.map((t, i) => (
+          <li class:list={["card", "gw-tier", "rise", { unlocked: FOLLOWERS >= t.goal, main: t.goal === 5000 }]} data-delay={String(i + 1)}>
+            <span class="gw-tier-goal">{t.label}</span>
+            <h3 class="h4">{t.prize}</h3>
+            <p class="body-sm">{t.note}</p>
+            {FOLLOWERS >= t.goal && <span class="gw-tier-badge">Unlocked</span>}
+          </li>
+        ))}
+      </ol>
+      <p class="body-sm gw-fine">One winner per unlocked tier, and no one wins twice. All tiers are drawn after the deadline.</p>
+    </section>
+
+    <section class="gw-steps" aria-labelledby="gw-steps-label">
+      <h2 id="gw-steps-label" class="h2">How to <em>enter</em></h2>
+      <ol class="gw-step-list">
+        <li><strong>Open the giveaway video</strong> on <a href={ENTRY_VIDEO} rel="noopener" target="_blank">TikTok</a>.</li>
+        <li><strong>Comment your bias.</strong> One comment is one entry. Commenting more doesn't add entries.</li>
+        <li><strong>Watch for the draw.</strong> Winners are announced on my TikTok by Jan 31, 2027, and I'll DM you if you win.</li>
+      </ol>
+      <p class="body-sm">Following isn't required to enter, but it's how the tiers unlock.</p>
+    </section>
+
+    <section class="gw-rules" id="rules" aria-labelledby="gw-rules-label">
+      <h2 id="gw-rules-label" class="h3">Official rules</h2>
+      <ul class="body-sm">
+        <li><strong>No purchase necessary.</strong> Following is not required to enter. Void where prohibited.</li>
+        <li><strong>How to enter:</strong> comment on the giveaway video on <a href="https://www.tiktok.com/@itsaydrian" rel="noopener" target="_blank">@itsaydrian</a> by {DEADLINE}. One entry per person. Comments on the original giveaway video count too.</li>
+        <li><strong>Tiers:</strong> a tier unlocks if @itsaydrian reaches that follower count on TikTok by the deadline. One winner is drawn for each unlocked tier. No one can win more than one prize.</li>
+        <li><strong>Who can enter:</strong> US residents, 18+ or with a parent's or guardian's permission. If @itsaydrian reaches 20,000 followers by the deadline, every tier opens worldwide.</li>
+        <li><strong>Prizes:</strong> 1K, a gashapon prize pack. 2.5K, a blind-item bundle. 5K, a Stray Kids merch care package that includes a copy of SUIATSU. Contents of each prize are chosen by me. I cover shipping.</li>
+        <li><strong>Winners:</strong> picked at random from eligible comments after the deadline and announced on @itsaydrian by Jan 31, 2027. I'll DM each winner, who has 7 days to reply or I'll pick someone else.</li>
+        <li><strong>Your info:</strong> I only ask winners for a name and mailing address, and only use them to ship the prize.</li>
+        <li><strong>Scams:</strong> I'll never ask for payment, card details or a shipping fee. Anyone who does is not me.</li>
+        <li><strong>Not affiliated:</strong> this giveaway is not sponsored, endorsed or run by TikTok, Stray Kids or JYP Entertainment. By entering, you release TikTok from any responsibility for it.</li>
+      </ul>
+      <p class="body-sm">Questions? <a href="mailto:howdy@itsaydrian.com?subject=Giveaway question">howdy@itsaydrian.com</a></p>
+    </section>
+
+  </div>
+</Layout>
+
+<style>
+  .giveaway {
+    padding-block: var(--space-16) var(--space-24);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+  }
+
+  .gw-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--space-12);
+    align-items: center;
+  }
+
+  .gw-hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .gw-cta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-2);
+  }
+
+  .gw-hero-photo {
+    margin: 0;
+    justify-self: center;
+    max-width: 440px;
+    width: 100%;
+  }
+
+  .gw-hero-photo figcaption {
+    margin-top: var(--space-3);
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .gw-hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--r-xl);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .gw-progress {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-8);
+    background: var(--bg-soft);
+    border-radius: var(--r-lg);
+  }
+
+  .gw-progress-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .gw-bar {
+    position: relative;
+    height: 14px;
+    border-radius: var(--r-pill);
+    background: var(--rule-strong);
+    margin-bottom: var(--space-6);
+  }
+
+  .gw-bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    min-width: 14px;
+    border-radius: inherit;
+    background: var(--accent-hot);
+  }
+
+  .gw-bar-tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--bg-soft);
+  }
+
+  .gw-bar-tick span {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--fs-12);
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .gw-next {
+    color: var(--ink-soft);
+  }
+
+  .gw-tiers,
+  .gw-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .gw-tier-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .gw-tier {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-6);
+  }
+
+  .gw-tier.main {
+    outline: 2px solid var(--accent-hot);
+    outline-offset: -2px;
+  }
+
+  .gw-tier-goal {
+    font-family: var(--font-display);
+    font-size: var(--fs-44);
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .gw-tier.main .gw-tier-goal {
+    color: var(--accent-hot);
+  }
+
+  .gw-tier-badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--r-pill);
+    background: var(--accent-hot);
+    color: #fff;
+    font-size: var(--fs-12);
+    font-weight: 600;
+  }
+
+  .gw-fine {
+    color: var(--ink-soft);
+  }
+
+  .gw-step-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-left: var(--space-6);
+    max-width: 60ch;
+  }
+
+  .gw-rules {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--rule);
+    max-width: 72ch;
+  }
+
+  .gw-rules ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-left: var(--space-6);
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 960px) {
+    .gw-tier-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 860px) {
+    .gw-hero {
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    .gw-hero-photo {
+      max-width: 360px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .gw-tier-list {
+      grid-template-columns: 1fr;
+    }
+
+    .gw-progress {
+      padding: var(--space-6);
+    }
+  }
+</style>
