@@ -16,6 +16,20 @@ const TIERS: Tier[] = [
   { goal: 5000, label: "5K", prize: "The full STAY care package", note: "Stray Kids merch from every country on the trip gets added. And yes, a copy of SUIATSU is going in the box." },
   { goal: 20000, label: "20K", prize: "The box ships worldwide", note: "Hit 20K and STAYs outside the US can enter too." },
 ];
+// What's in the box so far. Photos live in public/images/giveaway/ as <slug>.jpg plus -680/-1200 .webp.
+type BoxItem = { slug: string; name: string; note: string; alt: string };
+type BoxGroup = { tier: string; heading: string; items: BoxItem[]; footnote?: string };
+const BOX: BoxGroup[] = [
+  { tier: "1K", heading: "Gashapon", footnote: "More gashapon to come as I find them.", items: [
+    { slug: "gashapon-skzoo-bakery-charm", name: "SKZOO Bakery Charm", note: "Bandai capsule toy: the SKZOO as bread charms.", alt: "Bandai capsule machine display for SKZOO Bakery Charm, showing the bread-shaped SKZOO charms." },
+    { slug: "gashapon-skzoo-solo-camp-keychain", name: "SKZOO Solo Camp keychain", note: "Bandai capsule toy: SKZOO bag-tag keychains from the solo camp set.", alt: "Bandai gashapon machine with a poster of the SKZOO solo camp bag-tag keychains." },
+  ]},
+  { tier: "2.5K", heading: "Blind items", items: [
+    { slug: "blind-skzoo-bubble-fever-bath-bomb", name: "SKZOO Bubble Fever bath bomb", note: "A Bandai bath bomb with a SKZOO figure hidden inside.", alt: "Shelf of SKZOO Bubble Fever bath bomb packs, each showing SKZOO characters in bathtubs." },
+    { slug: "blind-skzoo-shaka-charm-gummy", name: "SKZOO Shaka Shaka Charm & Gummy", note: "A blind shaker charm that comes with gummy candy.", alt: "Store display of SKZOO Shaka Shaka Charm and Gummy blind packs above their Stray Kids box." },
+    { slug: "blind-stray-kids-cans", name: "A Stray Kids soda can", note: "Only one of these goes in the box.", alt: "Three Stray Kids soda cans with member photos, lined up on a brick step." },
+  ]},
+];
 // =====================
 
 const nf = new Intl.NumberFormat("en-US");
@@ -92,6 +106,37 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
         ))}
       </ol>
       <p class="body-sm gw-fine">There's one winner, and they get everything the tiers have unlocked by the deadline. The draw happens after I'm back in the US.</p>
+    </section>
+
+    <section class="gw-box" aria-labelledby="gw-box-label">
+      <div class="gw-box-head">
+        <h2 id="gw-box-label" class="h2">What's in the box <em>so far</em></h2>
+        <p class="body-sm">A peek at what I've collected. The final box may be different.</p>
+      </div>
+      {BOX.map((group) => (
+        <div class="gw-box-group">
+          <h3 class="eyebrow">{group.tier} · {group.heading}</h3>
+          <ul role="list" class="gw-box-grid">
+            {group.items.map((item) => (
+              <li class="card gw-box-item">
+                <picture>
+                  <source type="image/webp" srcset={`/images/giveaway/${item.slug}-680.webp 680w, /images/giveaway/${item.slug}-1200.webp 1200w`} sizes="(max-width: 520px) 90vw, (max-width: 960px) 45vw, 360px">
+                  <img src={`/images/giveaway/${item.slug}.jpg`} alt={item.alt} width="1200" height="1600" loading="lazy" decoding="async">
+                </picture>
+                <div class="gw-box-text">
+                  <strong>{item.name}</strong>
+                  <span class="body-sm">{item.note}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+          {group.footnote && <p class="body-sm gw-fine">{group.footnote}</p>}
+        </div>
+      ))}
+      <div class="gw-box-group">
+        <h3 class="eyebrow">5K · Stray Kids merch</h3>
+        <p class="body-sm">Still collecting across Japan, Korea, Thailand and Taiwan. SUIATSU is already on the list.</p>
+      </div>
     </section>
 
     <section class="gw-steps" aria-labelledby="gw-steps-label">
@@ -252,6 +297,60 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
     gap: var(--space-6);
   }
 
+  .gw-box {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .gw-box-head,
+  .gw-box-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .gw-box-group {
+    gap: var(--space-4);
+  }
+
+  .gw-box-head p,
+  .gw-box-group > p {
+    color: var(--ink-soft);
+  }
+
+  .gw-box-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+  }
+
+  .gw-box-item {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+  }
+
+  .gw-box-item img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .gw-box-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4);
+  }
+
+  .gw-box-text .body-sm {
+    color: var(--ink-soft);
+  }
+
   .gw-tier-list {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -324,6 +423,10 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
   }
 
   @media (max-width: 960px) {
+    .gw-box-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .gw-tier-list {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -341,6 +444,10 @@ const description = "Comment your bias on my TikTok giveaway video by Jan 15, 20
   }
 
   @media (max-width: 520px) {
+    .gw-box-grid {
+      grid-template-columns: 1fr;
+    }
+
     .gw-tier-list {
       grid-template-columns: 1fr;
     }
